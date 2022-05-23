@@ -26,3 +26,4 @@ public class NumericHelper {
 		return false;
 	}
 }
+
