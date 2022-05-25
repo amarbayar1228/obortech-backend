@@ -23,4 +23,5 @@ public class UserLogic extends BaseDatabaseService implements UserService {
         users = getByQuery(Users.class, jpql);
         return users;
     }
+
 }

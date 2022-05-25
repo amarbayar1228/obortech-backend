@@ -39,8 +39,8 @@ public abstract class BaseService {
 
     protected <T> T getByPKey(Class<T> type, Object pKey) throws Exception {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("pKey", pKey);
-        List<T> lst = getByQuery(type, "SELECT a FROM "+type.getSimpleName()+" a WHERE a.pKey = :pKey", parameters);
+        parameters.put("pkId", pKey);
+        List<T> lst = getByQuery(type, "SELECT a FROM "+type.getSimpleName()+" a WHERE a.pkId = :pkId", parameters);
         if(lst == null || lst.isEmpty()) return null;
         else if(lst.size() > 1)
             throw new Exception("MultiResult");
