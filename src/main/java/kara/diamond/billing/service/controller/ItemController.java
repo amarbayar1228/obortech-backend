@@ -35,7 +35,14 @@ public class ItemController implements Serializable {
     @GetMapping("get")
     public ResponseEntity<?> getAllItem() throws Exception{
         logger.info("baraa orloo ====>");
+        List<ItemEntity> result = itemLogic.getAllItem();
+        return ResponseEntity.ok(result);
+    }
 
+
+    @PostMapping("list")
+    public ResponseEntity<?> getItemList() throws Exception{
+        logger.info("getItemList  ====>");
         List<ItemEntity> result = itemLogic.getAllItem();
         return ResponseEntity.ok(result);
     }
