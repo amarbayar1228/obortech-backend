@@ -42,6 +42,7 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
         String result = "amjiltgui";
         try{
             ItemEntity itemDataUpdate = getByPKey(ItemEntity.class, Long.parseLong(item.getPkId()));
+//            ItemEntity itemDataUpdate = getByPKey(ItemEntity.class,  item.getPkId());
             itemDataUpdate.setTitle(item.getTitle());
             itemDataUpdate.setPrice(item.getPrice());
             itemDataUpdate.setQuantity(item.getQuantity());
@@ -57,7 +58,9 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
 
     public List<ItemEntity> getAllItem()throws Exception {
         List<ItemEntity> itemEntity;
+
         String jpql = "SELECT a FROM ItemEntity a";
+
         itemEntity = getByQuery(ItemEntity.class, jpql);
         return  itemEntity;
     }
