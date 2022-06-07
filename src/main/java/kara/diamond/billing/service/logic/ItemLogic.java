@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -56,13 +57,22 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
         return  result;
     }
 
-    public List<ItemEntity> getAllItem()throws Exception {
+    public List<Item> getAllItem()throws Exception {
+
         List<ItemEntity> itemEntity;
-
         String jpql = "SELECT a FROM ItemEntity a";
-
+        List<Item> itemList = new ArrayList<>();
         itemEntity = getByQuery(ItemEntity.class, jpql);
-        return  itemEntity;
+
+        for (ItemEntity obj : itemEntity){
+            Item item = new Item();
+            item.setPkId(String.valueOf(obj.getPkId()));
+            item.setTitle(obj.getTitle());
+            item.setDescription(obj.getDescription());
+            item.setPrice(obj.getPrice());
+            itemList.add(item);
+        }
+        return  itemList;
     }
 
 
