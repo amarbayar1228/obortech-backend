@@ -70,6 +70,7 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
             item.setTitle(obj.getTitle());
             item.setDescription(obj.getDescription());
             item.setPrice(obj.getPrice());
+            item.setQuantity(obj.getQuantity());
             itemList.add(item);
         }
         return  itemList;
