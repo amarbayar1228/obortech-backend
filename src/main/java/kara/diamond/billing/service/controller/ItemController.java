@@ -1,10 +1,10 @@
 package kara.diamond.billing.service.controller;
 
 import io.swagger.annotations.ApiOperation;
-import kara.diamond.billing.service.entity.ItemEntity;
 import kara.diamond.billing.service.iinterfaces.ItemInterfaces;
 import kara.diamond.billing.service.logic.ItemLogic;
 import kara.diamond.billing.service.model.request.Item;
+import kara.diamond.billing.service.model.response.ExampleArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class ItemController implements Serializable {
     }
 
 
-    @PostMapping("list")
+    @PostMapping("/list")
     public ResponseEntity<?> getItemList() throws Exception{
         logger.info("getItemList  ====>");
         List<Item> result = itemLogic.getAllItem();
@@ -50,5 +50,20 @@ public class ItemController implements Serializable {
     @PostMapping("/updateItem")
     public ResponseEntity<?> update(@Valid @RequestBody Item item) throws Exception{
         return ResponseEntity.ok(itemInterfaces.updateItem(item));
+    }
+
+
+    @GetMapping("/testExample")
+    public ResponseEntity<?> testExample() throws Exception{
+
+        List<ExampleArray> result = itemLogic.getTestExample();
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<?> delete(@Valid @RequestBody Item item) throws Exception{
+
+        String result = itemLogic.deleteItem(item.getPkId());
+        return ResponseEntity.ok(result);
     }
 }
