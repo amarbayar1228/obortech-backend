@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,6 +40,24 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
             throw getDatabaseException(e);
         }
         return result;
+    }
+
+    public List<OrderHistory> getOrderList()throws Exception{
+
+        List<OrderHistoryEntity> orderHistoryEntity;
+        String jpql = "SELECT a FROM OrderHistoryEntity a";
+        List<OrderHistory> orderList = new ArrayList<>();
+        orderHistoryEntity = getByQuery(OrderHistoryEntity.class, jpql);
+        for (OrderHistoryEntity obj : orderHistoryEntity){
+            OrderHistory order = new OrderHistory();
+            order.setPkId(String.valueOf(obj.getPkId()));
+            order.setTitle(obj.getTitle());
+            order.setDescription(obj.getDescription());
+            order.setPrice(obj.getPrice());
+            order.setQuantity(obj.getQuantity());
+            orderList.add(order);
+        }
+        return orderList;
     }
 
 }
