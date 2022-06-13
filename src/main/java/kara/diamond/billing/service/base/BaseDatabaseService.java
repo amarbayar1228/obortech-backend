@@ -1,10 +1,13 @@
 package kara.diamond.billing.service.base;
 
+import kara.diamond.billing.service.model.request.OrderDate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
-public class BaseDatabaseService extends BaseService {
+public abstract class BaseDatabaseService extends BaseService {
 	
 	@Autowired EntityManager entityManager;
 
@@ -12,4 +15,6 @@ public class BaseDatabaseService extends BaseService {
     public EntityManager getEntityManager() {
         return entityManager;
     }
+
+
 }
