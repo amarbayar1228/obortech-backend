@@ -2,9 +2,14 @@ package kara.diamond.billing.service.logic;
 
 import kara.diamond.billing.service.base.BaseDatabaseService;
 import kara.diamond.billing.service.base.NumericHelper;
+import kara.diamond.billing.service.entity.ItemEntity;
 import kara.diamond.billing.service.entity.OrderHistoryEntity;
 import kara.diamond.billing.service.iinterfaces.OrderHistoryInterfaces;
 import kara.diamond.billing.service.model.request.OrderHistory;
+import kara.diamond.billing.service.model.response.ExampleArray;
+import kara.diamond.billing.service.model.response.ItemModel;
+import kara.diamond.billing.service.model.response.OrderArray;
+import kara.diamond.billing.service.model.response.OrderHistoryModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -21,10 +26,10 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public String saveOrderHistory(List<OrderHistory> orderHistory) throws Exception{
+    public String saveOrderHistory(List<OrderHistory> orderHistory) throws Exception {
         String result = "";
         try {
-            for (int i = 0; i < orderHistory.size(); i++){
+            for (int i = 0; i < orderHistory.size(); i++) {
                 OrderHistoryEntity order1 = new OrderHistoryEntity();
 
                 order1.setPkId(NumericHelper.generateKey());
@@ -36,19 +41,19 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
             }
 
             result = "Амжилттай хадгалалаа.";
-        }catch(Exception e){
+        } catch (Exception e) {
             throw getDatabaseException(e);
         }
         return result;
     }
 
-    public List<OrderHistory> getOrderList()throws Exception{
+    public List<OrderHistory> getOrderList() throws Exception {
 
         List<OrderHistoryEntity> orderHistoryEntity;
         String jpql = "SELECT a FROM OrderHistoryEntity a";
         List<OrderHistory> orderList = new ArrayList<>();
         orderHistoryEntity = getByQuery(OrderHistoryEntity.class, jpql);
-        for (OrderHistoryEntity obj : orderHistoryEntity){
+        for (OrderHistoryEntity obj : orderHistoryEntity) {
             OrderHistory order = new OrderHistory();
             order.setPkId(String.valueOf(obj.getPkId()));
             order.setTitle(obj.getTitle());
@@ -60,4 +65,26 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
         return orderList;
     }
 
+    public List<OrderArray> getOrderArray() throws Exception {
+        List<OrderArray> orderArrays = new ArrayList<>();
+        List<OrderHistoryModel> orderItemList = new ArrayList<>();
+        String jpql = "SELECT a FROM OrderHistoryEntity a";
+        List<OrderHistoryEntity> itemOrderList = getByQuery(OrderHistoryEntity.class, jpql);
+        for (OrderHistoryEntity obj : itemOrderList) {
+            OrderHistoryModel order = new OrderHistoryModel();
+
+            order.setPkId(String.valueOf(obj.getPkId()));
+            order.setTitle(obj.getTitle());
+            order.setDescription(obj.getDescription());
+            order.setPrice(obj.getPrice());
+            order.setQuantity(obj.getQuantity());
+            orderItemList.add(order);
+
+            OrderArray orderArray = new OrderArray();
+            orderArray.setDate(obj.getDate());
+            orderArrays.add(orderArray);
+            orderArray.setList(orderItemList);
+        }
+        return orderArrays;
+    }
 }

@@ -6,6 +6,7 @@ import kara.diamond.billing.service.entity.ItemEntity;
 import kara.diamond.billing.service.entity.OrderDateEntity;
 import kara.diamond.billing.service.iinterfaces.ItemInterfaces;
 import kara.diamond.billing.service.model.request.Item;
+import kara.diamond.billing.service.model.request.ItemReq;
 import kara.diamond.billing.service.model.request.OrderDate;
 import kara.diamond.billing.service.model.response.ExampleArray;
 import kara.diamond.billing.service.model.response.ItemModel;
@@ -82,7 +83,37 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
         return itemList;
     }
 
-
+//    @Override
+//    @Transactional(propagation = Propagation.REQUIRED)
+//    public String orderItemSave(Item item, ItemReq itemReq) throws Exception {
+//        String result = "";
+//        try {
+//            List<ExampleArray> exampleArrays = new ArrayList<>();
+//            List<ItemModel> itemList = new ArrayList<>();
+//
+//
+//            List<ItemEntity> itemEntityList = new ArrayList<>();
+//            for (ItemEntity obj : itemEntityList) {
+//                ItemModel item23 = new ItemModel();
+//                item23.setTitle(item.getTitle());
+//                item23.setDescription(item.getDescription());
+//                item23.setPrice(item.getPrice());
+//                item23.setQuantity(item.getQuantity());
+//                itemList.add(item23);
+//            }
+//            ExampleArray exampleArray = new ExampleArray();
+//
+//            exampleArray.setDate(itemReq.getDate());
+//            exampleArrays.add(exampleArray);
+//            exampleArray.setList(itemList);
+//            insert(exampleArray);
+//            result = "Амжилттай хадгалалаа.";
+//
+//        } catch (Exception e) {
+//            throw getDatabaseException(e);
+//        }
+//        return result;
+//    }
     public List<ExampleArray> getTestExample() throws Exception {
         List<ExampleArray> exampleArrays = new ArrayList<>();
         List<ItemModel> itemList = new ArrayList<>();
@@ -90,27 +121,31 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
         List<ItemEntity> itemEntityList = getByQuery(ItemEntity.class, jpql);
         for (ItemEntity obj : itemEntityList) {
             ItemModel item = new ItemModel();
+
             item.setPkId(String.valueOf(obj.getPkId()));
             item.setTitle(obj.getTitle());
             item.setDescription(obj.getDescription());
             item.setPrice(obj.getPrice());
             item.setQuantity(obj.getQuantity());
             itemList.add(item);
+
+            ExampleArray exampleArray = new ExampleArray();
+            exampleArray.setDate(obj.getDate());
+            exampleArrays.add(exampleArray);
+            exampleArray.setList(itemList);
         }
-
-//        Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse("2022-06-05");
-        String jpql2 = "SELECT a FROM OrderDateEntity a";
-            List<OrderDateEntity> orderdateList = getByQuery(OrderDateEntity.class, jpql2);
-                for (OrderDateEntity obj : orderdateList){
-                    ExampleArray exampleArray = new ExampleArray();
-                    exampleArray.setDate(obj.getDate());
-                    exampleArray.setId(String.valueOf(obj.getPkId()));
-                    exampleArray.setList(itemList);
-
-                    exampleArrays.add(exampleArray);
-
-                }
         return exampleArrays;
+//        Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse("2022-06-05");
+//        String jpql2 = "SELECT a FROM OrderDateEntity a";
+//            List<OrderDateEntity> orderdateList = getByQuery(OrderDateEntity.class, jpql2);
+//                for (OrderDateEntity obj : orderdateList){
+//                    ExampleArray exampleArray = new ExampleArray();
+//                    exampleArray.setDate(obj.getDate());
+//                    exampleArray.setId(String.valueOf(obj.getPkId()));
+//                    exampleArray.setList(itemList);
+//                    exampleArrays.add(exampleArray);
+//                }
+//        return exampleArrays;
 //        ExampleArray exampleArray = new ExampleArray();
 
 

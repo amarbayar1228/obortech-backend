@@ -12,6 +12,17 @@ public class ItemEntity extends Operation {
     @Column(name = "pkId")
 //    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long pkId;
+    @Column(name = "date")
+    private String date;
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
 
     @Column(name = "title")
     private String title;

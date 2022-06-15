@@ -18,6 +18,16 @@ public class OrderHistoryEntity extends Operation {
     @Column(name = "title")
     private String title;
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    @Column(name = "date")
+    private String date;
     @Column(name = "description")
     private String description;
 

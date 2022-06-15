@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import kara.diamond.billing.service.iinterfaces.OrderHistoryInterfaces;
 import kara.diamond.billing.service.logic.OrderHistoryLogic;
 import kara.diamond.billing.service.model.request.OrderHistory;
+import kara.diamond.billing.service.model.response.OrderArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +33,16 @@ public class OrderHistoryController implements Serializable {
         return ResponseEntity.ok(orderHistoryInterfaces.saveOrderHistory(orderHistory));
     }
 
-    @PostMapping("list")
+    @PostMapping("/list")
     public ResponseEntity<?> getOrderList()throws Exception{
         logger.info("getOrderList ===>");
         List<OrderHistory> result = orderHistoryLogic.getOrderList();
+        return  ResponseEntity.ok(result);
+    }
+    @GetMapping("/getOrder")
+    public ResponseEntity<?> getOrderArray()throws Exception{
+        logger.info("getOrderList ===>");
+        List<OrderArray> result = orderHistoryLogic.getOrderArray();
         return  ResponseEntity.ok(result);
     }
 }

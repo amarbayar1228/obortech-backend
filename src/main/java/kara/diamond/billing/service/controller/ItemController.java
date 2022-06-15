@@ -31,7 +31,11 @@ public class ItemController implements Serializable {
     public ResponseEntity<?> saveItem(@Valid @RequestBody Item item) throws  Exception{
         return  ResponseEntity.ok(itemInterfaces.saveItem(item));
     }
-
+//    @ApiOperation(value = "Энэ бол системийн док save")
+//    @PostMapping("/orderSave")
+//    public ResponseEntity<?> orderItemSave(@Valid @RequestBody Item item) throws  Exception{
+//        return  ResponseEntity.ok(itemInterfaces.orderItemSave(item));
+//    }
     @GetMapping("get")
     public ResponseEntity<?> getAllItem() throws Exception{
         logger.info("baraa orloo ====>");
