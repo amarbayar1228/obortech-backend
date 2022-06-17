@@ -23,7 +23,8 @@ public class ItemEntity extends Operation {
         this.date = date;
     }
 
-
+    @Column(name = "cnt")
+    private int cnt;
     @Column(name = "title")
     private String title;
 
@@ -35,6 +36,14 @@ public class ItemEntity extends Operation {
 
     @Column(name = "quantity")
     private int quantity;
+
+    public int getCnt() {
+        return cnt;
+    }
+
+    public void setCnt(int cnt) {
+        this.cnt = cnt;
+    }
 
     public Long getPkId() {
         return pkId;

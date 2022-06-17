@@ -9,5 +9,6 @@ public class Item {
     private String description;
     private  int price;
     private  int quantity;
+    private int cnt;
 
 }
