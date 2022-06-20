@@ -55,8 +55,6 @@ public class ItemController implements Serializable {
     public ResponseEntity<?> update(@Valid @RequestBody Item item) throws Exception{
         return ResponseEntity.ok(itemInterfaces.updateItem(item));
     }
-
-
     @GetMapping("/testExample")
     public ResponseEntity<?> testExample() throws Exception{
 
