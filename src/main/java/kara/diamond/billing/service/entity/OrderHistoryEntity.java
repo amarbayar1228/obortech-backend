@@ -37,6 +37,16 @@ public class OrderHistoryEntity extends Operation {
     @Column(name = "quantity")
     private int quantity;
 
+    public int getCnt() {
+        return cnt;
+    }
+
+    public void setCnt(int cnt) {
+        this.cnt = cnt;
+    }
+
+    @Column(name = "cnt")
+    private int cnt;
 
     public Long getPkId() {
         return pkId;

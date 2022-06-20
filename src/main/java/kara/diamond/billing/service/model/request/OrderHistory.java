@@ -9,4 +9,5 @@ public class OrderHistory {
     private String description;
     private  int price;
     private  int quantity;
+    private  int cnt;
 }

@@ -30,10 +30,12 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
         String result = "";
         try {
             for (int i = 0; i < orderHistory.size(); i++) {
+
                 OrderHistoryEntity order1 = new OrderHistoryEntity();
 
                 order1.setPkId(NumericHelper.generateKey());
                 order1.setTitle(orderHistory.get(i).getTitle());
+                order1.setCnt(orderHistory.get(i).getCnt());
                 order1.setDescription(orderHistory.get(i).getDescription());
                 order1.setPrice(orderHistory.get(i).getPrice());
                 order1.setQuantity(orderHistory.get(i).getQuantity());
@@ -58,6 +60,7 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
             order.setPkId(String.valueOf(obj.getPkId()));
             order.setTitle(obj.getTitle());
             order.setDescription(obj.getDescription());
+            order.setCnt(obj.getCnt());
             order.setPrice(obj.getPrice());
             order.setQuantity(obj.getQuantity());
             orderList.add(order);
@@ -70,12 +73,14 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
         List<OrderHistoryModel> orderItemList = new ArrayList<>();
         String jpql = "SELECT a FROM OrderHistoryEntity a";
         List<OrderHistoryEntity> itemOrderList = getByQuery(OrderHistoryEntity.class, jpql);
+
         for (OrderHistoryEntity obj : itemOrderList) {
             OrderHistoryModel order = new OrderHistoryModel();
 
             order.setPkId(String.valueOf(obj.getPkId()));
             order.setTitle(obj.getTitle());
             order.setDescription(obj.getDescription());
+            order.setCnt(obj.getCnt());
             order.setPrice(obj.getPrice());
             order.setQuantity(obj.getQuantity());
             orderItemList.add(order);

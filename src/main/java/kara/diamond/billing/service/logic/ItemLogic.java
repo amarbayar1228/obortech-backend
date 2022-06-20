@@ -31,6 +31,7 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
             ItemEntity item1 = new ItemEntity();
             item1.setPkId(NumericHelper.generateKey());
             item1.setTitle(item.getTitle());
+            item1.setCnt(item.getCnt());
             item1.setDescription(item.getDescription());
             item1.setPrice(item.getPrice());
             item1.setQuantity(item.getQuantity());
@@ -52,6 +53,7 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
 //            ItemEntity itemDataUpdate = getByPKey(ItemEntity.class,  item.getPkId());
             itemDataUpdate.setTitle(item.getTitle());
             itemDataUpdate.setPrice(item.getPrice());
+            itemDataUpdate.setCnt(item.getCnt());
             itemDataUpdate.setQuantity(item.getQuantity());
             itemDataUpdate.setDescription(item.getDescription());
             update(itemDataUpdate);
