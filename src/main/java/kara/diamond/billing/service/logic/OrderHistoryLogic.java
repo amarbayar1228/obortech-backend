@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHistoryInterfaces {
@@ -83,12 +84,18 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
             order.setCnt(obj.getCnt());
             order.setPrice(obj.getPrice());
             order.setQuantity(obj.getQuantity());
+            order.setDate(obj.getDate());
             orderItemList.add(order);
 
             OrderArray orderArray = new OrderArray();
             orderArray.setDate(obj.getDate());
             orderArrays.add(orderArray);
-            orderArray.setList(orderItemList);
+//            for(int i = 0; i < orderItemList.size(); i++){
+//                if(orderItemList.get(i).getDate().equals(obj.getDate())){
+//
+//                }
+//            }
+//            orderArray.setList(orderItemList.stream().filter().collect(Collectors.));
         }
         return orderArrays;
     }

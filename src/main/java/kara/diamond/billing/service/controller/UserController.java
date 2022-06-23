@@ -20,7 +20,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/users1")
 public class UserController implements Serializable {
 
     @Autowired
