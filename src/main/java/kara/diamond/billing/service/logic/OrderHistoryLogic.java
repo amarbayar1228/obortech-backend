@@ -84,12 +84,13 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
             order.setCnt(obj.getCnt());
             order.setPrice(obj.getPrice());
             order.setQuantity(obj.getQuantity());
-            order.setDate(obj.getDate());
+//            order.setDate(obj.getDate());
             orderItemList.add(order);
 
             OrderArray orderArray = new OrderArray();
             orderArray.setDate(obj.getDate());
             orderArrays.add(orderArray);
+            orderArray.setList(orderItemList);
 //            for(int i = 0; i < orderItemList.size(); i++){
 //                if(orderItemList.get(i).getDate().equals(obj.getDate())){
 //

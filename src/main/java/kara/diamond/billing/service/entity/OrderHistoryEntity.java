@@ -28,6 +28,7 @@ public class OrderHistoryEntity extends Operation {
 
     @Column(name = "date")
     private String date;
+
     @Column(name = "description")
     private String description;
 
