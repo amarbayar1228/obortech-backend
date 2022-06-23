@@ -26,14 +26,13 @@ public class TestController implements Serializable {
 //    private UserService userService;
     private static final Logger logger = LoggerFactory.getLogger(TestController.class);
 
-
     @PostMapping("/all")
     public ResponseEntity<?> all(@Valid @RequestBody User user) throws Exception {
         logger.info("info logger---------------->" + user.getName() + "   " + user.getPassword());
         return ResponseEntity.ok("Amjilltai ");
     }
 
-    @ApiOperation(value = "Энэ бол системийн док ")
+    @ApiOperation(value = "Энэ бол системийн док")
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers () throws Exception {
         logger.info("orlo====>");
