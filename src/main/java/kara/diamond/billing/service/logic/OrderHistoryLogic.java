@@ -17,7 +17,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,7 +35,7 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
             for (int i = 0; i < orderHistory.size(); i++) {
 
                 OrderHistoryEntity order1 = new OrderHistoryEntity();
-
+                order1.setDate(java.time.LocalDate.now().toString());
                 order1.setPkId(NumericHelper.generateKey());
                 order1.setTitle(orderHistory.get(i).getTitle());
                 order1.setCnt(orderHistory.get(i).getCnt());
@@ -50,13 +52,15 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
         return result;
     }
 
-    public List<OrderHistory> getOrderList() throws Exception {
+    public Map<String, List<OrderHistory>> getOrderList() throws Exception {
 
         List<OrderHistoryEntity> orderHistoryEntity;
         String jpql = "SELECT a FROM OrderHistoryEntity a";
         List<OrderHistory> orderList = new ArrayList<>();
         orderHistoryEntity = getByQuery(OrderHistoryEntity.class, jpql);
+        Map<String, List<OrderHistory>> byDate = new HashMap<>();
         for (OrderHistoryEntity obj : orderHistoryEntity) {
+            System.err.println("passs");
             OrderHistory order = new OrderHistory();
             order.setPkId(String.valueOf(obj.getPkId()));
             order.setTitle(obj.getTitle());
@@ -64,9 +68,32 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
             order.setCnt(obj.getCnt());
             order.setPrice(obj.getPrice());
             order.setQuantity(obj.getQuantity());
-            orderList.add(order);
+            //orderList.add(order);
+            if(!obj.getDate().equals(null)){
+                if(!byDate.containsKey(obj.getDate())){
+                    orderList = new ArrayList<>();
+                    orderList.add(order);
+                    byDate.put(obj.getDate(), orderList);
+                }else{
+                    orderList = byDate.get(obj.getDate());
+                    orderList.add(order);
+                    byDate.put(obj.getDate(), orderList);
+                }
+            }
+
         }
-        return orderList;
+        System.err.println("size: "+byDate.size());
+//        for (OrderHistoryEntity obj : orderHistoryEntity) {
+//            OrderHistory order = new OrderHistory();
+//            order.setPkId(String.valueOf(obj.getPkId()));
+//            order.setTitle(obj.getTitle());
+//            order.setDescription(obj.getDescription());
+//            order.setCnt(obj.getCnt());
+//            order.setPrice(obj.getPrice());
+//            order.setQuantity(obj.getQuantity());
+//            orderList.add(order);
+//        }
+        return byDate;
     }
 
     public List<OrderArray> getOrderArray() throws Exception {
@@ -75,29 +102,29 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
         String jpql = "SELECT a FROM OrderHistoryEntity a";
         List<OrderHistoryEntity> itemOrderList = getByQuery(OrderHistoryEntity.class, jpql);
 
-        for (OrderHistoryEntity obj : itemOrderList) {
-            OrderHistoryModel order = new OrderHistoryModel();
-
-            order.setPkId(String.valueOf(obj.getPkId()));
-            order.setTitle(obj.getTitle());
-            order.setDescription(obj.getDescription());
-            order.setCnt(obj.getCnt());
-            order.setPrice(obj.getPrice());
-            order.setQuantity(obj.getQuantity());
-//            order.setDate(obj.getDate());
-            orderItemList.add(order);
-
-            OrderArray orderArray = new OrderArray();
-            orderArray.setDate(obj.getDate());
-            orderArrays.add(orderArray);
-            orderArray.setList(orderItemList);
-//            for(int i = 0; i < orderItemList.size(); i++){
-//                if(orderItemList.get(i).getDate().equals(obj.getDate())){
+//        for (OrderHistoryEntity obj : itemOrderList) {
+//            OrderHistoryModel order = new OrderHistoryModel();
 //
-//                }
-//            }
-//            orderArray.setList(orderItemList.stream().filter().collect(Collectors.));
-        }
+//            order.setPkId(String.valueOf(obj.getPkId()));
+//            order.setTitle(obj.getTitle());
+//            order.setDescription(obj.getDescription());
+//            order.setCnt(obj.getCnt());
+//            order.setPrice(obj.getPrice());
+//            order.setQuantity(obj.getQuantity());
+////            order.setDate(obj.getDate());
+//            orderItemList.add(order);
+//
+//            OrderArray orderArray = new OrderArray();
+//            orderArray.setDate(obj.getDate());
+//            orderArrays.add(orderArray);
+//            orderArray.setList(orderItemList);
+////            for(int i = 0; i < orderItemList.size(); i++){
+////                if(orderItemList.get(i).getDate().equals(obj.getDate())){
+////
+////                }
+////            }
+////            orderArray.setList(orderItemList.stream().filter().collect(Collectors.));
+//        }
         return orderArrays;
     }
 }

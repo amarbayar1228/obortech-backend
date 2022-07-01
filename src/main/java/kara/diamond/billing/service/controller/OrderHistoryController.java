@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -36,13 +37,13 @@ public class OrderHistoryController implements Serializable {
     @PostMapping("/list")
     public ResponseEntity<?> getOrderList()throws Exception{
         logger.info("getOrderList ===>");
-        List<OrderHistory> result = orderHistoryLogic.getOrderList();
+        Map<String, List<OrderHistory>> result = orderHistoryLogic.getOrderList();
         return  ResponseEntity.ok(result);
     }
     @PostMapping("/getOrder")
     public ResponseEntity<?> getOrderArray()throws Exception{
         logger.info("getOrderList ===>");
-        List<OrderArray> result = orderHistoryLogic.getOrderArray();
+        Map<String, List<OrderHistory>> result = orderHistoryLogic.getOrderList();
         return  ResponseEntity.ok(result);
     }
 }
