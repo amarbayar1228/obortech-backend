@@ -11,4 +11,5 @@ public class OrderHistoryModel {
     private  int quantity;
     private  int cnt;
     private String date;
+    private String orderId;
 }

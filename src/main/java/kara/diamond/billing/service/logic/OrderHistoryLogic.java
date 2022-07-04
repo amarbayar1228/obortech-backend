@@ -2,12 +2,9 @@ package kara.diamond.billing.service.logic;
 
 import kara.diamond.billing.service.base.BaseDatabaseService;
 import kara.diamond.billing.service.base.NumericHelper;
-import kara.diamond.billing.service.entity.ItemEntity;
 import kara.diamond.billing.service.entity.OrderHistoryEntity;
 import kara.diamond.billing.service.iinterfaces.OrderHistoryInterfaces;
 import kara.diamond.billing.service.model.request.OrderHistory;
-import kara.diamond.billing.service.model.response.ExampleArray;
-import kara.diamond.billing.service.model.response.ItemModel;
 import kara.diamond.billing.service.model.response.OrderArray;
 import kara.diamond.billing.service.model.response.OrderHistoryModel;
 import org.slf4j.Logger;
@@ -20,7 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHistoryInterfaces {
@@ -32,9 +28,11 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
     public String saveOrderHistory(List<OrderHistory> orderHistory) throws Exception {
         String result = "";
         try {
-            for (int i = 0; i < orderHistory.size(); i++) {
+            long orderId2 = NumericHelper.generateKey();
 
+            for (int i = 0; i < orderHistory.size(); i++) {
                 OrderHistoryEntity order1 = new OrderHistoryEntity();
+                order1.setOrderId(orderId2);
                 order1.setDate(java.time.LocalDate.now().toString());
                 order1.setPkId(NumericHelper.generateKey());
                 order1.setTitle(orderHistory.get(i).getTitle());
@@ -52,36 +50,84 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
         return result;
     }
 
-    public Map<String, List<OrderHistory>> getOrderList() throws Exception {
+    public Map<String, List<List<OrderHistory>>> getOrderList() throws Exception {
 
         List<OrderHistoryEntity> orderHistoryEntity;
         String jpql = "SELECT a FROM OrderHistoryEntity a";
         List<OrderHistory> orderList = new ArrayList<>();
+        List<List<OrderHistory>> orderListList = new ArrayList<>();
         orderHistoryEntity = getByQuery(OrderHistoryEntity.class, jpql);
-        Map<String, List<OrderHistory>> byDate = new HashMap<>();
+        Map<String, List<List<OrderHistory>>> byDate = new HashMap<>();
+        Map<String, List<OrderHistory>> byOrder = new HashMap<>();
+        List<OrderHistory> byOrderId = new ArrayList<>();
+
         for (OrderHistoryEntity obj : orderHistoryEntity) {
             System.err.println("passs");
             OrderHistory order = new OrderHistory();
+
+
             order.setPkId(String.valueOf(obj.getPkId()));
             order.setTitle(obj.getTitle());
             order.setDescription(obj.getDescription());
             order.setCnt(obj.getCnt());
             order.setPrice(obj.getPrice());
             order.setQuantity(obj.getQuantity());
-            //orderList.add(order);
-            if(!obj.getDate().equals(null)){
-                if(!byDate.containsKey(obj.getDate())){
+            order.setDate(obj.getDate());
+            order.setOrderId(obj.getOrderId().toString());
+            System.err.println("sizeoid: "+obj.getOrderId());
+            if(obj.getOrderId() != null){
+                if(!byOrder.containsKey(obj.getOrderId().toString())){
                     orderList = new ArrayList<>();
                     orderList.add(order);
-                    byDate.put(obj.getDate(), orderList);
+                    byOrder.put(obj.getOrderId().toString(), orderList);
                 }else{
-                    orderList = byDate.get(obj.getDate());
+                    orderList = byOrder.get(obj.getOrderId().toString());
                     orderList.add(order);
-                    byDate.put(obj.getDate(), orderList);
+                    byOrder.put(obj.getOrderId().toString(), orderList);
                 }
             }
 
         }
+        System.err.println("size: "+byOrder.size());
+        for(Map.Entry<String, List<OrderHistory>> row : byOrder.entrySet()){
+            System.out.println(row.getValue().get(0).toString());
+            if(row.getValue().get(0).getDate() != null){
+                if(!byDate.containsKey(row.getValue().get(0).getDate())){
+                    orderListList = new ArrayList<>();
+                    orderListList.add(row.getValue());
+                    byDate.put(row.getValue().get(0).getDate(), orderListList);
+                }else{
+                    orderListList = byDate.get(row.getValue().get(0).getDate());
+                    orderListList.add(row.getValue());
+                    byDate.put(row.getValue().get(0).getDate(), orderListList);
+                }
+            }
+        }
+
+//        for (List<OrderHistory> obj : byOrder) {
+//            System.err.println("passs");
+//            OrderHistory order = new OrderHistory();
+//
+//
+//            order.setPkId(String.valueOf(obj.getPkId()));
+//            order.setTitle(obj.getTitle());
+//            order.setDescription(obj.getDescription());
+//            order.setCnt(obj.getCnt());
+//            order.setPrice(obj.getPrice());
+//            order.setQuantity(obj.getQuantity());
+//            //orderList.add(order);
+//            if(!obj.getDate().equals(null)){
+//                if(!byDate.containsKey(obj.getDate())){
+//                    orderList = new ArrayList<>();
+//                    orderList.add(order);
+//                    byDate.put(obj.getDate(), orderList);
+//                }else{
+//                    orderList = byDate.get(obj.getDate());
+//                    orderList.add(order);
+//                    byDate.put(obj.getDate(), orderList);
+//                }
+//            }
+//        }
         System.err.println("size: "+byDate.size());
 //        for (OrderHistoryEntity obj : orderHistoryEntity) {
 //            OrderHistory order = new OrderHistory();

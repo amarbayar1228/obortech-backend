@@ -10,4 +10,6 @@ public class OrderHistory {
     private  int price;
     private  int quantity;
     private  int cnt;
+    private String orderId;
+    private  String date;
 }

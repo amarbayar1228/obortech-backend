@@ -3,7 +3,6 @@ package kara.diamond.billing.service.logic;
 import kara.diamond.billing.service.base.BaseDatabaseService;
 import kara.diamond.billing.service.entity.Users;
 import kara.diamond.billing.service.iinterfaces.UserService;
-import kara.diamond.billing.service.model.response.UserModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

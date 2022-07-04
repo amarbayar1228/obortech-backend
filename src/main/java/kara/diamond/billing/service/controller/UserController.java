@@ -3,10 +3,8 @@ package kara.diamond.billing.service.controller;
 
 import io.swagger.annotations.ApiOperation;
 import kara.diamond.billing.service.entity.EmployeeEntity;
-import kara.diamond.billing.service.entity.Users;
 import kara.diamond.billing.service.iinterfaces.EmployeeInterfaces;
 import kara.diamond.billing.service.logic.EmployeeLogic;
-import kara.diamond.billing.service.logic.UserLogic;
 import kara.diamond.billing.service.model.request.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

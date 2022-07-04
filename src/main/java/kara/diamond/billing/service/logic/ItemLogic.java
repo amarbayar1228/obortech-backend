@@ -3,11 +3,8 @@ package kara.diamond.billing.service.logic;
 import kara.diamond.billing.service.base.BaseDatabaseService;
 import kara.diamond.billing.service.base.NumericHelper;
 import kara.diamond.billing.service.entity.ItemEntity;
-import kara.diamond.billing.service.entity.OrderDateEntity;
 import kara.diamond.billing.service.iinterfaces.ItemInterfaces;
 import kara.diamond.billing.service.model.request.Item;
-import kara.diamond.billing.service.model.request.ItemReq;
-import kara.diamond.billing.service.model.request.OrderDate;
 import kara.diamond.billing.service.model.response.ExampleArray;
 import kara.diamond.billing.service.model.response.ItemModel;
 import org.slf4j.Logger;
@@ -63,9 +60,6 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
         }
         return result;
     }
-
-
-
     public List<Item> getAllItem() throws Exception {
 
         List<ItemEntity> itemEntity;

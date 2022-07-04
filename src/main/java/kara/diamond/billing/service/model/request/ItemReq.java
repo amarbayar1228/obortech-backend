@@ -1,6 +1,5 @@
 package kara.diamond.billing.service.model.request;
 
-import kara.diamond.billing.service.model.request.Item;
 import lombok.Data;
 
 import java.util.List;

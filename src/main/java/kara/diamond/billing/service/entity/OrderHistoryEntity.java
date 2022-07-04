@@ -15,6 +15,17 @@ public class OrderHistoryEntity extends Operation {
 //    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long pkId;
 
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    @Column(name = "orderId")
+    private Long orderId;
+
     @Column(name = "title")
     private String title;
 

@@ -4,7 +4,6 @@ package kara.diamond.billing.service.logic;
 import kara.diamond.billing.service.base.BaseDatabaseService;
 import kara.diamond.billing.service.base.NumericHelper;
 import kara.diamond.billing.service.entity.EmployeeEntity;
-import kara.diamond.billing.service.entity.Users;
 import kara.diamond.billing.service.iinterfaces.EmployeeInterfaces;
 import kara.diamond.billing.service.model.request.Employee;
 import org.slf4j.Logger;
