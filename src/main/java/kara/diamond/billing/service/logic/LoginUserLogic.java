@@ -2,7 +2,6 @@ package kara.diamond.billing.service.logic;
 
 import kara.diamond.billing.service.base.BaseDatabaseService;
 import kara.diamond.billing.service.base.NumericHelper;
-import kara.diamond.billing.service.entity.ItemEntity;
 import kara.diamond.billing.service.entity.LoginUserEntity;
 import kara.diamond.billing.service.iinterfaces.LoginUserInterfaces;
 import kara.diamond.billing.service.model.request.LoginUser;
@@ -49,7 +48,6 @@ public class LoginUserLogic extends BaseDatabaseService implements LoginUserInte
     public Map<String, String> signInUser(LoginUser loginUser) throws Exception{
         List<LoginUserEntity> loginUserEntity;
         UUID uuid = UUID.randomUUID();
-//        String jpql = "SELECT username, password FROM LoginUser";
         String jpql = "SELECT a FROM LoginUserEntity a where a.username = '"+loginUser.getUsername()+"' and a.password = '"+loginUser.getPassword()+"'";
         List<LoginUser> loginList = new ArrayList<>();
         Map<String, String> user = new HashMap<>();
@@ -66,20 +64,17 @@ public class LoginUserLogic extends BaseDatabaseService implements LoginUserInte
                 user.put("username", obj.getUsername());
                 user.put("token", uuid.toString());
                 user.put("firstname", obj.getFirstname());
+                user.put("isSuperAdmin",obj.getIsSuperAdmin());
                 user.put("lastname", obj.getLastname());
-                user.put("email", obj.getFirstname());
+                user.put("email", obj.getEmail());
+//
                 lue.setExp(exp);
                 lue.setToken(uuid.toString());
                 update(lue);
 
-//                LoginUser loginUser2 = new LoginUser();
-//                loginUser2.setEmail(obj.getEmail());
-//                loginUser2.setUsername(obj.getUsername());
-//                loginList.add(loginUser2);
+
             }
         }
-
-            //return loginList;
         return user;
         }
 

@@ -73,6 +73,27 @@ public class LoginUserEntity {
     @Column(name = "username")
     private String username;
 
+    public String getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(String isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
+    public String getIsSuperAdmin() {
+        return isSuperAdmin;
+    }
+
+    public void setIsSuperAdmin(String isSuperAdmin) {
+        this.isSuperAdmin = isSuperAdmin;
+    }
+
+    @Column(name = "isAdmin")
+    private String isAdmin;
+
+    @Column(name = "isSuperAdmin")
+    private String isSuperAdmin;
     @Column(name = "password")
     private String password;
 
