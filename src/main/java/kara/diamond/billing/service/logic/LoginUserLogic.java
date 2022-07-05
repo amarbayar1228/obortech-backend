@@ -30,6 +30,7 @@ public class LoginUserLogic extends BaseDatabaseService implements LoginUserInte
             loginUserEntity.setFirstname(loginUser.getFirstname());
             loginUserEntity.setLastname(loginUser.getLastname());
             loginUserEntity.setUsername(loginUser.getUsername());
+            loginUserEntity.setIsSuperAdmin(loginUser.getIsSuperAdmin());
             loginUserEntity.setExp(unixTime + 60 * 60 * 24 * 30);
             loginUserEntity.setEmail(loginUser.getEmail());
             loginUserEntity.setToken(uuid.toString());

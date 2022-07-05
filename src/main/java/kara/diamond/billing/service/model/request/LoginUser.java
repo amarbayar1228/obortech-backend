@@ -10,7 +10,7 @@ public class LoginUser {
     private String lastname;
     private  int exp;
     private  int isAdmin;
-    private  int isSuperAdmin;
+    private  String isSuperAdmin;
     private  String password;
     private String email;
     private String token;
