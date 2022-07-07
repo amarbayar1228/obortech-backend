@@ -11,4 +11,5 @@ public class LoginUserModel {
     private  long exp;
     private String email;
     private String token;
+
 }

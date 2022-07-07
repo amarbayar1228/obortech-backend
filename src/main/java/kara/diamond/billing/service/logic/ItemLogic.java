@@ -46,8 +46,7 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
     public String updateItem(Item item) throws Exception {
         String result = "amjiltgui";
         try {
-            ItemEntity itemDataUpdate = getByPKey(ItemEntity.class, Long.parseLong(item.getPkId()));
-//            ItemEntity itemDataUpdate = getByPKey(ItemEntity.class,  item.getPkId());
+            ItemEntity itemDataUpdate = getByPKey(ItemEntity.class, Long.parseLong(item.getPkId().toString()));
             itemDataUpdate.setTitle(item.getTitle());
             itemDataUpdate.setPrice(item.getPrice());
             itemDataUpdate.setCnt(item.getCnt());
@@ -55,6 +54,7 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
             itemDataUpdate.setDescription(item.getDescription());
             update(itemDataUpdate);
             result = "Amjilttai";
+
         } catch (Exception e) {
             getDatabaseException(e);
         }
@@ -80,37 +80,6 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
         return itemList;
     }
 
-//    @Override
-//    @Transactional(propagation = Propagation.REQUIRED)
-//    public String orderItemSave(Item item, ItemReq itemReq) throws Exception {
-//        String result = "";
-//        try {
-//            List<ExampleArray> exampleArrays = new ArrayList<>();
-//            List<ItemModel> itemList = new ArrayList<>();
-//
-//
-//            List<ItemEntity> itemEntityList = new ArrayList<>();
-//            for (ItemEntity obj : itemEntityList) {
-//                ItemModel item23 = new ItemModel();
-//                item23.setTitle(item.getTitle());
-//                item23.setDescription(item.getDescription());
-//                item23.setPrice(item.getPrice());
-//                item23.setQuantity(item.getQuantity());
-//                itemList.add(item23);
-//            }
-//            ExampleArray exampleArray = new ExampleArray();
-//
-//            exampleArray.setDate(itemReq.getDate());
-//            exampleArrays.add(exampleArray);
-//            exampleArray.setList(itemList);
-//            insert(exampleArray);
-//            result = "Амжилттай хадгалалаа.";
-//
-//        } catch (Exception e) {
-//            throw getDatabaseException(e);
-//        }
-//        return result;
-//    }
     public List<ExampleArray> getTestExample() throws Exception {
         List<ExampleArray> exampleArrays = new ArrayList<>();
         List<ItemModel> itemList = new ArrayList<>();
@@ -132,44 +101,20 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
             exampleArray.setList(itemList);
         }
         return exampleArrays;
-//        Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse("2022-06-05");
-//        String jpql2 = "SELECT a FROM OrderDateEntity a";
-//            List<OrderDateEntity> orderdateList = getByQuery(OrderDateEntity.class, jpql2);
-//                for (OrderDateEntity obj : orderdateList){
-//                    ExampleArray exampleArray = new ExampleArray();
-//                    exampleArray.setDate(obj.getDate());
-//                    exampleArray.setId(String.valueOf(obj.getPkId()));
-//                    exampleArray.setList(itemList);
-//                    exampleArrays.add(exampleArray);
-//                }
-//        return exampleArrays;
-//        ExampleArray exampleArray = new ExampleArray();
-
-
-
-//        ExampleArray exampleArray2 = new ExampleArray();
-//        exampleArray2.setDate("2022-06-06");
-//        exampleArray2.setId("2");
-//        exampleArray2.setList(itemList);
-
-
-
-//        exampleArrays.add(exampleArray3);
-//        exampleArrays.add(exampleArray2);
-//        exampleArrays.add(exampleArray4);
 
     }
 
 
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public String deleteItem(String pkId) throws Exception {
 
         try{
 //            String jpql = "delete from ItemEntity a WHERE a.pkId = " + Long.parseLong(pkId) ;
 //            executeNativeQuery(jpql);
 
-            ItemEntity item = getByPKey(ItemEntity.class, Long.parseLong(pkId ));
+            ItemEntity item = getByPKey(ItemEntity.class, Long.parseLong(pkId));
             System.out.println("selected item -------------------> "  + item.getTitle());
             delete((List<?>) item);
 

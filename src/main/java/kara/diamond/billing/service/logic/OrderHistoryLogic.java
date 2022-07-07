@@ -103,42 +103,8 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
                 }
             }
         }
-
-//        for (List<OrderHistory> obj : byOrder) {
-//            System.err.println("passs");
-//            OrderHistory order = new OrderHistory();
-//
-//
-//            order.setPkId(String.valueOf(obj.getPkId()));
-//            order.setTitle(obj.getTitle());
-//            order.setDescription(obj.getDescription());
-//            order.setCnt(obj.getCnt());
-//            order.setPrice(obj.getPrice());
-//            order.setQuantity(obj.getQuantity());
-//            //orderList.add(order);
-//            if(!obj.getDate().equals(null)){
-//                if(!byDate.containsKey(obj.getDate())){
-//                    orderList = new ArrayList<>();
-//                    orderList.add(order);
-//                    byDate.put(obj.getDate(), orderList);
-//                }else{
-//                    orderList = byDate.get(obj.getDate());
-//                    orderList.add(order);
-//                    byDate.put(obj.getDate(), orderList);
-//                }
-//            }
-//        }
         System.err.println("size: "+byDate.size());
-//        for (OrderHistoryEntity obj : orderHistoryEntity) {
-//            OrderHistory order = new OrderHistory();
-//            order.setPkId(String.valueOf(obj.getPkId()));
-//            order.setTitle(obj.getTitle());
-//            order.setDescription(obj.getDescription());
-//            order.setCnt(obj.getCnt());
-//            order.setPrice(obj.getPrice());
-//            order.setQuantity(obj.getQuantity());
-//            orderList.add(order);
-//        }
+
         return byDate;
     }
 
@@ -148,29 +114,6 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
         String jpql = "SELECT a FROM OrderHistoryEntity a";
         List<OrderHistoryEntity> itemOrderList = getByQuery(OrderHistoryEntity.class, jpql);
 
-//        for (OrderHistoryEntity obj : itemOrderList) {
-//            OrderHistoryModel order = new OrderHistoryModel();
-//
-//            order.setPkId(String.valueOf(obj.getPkId()));
-//            order.setTitle(obj.getTitle());
-//            order.setDescription(obj.getDescription());
-//            order.setCnt(obj.getCnt());
-//            order.setPrice(obj.getPrice());
-//            order.setQuantity(obj.getQuantity());
-////            order.setDate(obj.getDate());
-//            orderItemList.add(order);
-//
-//            OrderArray orderArray = new OrderArray();
-//            orderArray.setDate(obj.getDate());
-//            orderArrays.add(orderArray);
-//            orderArray.setList(orderItemList);
-////            for(int i = 0; i < orderItemList.size(); i++){
-////                if(orderItemList.get(i).getDate().equals(obj.getDate())){
-////
-////                }
-////            }
-////            orderArray.setList(orderItemList.stream().filter().collect(Collectors.));
-//        }
         return orderArrays;
     }
 }

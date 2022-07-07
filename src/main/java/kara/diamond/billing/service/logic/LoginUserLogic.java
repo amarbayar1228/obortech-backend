@@ -7,7 +7,9 @@ import kara.diamond.billing.service.iinterfaces.LoginUserInterfaces;
 import kara.diamond.billing.service.model.request.LoginUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,4 +81,22 @@ public class LoginUserLogic extends BaseDatabaseService implements LoginUserInte
         return user;
         }
 
+    @Override
+    @Transactional
+    public String updateUser2(LoginUser loginUser) throws Exception{
+        String result = "amjiltgui";
+        try {
+            LoginUserEntity loginUserUpdate123 = getByPKey(LoginUserEntity.class, Long.parseLong(loginUser.getPkId()));
+            System.out.println("dddddddddddddddddddddddddddddddddddddddddddddddd" + loginUserUpdate123.getLastname());
+            loginUserUpdate123.setAddress(loginUser.getAddress());
+            loginUserUpdate123.setState(loginUser.getState());
+            update(loginUserUpdate123);
+            result = "amjilttai";
+        }catch (Exception e){
+
+            getDatabaseException(e);
+        }
+        return result;
+
+    }
 }

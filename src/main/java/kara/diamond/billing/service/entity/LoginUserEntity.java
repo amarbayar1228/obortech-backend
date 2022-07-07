@@ -8,7 +8,46 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "loginUser")
 public class LoginUserEntity {
+    @Id
+    @Column(name = "pkId")
+//    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long pkId;
 
+    @Column(name = "username")
+    private String username;
+    @Column(name = "lastname")
+    private String lastname;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "exp")
+    private long exp;
+
+    @Column(name = "token")
+    private String token;
+
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "phone")
+    private int phone;
+
+    @Column(name = "state")
+    private String state;
+
+    @Column(name = "userToken")
+    private String userToken;
+    @Column(name = "isAdmin")
+    private String isAdmin;
+
+    @Column(name = "isSuperAdmin")
+    private String isSuperAdmin;
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "firstname")
+    private String firstname;
     public Long getPkId() {
         return pkId;
     }
@@ -65,13 +104,7 @@ public class LoginUserEntity {
         this.token = token;
     }
 
-    @Id
-    @Column(name = "pkId")
-//    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long pkId;
 
-    @Column(name = "username")
-    private String username;
 
     public String getIsAdmin() {
         return isAdmin;
@@ -89,16 +122,7 @@ public class LoginUserEntity {
         this.isSuperAdmin = isSuperAdmin;
     }
 
-    @Column(name = "isAdmin")
-    private String isAdmin;
 
-    @Column(name = "isSuperAdmin")
-    private String isSuperAdmin;
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "firstname")
-    private String firstname;
 
     public String getLastname() {
         return lastname;
@@ -108,17 +132,35 @@ public class LoginUserEntity {
         this.lastname = lastname;
     }
 
-    @Column(name = "lastname")
-    private String lastname;
+    public String getAddress() {
+        return address;
+    }
 
-    @Column(name = "email")
-    private String email;
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-    @Column(name = "exp")
-    private long exp;
+    public int getPhone() {
+        return phone;
+    }
 
-    @Column(name = "token")
-    private String token;
+    public void setPhone(int phone) {
+        this.phone = phone;
+    }
 
+    public String getState() {
+        return state;
+    }
 
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getUserToken() {
+        return userToken;
+    }
+
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
+    }
 }

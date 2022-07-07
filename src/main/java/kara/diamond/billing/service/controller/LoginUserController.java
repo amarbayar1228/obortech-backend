@@ -22,6 +22,7 @@ public class LoginUserController implements Serializable {
 
     @Autowired
     private LoginUserInterfaces loginUserInterfaces;
+
     @Autowired
     private  LoginUserLogic loginUserLogic;
 
@@ -38,10 +39,10 @@ public class LoginUserController implements Serializable {
         Map<String, String> result = loginUserLogic.signInUser(loginUser);
         return ResponseEntity.ok(result);
     }
-//    @PostMapping("/signIn")
-//    public ResponseEntity<?> getUser()throws Exception{
-//        logger.info("get SignIn ===>");
-//        List<LoginUser> result = LoginUserLogic.signInUser();
-//        return  ResponseEntity.ok(result);
-//    }
+
+    @PostMapping("/updateUser")
+    public ResponseEntity<?> update(@Valid @RequestBody LoginUser loginUser) throws Exception{
+        return ResponseEntity.ok(loginUserInterfaces.updateUser2(loginUser));
+    }
+
 }
