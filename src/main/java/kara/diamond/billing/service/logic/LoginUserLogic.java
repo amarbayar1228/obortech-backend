@@ -109,7 +109,7 @@ public class LoginUserLogic extends BaseDatabaseService implements LoginUserInte
         List<LoginUser> loginUserList = new ArrayList<>();
         loginUserEntity = getByQuery(LoginUserEntity.class, jpql);
         for(LoginUserEntity obj2 : loginUserEntity){
-            if(obj2.getState() == 1) {
+            if(obj2.getState() == 1 | obj2.getState() == 2) {
                 LoginUser loginUser2 = new LoginUser();
                 loginUser2.setPkId(String.valueOf(obj2.getPkId()));
                 loginUser2.setUsername(obj2.getUsername());

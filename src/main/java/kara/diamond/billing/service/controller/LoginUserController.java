@@ -10,9 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,8 +37,11 @@ public class LoginUserController implements Serializable {
     }
 
     @PostMapping("/signIn")
-    public ResponseEntity<?> signInUser2(@Valid @RequestBody LoginUser loginUser) throws Exception{
+    public ResponseEntity<?> signInUser2(@Valid @RequestBody LoginUser loginUser, HttpSession session) throws Exception{
         logger.info("getItemList  ====>");
+        @SuppressWarnings("unchecked")
+        List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
+
         Map<String, String> result = loginUserLogic.signInUser(loginUser);
         return ResponseEntity.ok(result);
     }
