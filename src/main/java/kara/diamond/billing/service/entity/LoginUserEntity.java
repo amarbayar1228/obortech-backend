@@ -34,7 +34,7 @@ public class LoginUserEntity {
     private int phone;
 
     @Column(name = "state")
-    private String state;
+    private int state;
 
     @Column(name = "userToken")
     private String userToken;
@@ -148,11 +148,11 @@ public class LoginUserEntity {
         this.phone = phone;
     }
 
-    public String getState() {
+    public int getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(int state) {
         this.state = state;
     }
 
