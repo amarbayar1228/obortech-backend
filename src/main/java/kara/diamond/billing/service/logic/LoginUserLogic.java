@@ -13,6 +13,7 @@ import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.util.*;
 
@@ -49,6 +50,8 @@ public class LoginUserLogic extends BaseDatabaseService implements LoginUserInte
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public Map<String, String> signInUser(LoginUser loginUser) throws Exception{
+
+
         List<LoginUserEntity> loginUserEntity;
         UUID uuid = UUID.randomUUID();
         String jpql = "SELECT a FROM LoginUserEntity a where a.username = '"+loginUser.getUsername()+"' and a.password = '"+loginUser.getPassword()+"'";

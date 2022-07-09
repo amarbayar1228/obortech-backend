@@ -5,7 +5,6 @@ import kara.diamond.billing.service.base.NumericHelper;
 import kara.diamond.billing.service.entity.CompanyEntity;
 import kara.diamond.billing.service.iinterfaces.CompanyInterfaces;
 import kara.diamond.billing.service.model.request.Company;
-import kara.diamond.billing.service.model.request.LoginUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -45,35 +44,38 @@ public class CompanyLogic extends BaseDatabaseService implements CompanyInterfac
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public String getCompany(Company company) throws  Exception {
-        String result = "amjiltgui";
+    public  List<Company> getCompany(Company company) throws  Exception {
+    String result = "amjiltq";
+        List<CompanyEntity> companyEntities;
+        String jpql = "SELECT a FROM CompanyEntity a where a.userToken = '"+company.getUserToken()+"'";
+        System.out.println("iiiishee orson=========>");
+        companyEntities = getByQuery(CompanyEntity.class, jpql);
 
-              List<CompanyEntity> companyEntity;
-            //CompanyEntity comEntity = getByPKey(CompanyEntity.class, company.getUserToken());
+        List<Company> companiesList = new ArrayList<>();
+        for (CompanyEntity obj:companyEntities){
+            Company com2  = new Company();
+            com2.setPkId(String.valueOf(obj.getPkId()));
+            com2.setCompanyName(obj.getCompanyName());
+            companiesList.add(com2);
+            System.out.println("addresss ================> "+obj.getAddress());
+        }
 
-             String jpql = "SELECT a From CompanyEntity a";
-            List<Company> comList = new ArrayList<>();
-            companyEntity = getByQuery(CompanyEntity.class, jpql);
-
-            for (CompanyEntity obj:companyEntity ){
-                if(obj.getUserToken().equals(company.getUserToken())){
-                    Company com2  = new Company();
-                    com2.setPkId(String.valueOf(obj.getPkId()));
-                    com2.setCompanyName(obj.getCompanyName());
-                    com2.setDateCompany(obj.getDateCompany());
-                    com2.setAreasOfActivity(obj.getAreasOfActivity());
-                    com2.setAddress(obj.getAddress());
-                    com2.setRegister(obj.getRegister());
-                    com2.setTelephone(obj.getTelephone());
-                    com2.setState(obj.getState());
-                    com2.setAdminToken(obj.getAdminToken());
-                    com2.setUserToken(obj.getUserToken());
-                    comList.add(com2);
-                    System.out.println("bosl===========>" + obj.getCompanyName());
-                }
-
-            }
-        return result;
+        return companiesList;
     }
-
+//            for (CompanyEntity obj:companyEntity ){
+//                if(obj.getUserToken().equals(company.getUserToken())){
+//                    Company com2  = new Company();
+//                    com2.setPkId(String.valueOf(obj.getPkId()));
+//                    com2.setCompanyName(obj.getCompanyName());
+//                    com2.setDateCompany(obj.getDateCompany());
+//                    com2.setAreasOfActivity(obj.getAreasOfActivity());
+//                    com2.setAddress(obj.getAddress());
+//                    com2.setRegister(obj.getRegister());
+//                    com2.setTelephone(obj.getTelephone());
+//                    com2.setState(obj.getState());
+//                    com2.setAdminToken(obj.getAdminToken());
+//                    com2.setUserToken(obj.getUserToken());
+//                    comList.add(com2);
+//                    System.out.println("bosl===========>" + obj.getCompanyName());
+//                }
 }

@@ -37,10 +37,8 @@ public class LoginUserController implements Serializable {
     }
 
     @PostMapping("/signIn")
-    public ResponseEntity<?> signInUser2(@Valid @RequestBody LoginUser loginUser, HttpSession session) throws Exception{
+    public ResponseEntity<?> signInUser2(@Valid @RequestBody LoginUser loginUser) throws Exception{
         logger.info("getItemList  ====>");
-        @SuppressWarnings("unchecked")
-        List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
 
         Map<String, String> result = loginUserLogic.signInUser(loginUser);
         return ResponseEntity.ok(result);

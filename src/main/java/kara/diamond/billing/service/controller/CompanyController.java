@@ -1,5 +1,6 @@
 package kara.diamond.billing.service.controller;
 
+import kara.diamond.billing.service.entity.CompanyEntity;
 import kara.diamond.billing.service.iinterfaces.CompanyInterfaces;
 import kara.diamond.billing.service.logic.CompanyLogic;
 import kara.diamond.billing.service.model.request.Company;
@@ -29,10 +30,11 @@ public class CompanyController implements Serializable {
         return ResponseEntity.ok(companyInterfaces.sendCompany(company));
     }
 
+
     @PostMapping("get")
     public ResponseEntity<?> getCompany(@Valid @RequestBody Company company) throws Exception{
-        return ResponseEntity.ok(companyInterfaces.getCompany(company));
+        List<Company> result = companyLogic.getCompany(company);
 
-
+        return ResponseEntity.ok(result);
     }
 }
