@@ -3,6 +3,7 @@ package kara.diamond.billing.service.controller;
 import kara.diamond.billing.service.entity.LoginUserEntity;
 import kara.diamond.billing.service.iinterfaces.LoginUserInterfaces;
 import kara.diamond.billing.service.logic.LoginUserLogic;
+import kara.diamond.billing.service.model.request.Company;
 import kara.diamond.billing.service.model.request.Item;
 import kara.diamond.billing.service.model.request.LoginUser;
 import org.slf4j.Logger;
@@ -49,16 +50,37 @@ public class LoginUserController implements Serializable {
         return ResponseEntity.ok(loginUserInterfaces.updateUser2(loginUser));
     }
 
+    @PostMapping("/updateUserAdmin")
+    public ResponseEntity<?> updateUserAdmin(@Valid @RequestBody LoginUser loginUser) throws Exception{
+        return ResponseEntity.ok(loginUserInterfaces.updateUserAdmin(loginUser));
+    }
     @PostMapping("/getUsers")
     public ResponseEntity<?> getUser() throws Exception{
         List<LoginUser> result = loginUserLogic.getUser();
         return ResponseEntity.ok(result);
     }
 
+    @PostMapping("/getAdmin")
+    public ResponseEntity<?> getAdmin() throws Exception{
+        List<LoginUser> result = loginUserLogic.getAdmin();
+        return ResponseEntity.ok(result);
+    }
     @PostMapping("/getUserTest")
     public ResponseEntity<?> getUserTest() throws Exception {
         logger.info("orlo====>");
         List<LoginUser> result = loginUserLogic.getUserTest();
         return ResponseEntity.ok(result);
     }
+
+    @PostMapping("/confirmUserAdminList")
+    public ResponseEntity<?> userConfirmList(@Valid @RequestBody LoginUser loginUser) throws Exception{
+        List<LoginUser> result = loginUserLogic.userConfirmList(loginUser);
+        return ResponseEntity.ok(result);
+    }
+    @PostMapping("/getUserInfo")
+    public ResponseEntity<?> userInfo(@Valid @RequestBody LoginUser loginUser) throws Exception{
+        List<LoginUser> result = loginUserLogic.userInfo(loginUser);
+        return ResponseEntity.ok(result);
+    }
+
 }

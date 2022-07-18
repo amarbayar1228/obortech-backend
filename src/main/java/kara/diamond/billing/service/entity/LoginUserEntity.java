@@ -42,7 +42,7 @@ public class LoginUserEntity {
     private String isAdmin;
 
     @Column(name = "isSuperAdmin")
-    private String isSuperAdmin;
+    private int isSuperAdmin;
     @Column(name = "password")
     private String password;
 
@@ -114,11 +114,11 @@ public class LoginUserEntity {
         this.isAdmin = isAdmin;
     }
 
-    public String getIsSuperAdmin() {
+    public int getIsSuperAdmin() {
         return isSuperAdmin;
     }
 
-    public void setIsSuperAdmin(String isSuperAdmin) {
+    public void setIsSuperAdmin(int isSuperAdmin) {
         this.isSuperAdmin = isSuperAdmin;
     }
 
