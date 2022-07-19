@@ -77,6 +77,7 @@ public class CompanyLogic extends BaseDatabaseService implements CompanyInterfac
     public List<Company> userGet(Company company) throws Exception{
 
         String jpql = "SELECT a FROM CompanyEntity a where a.userToken = '"+company.getUserToken()+"'";
+        System.out.println("orooooqqq ");
         List<CompanyEntity> companyEntities;
         companyEntities = getByQuery(CompanyEntity.class, jpql);
          List<Company> comList = new ArrayList<>();
@@ -93,7 +94,7 @@ public class CompanyLogic extends BaseDatabaseService implements CompanyInterfac
                 company2.setAreasOfActivity(obj.getAreasOfActivity());
                 comList.add(company2);
         }
-        System.out.println("iiiishee orson=========>"+ company.getUserToken());
+
 
         return comList;
     }
