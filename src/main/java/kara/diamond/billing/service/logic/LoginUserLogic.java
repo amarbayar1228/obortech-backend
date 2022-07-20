@@ -112,11 +112,15 @@ public class LoginUserLogic extends BaseDatabaseService implements LoginUserInte
     @Transactional(propagation = Propagation.REQUIRED)
     public String updateUserAdmin(LoginUser loginUser) throws Exception{
         String result = "amjiltgui";
+        List<LoginUserEntity> loginUserEntities;
+        String jpql = "SELECT a FROM  LoginUserEntity a where a.token = '"+loginUser.getUserToken()+"'";
+        System.out.println("query: "+jpql);
+        loginUserEntities= getByQuery(LoginUserEntity.class, jpql);
         try {
             System.out.println("updateUser2");
             LoginUserEntity loginUserUpdate123 = getByPKey(LoginUserEntity.class, Long.parseLong(loginUser.getPkId().toString()));
 
-            loginUserUpdate123.setUserToken(loginUser.getUserToken());
+            loginUserUpdate123.setUserToken(loginUserEntities.get(0).getPkId().toString());
             loginUserUpdate123.setState(loginUser.getState());
             update(loginUserUpdate123);
             result = "amjilttai";
