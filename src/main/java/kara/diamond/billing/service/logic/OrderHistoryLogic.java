@@ -37,7 +37,7 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
                 order1.setPkId(NumericHelper.generateKey());
                 order1.setTitle(orderHistory.get(i).getTitle());
                 order1.setCnt(orderHistory.get(i).getCnt());
-                order1.setUserToken(orderHistory.get(i).getUserToken());
+                order1.setUserPkid(orderHistory.get(i).getUserPkid());
                 order1.setDescription(orderHistory.get(i).getDescription());
                 order1.setPrice(orderHistory.get(i).getPrice());
                 order1.setQuantity(orderHistory.get(i).getQuantity());
@@ -54,12 +54,12 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
     // user iDgaar n shalgaj awchirj bga Order list
     @Transactional(propagation = Propagation.REQUIRED)
     public Map<String, List<List<OrderHistory>>> getUserTokenOrderList(OrderHistory orderHistory ) throws Exception {
-        System.out.println(" ==================> ene history req"+ orderHistory.getUserToken());
+        System.out.println(" ==================> ene history req"+ orderHistory.getUserPkid());
 
 
         List<OrderHistoryEntity> orderHistoryEntity;
 //        String jpql = "SELECT a FROM OrderHistoryEntity a";
-        String jpql = "SELECT a FROM  OrderHistoryEntity a where a.userToken = '"+orderHistory.getUserToken()+"'";
+        String jpql = "SELECT a FROM  OrderHistoryEntity a where a.userPkid = '"+orderHistory.getUserPkid()+"'";
         List<OrderHistory> orderList = new ArrayList<>();
         List<List<OrderHistory>> orderListList = new ArrayList<>();
         orderHistoryEntity = getByQuery(OrderHistoryEntity.class, jpql);

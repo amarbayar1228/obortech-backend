@@ -29,8 +29,8 @@ public class OrderHistoryEntity extends Operation {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "userToken")
-    private String userToken;
+    @Column(name = "userPkid")
+    private String userPkid;
 
     public String getDate() {
         return date;
@@ -52,12 +52,12 @@ public class OrderHistoryEntity extends Operation {
     @Column(name = "quantity")
     private int quantity;
 
-    public String getUserToken() {
-        return userToken;
+    public String getUserPkid() {
+        return userPkid;
     }
 
-    public void setUserToken(String userToken) {
-        this.userToken = userToken;
+    public void setUserPkid(String userPkid) {
+        this.userPkid = userPkid;
     }
 
     public int getCnt() {
