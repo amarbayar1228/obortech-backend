@@ -33,10 +33,15 @@ public class OrderHistoryController implements Serializable {
         return ResponseEntity.ok(orderHistoryInterfaces.saveOrderHistory(orderHistory));
     }
 
-    @PostMapping("/list")
-    public ResponseEntity<?> getOrderList()throws Exception{
-        logger.info("getOrderList ===>");
-        Map<String, List<List <OrderHistory>>> result = orderHistoryLogic.getOrderList();
+//    @PostMapping("/list")
+//    public ResponseEntity<?> getOrderList()throws Exception{
+//        logger.info("getOrderList ===>");
+//        Map<String, List<List <OrderHistory>>> result = orderHistoryLogic.getOrderList();
+//        return  ResponseEntity.ok(result);
+//    }
+    @PostMapping("/getUserTokenOrder")
+    public ResponseEntity<?> getUserTokenOrderArray(@Valid @RequestBody OrderHistory orderHistory )throws Exception{
+        Map<String, List<List<OrderHistory>>> result = orderHistoryLogic.getUserTokenOrderList(orderHistory);
         return  ResponseEntity.ok(result);
     }
     @PostMapping("/getOrder")

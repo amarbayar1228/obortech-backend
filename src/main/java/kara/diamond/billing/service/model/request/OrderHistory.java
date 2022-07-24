@@ -12,4 +12,5 @@ public class OrderHistory {
     private  int cnt;
     private String orderId;
     private  String date;
+    private  String userToken;
 }
