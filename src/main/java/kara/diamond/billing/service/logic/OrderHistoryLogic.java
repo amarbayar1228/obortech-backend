@@ -2,9 +2,12 @@ package kara.diamond.billing.service.logic;
 
 import kara.diamond.billing.service.base.BaseDatabaseService;
 import kara.diamond.billing.service.base.NumericHelper;
+import kara.diamond.billing.service.entity.LoginUserEntity;
 import kara.diamond.billing.service.entity.OrderHistoryEntity;
 import kara.diamond.billing.service.iinterfaces.OrderHistoryInterfaces;
+import kara.diamond.billing.service.model.request.LoginUser;
 import kara.diamond.billing.service.model.request.OrderHistory;
+import kara.diamond.billing.service.model.request.OrderHistoryToken;
 import kara.diamond.billing.service.model.response.OrderArray;
 import kara.diamond.billing.service.model.response.OrderHistoryModel;
 import org.slf4j.Logger;
@@ -25,8 +28,17 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public String saveOrderHistory(List<OrderHistory> orderHistory) throws Exception {
+    public String saveOrderHistory(OrderHistoryToken orderHistoryToken) throws Exception {
+        List<LoginUserEntity> loginUserEntities;
+        String jpql = "SELECT a FROM  LoginUserEntity a where a.token = '"+orderHistoryToken.getToken()+"'";
+        System.out.println("query: "+jpql);
+        loginUserEntities= getByQuery(LoginUserEntity.class, jpql);
+        List<LoginUser> loginUserList = new ArrayList<>();
         String result = "";
+        System.out.println(orderHistoryToken.getToken());
+        System.out.println(
+                "\n products: "+orderHistoryToken.getProduct().get(0));
+        List<OrderHistory> orderHistory = orderHistoryToken.getProduct();
         try {
             long orderId2 = NumericHelper.generateKey();
 
@@ -37,7 +49,7 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
                 order1.setPkId(NumericHelper.generateKey());
                 order1.setTitle(orderHistory.get(i).getTitle());
                 order1.setCnt(orderHistory.get(i).getCnt());
-                order1.setUserPkid(orderHistory.get(i).getUserPkid());
+                order1.setUserPkid(loginUserEntities.get(0).getPkId().toString());
                 order1.setDescription(orderHistory.get(i).getDescription());
                 order1.setPrice(orderHistory.get(i).getPrice());
                 order1.setQuantity(orderHistory.get(i).getQuantity());

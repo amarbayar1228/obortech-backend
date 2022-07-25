@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import kara.diamond.billing.service.iinterfaces.OrderHistoryInterfaces;
 import kara.diamond.billing.service.logic.OrderHistoryLogic;
 import kara.diamond.billing.service.model.request.OrderHistory;
+import kara.diamond.billing.service.model.request.OrderHistoryToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,8 @@ public class OrderHistoryController implements Serializable {
 
     @ApiOperation(value = "Энэ бол системийн док save")
     @PostMapping("/save")
-    public ResponseEntity<?> saveOrderHistory(@Valid @RequestBody List<OrderHistory> orderHistory) throws Exception{
+    public ResponseEntity<?> saveOrderHistory(@Valid @RequestBody OrderHistoryToken orderHistory) throws Exception{
+
         return ResponseEntity.ok(orderHistoryInterfaces.saveOrderHistory(orderHistory));
     }
 
