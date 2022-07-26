@@ -30,14 +30,16 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
     @Transactional(propagation = Propagation.REQUIRED)
     public String saveOrderHistory(OrderHistoryToken orderHistoryToken) throws Exception {
         List<LoginUserEntity> loginUserEntities;
+
         String jpql = "SELECT a FROM  LoginUserEntity a where a.token = '"+orderHistoryToken.getToken()+"'";
-        System.out.println("query: "+jpql);
+
+        System.out.println("query: "+orderHistoryToken.getToken());
         loginUserEntities= getByQuery(LoginUserEntity.class, jpql);
         List<LoginUser> loginUserList = new ArrayList<>();
         String result = "";
-        System.out.println(orderHistoryToken.getToken());
-        System.out.println(
-                "\n products: "+orderHistoryToken.getProduct().get(0));
+//        System.out.println(orderHistoryToken.getToken());
+//        System.out.println(
+//                "\n products: "+orderHistoryToken.getProduct().get(0));
         List<OrderHistory> orderHistory = orderHistoryToken.getProduct();
         try {
             long orderId2 = NumericHelper.generateKey();

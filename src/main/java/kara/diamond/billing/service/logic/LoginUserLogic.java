@@ -207,6 +207,32 @@ public class LoginUserLogic extends BaseDatabaseService implements LoginUserInte
         return loginUserList;
     }
 
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<LoginUser> confirmUserReqCancel(LoginUser loginUser) throws Exception{
+
+        String jpql = "SELECT a FROM LoginUserEntity a where a.userToken = '"+loginUser.getPkId()+"'";
+        List<LoginUserEntity> loginUserEntities;
+        loginUserEntities= getByQuery(LoginUserEntity.class, jpql);
+        List<LoginUser> loginUserList = new ArrayList<>();
+        for (LoginUserEntity obj : loginUserEntities){
+            if(obj.getState() == 3){
+                LoginUser loginUserD = new LoginUser();
+                loginUserD.setPkId(String.valueOf(obj.getPkId()));
+                loginUserD.setAddress(obj.getAddress());
+                loginUserD.setUsername(obj.getUsername());
+                loginUserD.setEmail(obj.getEmail());
+                loginUserD.setState(obj.getState());
+                loginUserD.setLastname(obj.getLastname());
+                loginUserD.setFirstname(obj.getFirstname());
+                loginUserD.setPhone(obj.getPhone());
+                loginUserD.setState(obj.getState());
+                loginUserList.add(loginUserD);
+            }
+        }
+        return loginUserList;
+    }
+
     public List<LoginUser> userInfo(LoginUser loginUser) throws Exception{
 
         String jpql = "SELECT a FROM LoginUserEntity a where a.token = '"+loginUser.getToken()+"'";
@@ -214,6 +240,7 @@ public class LoginUserLogic extends BaseDatabaseService implements LoginUserInte
         loginUserEntity = getByQuery(LoginUserEntity.class, jpql);
         List<LoginUser> userList = new ArrayList<>();
         for (LoginUserEntity obj : loginUserEntity){
+
             LoginUser loginUser3 = new LoginUser();
             loginUser3.setPkId(String.valueOf(obj.getPkId()));
             loginUser3.setAddress(obj.getAddress());
