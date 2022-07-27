@@ -30,20 +30,47 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
     @Transactional(propagation = Propagation.REQUIRED)
     public String saveOrderHistory(OrderHistoryToken orderHistoryToken) throws Exception {
         List<LoginUserEntity> loginUserEntities;
-
+        String result = "";
         String jpql = "SELECT a FROM  LoginUserEntity a where a.token = '"+orderHistoryToken.getToken()+"'";
 
-        System.out.println("query: "+orderHistoryToken.getToken());
-        loginUserEntities= getByQuery(LoginUserEntity.class, jpql);
-        List<LoginUser> loginUserList = new ArrayList<>();
-        String result = "";
+//            System.out.println("query: "+orderHistoryToken.getToken());
+            loginUserEntities= getByQuery(LoginUserEntity.class, jpql);
+            List<LoginUser> loginUserList = new ArrayList<>();
+
 //        System.out.println(orderHistoryToken.getToken());
 //        System.out.println(
 //                "\n products: "+orderHistoryToken.getProduct().get(0));
-        List<OrderHistory> orderHistory = orderHistoryToken.getProduct();
+            List<OrderHistory> orderHistory = orderHistoryToken.getProduct();
+            try {
+                long orderId2 = NumericHelper.generateKey();
+
+                for (int i = 0; i < orderHistory.size(); i++) {
+                    OrderHistoryEntity order1 = new OrderHistoryEntity();
+                    order1.setOrderId(orderId2);
+                    order1.setDate(java.time.LocalDate.now().toString());
+                    order1.setPkId(NumericHelper.generateKey());
+                    order1.setTitle(orderHistory.get(i).getTitle());
+                    order1.setCnt(orderHistory.get(i).getCnt());
+                    order1.setUserPkid(loginUserEntities.get(0).getPkId().toString());
+                    order1.setDescription(orderHistory.get(i).getDescription());
+                    order1.setPrice(orderHistory.get(i).getPrice());
+                    order1.setQuantity(orderHistory.get(i).getQuantity());
+                    insert(order1);
+                }
+                result = "Амжилттай хадгалалаа.";
+            } catch (Exception e) {
+                throw getDatabaseException(e);
+            }
+        return result;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public String saveOrderHistoryNoId(List<OrderHistory> orderHistory) throws Exception {
+
+        String result = "";
         try {
             long orderId2 = NumericHelper.generateKey();
-
             for (int i = 0; i < orderHistory.size(); i++) {
                 OrderHistoryEntity order1 = new OrderHistoryEntity();
                 order1.setOrderId(orderId2);
@@ -51,20 +78,18 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
                 order1.setPkId(NumericHelper.generateKey());
                 order1.setTitle(orderHistory.get(i).getTitle());
                 order1.setCnt(orderHistory.get(i).getCnt());
-                order1.setUserPkid(loginUserEntities.get(0).getPkId().toString());
+//                order1.setUserPkid(orderHistory.getUser);
                 order1.setDescription(orderHistory.get(i).getDescription());
                 order1.setPrice(orderHistory.get(i).getPrice());
                 order1.setQuantity(orderHistory.get(i).getQuantity());
                 insert(order1);
             }
-
             result = "Амжилттай хадгалалаа.";
         } catch (Exception e) {
             throw getDatabaseException(e);
         }
         return result;
     }
-
     // user iDgaar n shalgaj awchirj bga Order list
     @Transactional(propagation = Propagation.REQUIRED)
     public Map<String, List<List<OrderHistory>>> getUserTokenOrderList(OrderHistory orderHistory ) throws Exception {
@@ -153,6 +178,7 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
             order.setPrice(obj.getPrice());
             order.setQuantity(obj.getQuantity());
             order.setDate(obj.getDate());
+            order.setUserPkid(obj.getUserPkid());
             order.setOrderId(obj.getOrderId().toString());
             System.err.println("sizeoid: "+obj.getOrderId());
             if(obj.getOrderId() != null){

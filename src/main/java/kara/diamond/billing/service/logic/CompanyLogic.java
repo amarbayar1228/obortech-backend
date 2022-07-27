@@ -24,32 +24,34 @@ public class CompanyLogic extends BaseDatabaseService implements CompanyInterfac
     @Transactional(propagation = Propagation.REQUIRED)
     public String sendCompany(Company company) throws Exception{
         String result = "error";
-        List<LoginUserEntity> loginUserEntities;
-        String jpql = "SELECT a FROM  LoginUserEntity a where a.token = '"+company.getUserToken()+"'";
-        System.out.println("query: "+jpql);
-        loginUserEntities= getByQuery(LoginUserEntity.class, jpql);
-        List<LoginUser> loginUserList = new ArrayList<>();
-        System.out.println("\n\ndjsopajfopsda: "+loginUserEntities.get(0).getPkId());
-        try{
 
-            CompanyEntity com = new CompanyEntity();
-            com.setPkId(NumericHelper.generateKey());
-            com.setAddress(company.getAddress());
-            com.setCompanyName(company.getCompanyName());
-            com.setDateCompany(company.getDateCompany());
-            com.setState(company.getState());
-            com.setUserToken(loginUserEntities.get(0).getPkId().toString());
+            List<LoginUserEntity> loginUserEntities;
+            String jpql = "SELECT a FROM  LoginUserEntity a where a.token = '"+company.getUserToken()+"'";
+            System.out.println("query=======================: "+jpql);
+            loginUserEntities= getByQuery(LoginUserEntity.class, jpql);
+            List<LoginUser> loginUserList = new ArrayList<>();
+//        System.out.println("\n\ndjsopajfopsda: "+loginUserEntities.get(0).getPkId());
+            try{
+                CompanyEntity com = new CompanyEntity();
+                com.setPkId(NumericHelper.generateKey());
+                com.setAddress(company.getAddress());
+                com.setCompanyName(company.getCompanyName());
+                com.setDateCompany(company.getDateCompany());
+                com.setState(company.getState());
+                com.setUserToken(loginUserEntities.get(0).getPkId().toString());
 //            com.setAdminToken(company.getAdminToken());
-            com.setAreasOfActivity(company.getAreasOfActivity());
-            com.setRegister(company.getRegister());
-            com.setTelephone(company.getTelephone());
-            insert(com);
-            result= "Success";
-        } catch (Exception e){
-            throw getDatabaseException(e);
-        }
+                com.setAreasOfActivity(company.getAreasOfActivity());
+                com.setRegister(company.getRegister());
+                com.setTelephone(company.getTelephone());
+                insert(com);
+                result= "Success";
+            } catch (Exception e){
+                throw getDatabaseException(e);
+            }
         return result;
     }
+
+
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)

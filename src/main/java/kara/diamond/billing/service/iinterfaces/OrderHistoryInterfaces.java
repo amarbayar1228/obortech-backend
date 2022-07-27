@@ -8,6 +8,6 @@ import java.util.Map;
 
 public interface OrderHistoryInterfaces {
     public String saveOrderHistory(OrderHistoryToken orderHistory) throws Exception;
-
+    public String saveOrderHistoryNoId(List<OrderHistory> orderHistory) throws Exception;
 //    public  String getUserTokenOrderList(OrderHistory orderHistory) throws  Exception;
 }
