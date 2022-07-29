@@ -51,7 +51,11 @@ public class CompanyController implements Serializable {
         List<Company> result = companyLogic.getCompany();
         return ResponseEntity.ok(result);
     }
-
+    @PostMapping("/getCompanyAcceptAll")
+    public ResponseEntity<?> getCompanyAcceptAll() throws Exception{
+        List<Company> result = companyLogic.getCompanyAcceptAll();
+        return ResponseEntity.ok(result);
+    }
     @PostMapping("/companyUpdateReq")
     public ResponseEntity<?> companyUpdateReq(@Valid @RequestBody Company company) throws  Exception{
         return ResponseEntity.ok(companyInterfaces.companyUpdateReq(company));

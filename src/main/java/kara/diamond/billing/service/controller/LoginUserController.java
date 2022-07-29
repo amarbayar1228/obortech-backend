@@ -65,6 +65,11 @@ public class LoginUserController implements Serializable {
         List<LoginUser> result = loginUserLogic.getAdmin();
         return ResponseEntity.ok(result);
     }
+    @PostMapping("/getUserAcceptAll")
+    public ResponseEntity<?> getUserAcceptAll() throws Exception{
+        List<LoginUser> result = loginUserLogic.getUserAcceptAll();
+        return ResponseEntity.ok(result);
+    }
     @PostMapping("/getUserTest")
     public ResponseEntity<?> getUserTest() throws Exception {
         logger.info("orlo====>");

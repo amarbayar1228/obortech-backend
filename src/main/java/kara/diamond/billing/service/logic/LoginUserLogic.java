@@ -183,6 +183,34 @@ public class LoginUserLogic extends BaseDatabaseService implements LoginUserInte
         return loginUserList;
     }
 
+    public List<LoginUser> getUserAcceptAll() throws  Exception{
+        List<LoginUserEntity> loginUserEntity;
+        String jpql = "SELECT a FROM LoginUserEntity a";
+
+        List<LoginUser> loginUserList = new ArrayList<>();
+        loginUserEntity = getByQuery(LoginUserEntity.class, jpql);
+        for(LoginUserEntity obj2 : loginUserEntity){
+
+            if(obj2.getState() ==  1 || obj2.getState() == 0) {
+                System.out.println("hooooooooooooooooson =============>");
+            }else {
+                System.out.println("ooooooooooooooooooooooooooooorloooooooooooooooooo ");
+                LoginUser loginUser5 = new LoginUser();
+                loginUser5.setPkId(String.valueOf(obj2.getPkId()));
+                loginUser5.setUsername(obj2.getUsername());
+                loginUser5.setLastname(obj2.getLastname());
+                loginUser5.setFirstname(obj2.getFirstname());
+                loginUser5.setEmail(obj2.getEmail());
+                loginUser5.setAddress(obj2.getAddress());
+                loginUser5.setUserToken(obj2.getUserToken());
+                loginUser5.setPhone(obj2.getPhone());
+                loginUser5.setToken(obj2.getToken());
+                loginUser5.setState(obj2.getState());
+                loginUserList.add(loginUser5);
+            }
+        }
+        return loginUserList;
+    }
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public List<LoginUser> userConfirmList(LoginUser loginUser) throws Exception{

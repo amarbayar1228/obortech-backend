@@ -81,6 +81,33 @@ public class CompanyLogic extends BaseDatabaseService implements CompanyInterfac
 
         return companiesList;
     }
+    public List<Company> getCompanyAcceptAll() throws  Exception{
+        List<CompanyEntity> companyEntities;
+        String jpql = "SELECT a FROM CompanyEntity a";
+
+        List<Company> companyList = new ArrayList<>();
+        companyEntities = getByQuery(CompanyEntity.class, jpql);
+        for(CompanyEntity obj2 : companyEntities){
+            if(obj2.getState() ==  1 || obj2.getState() == 0) {
+                System.out.println("hooooooooooooooooson =============>");
+            }else {
+                System.out.println("ooooooooooooooooooooooooooooorloooooooooooooooooo ");
+                Company company = new Company();
+                company.setPkId(String.valueOf(obj2.getPkId()));
+                company.setRegister(obj2.getRegister());
+                company.setDateCompany(obj2.getDateCompany());
+                company.setUserToken(obj2.getUserToken());
+                company.setAdminToken(obj2.getAdminToken());
+                company.setTelephone(obj2.getTelephone());
+                company.setAddress(obj2.getAddress());
+                company.setAreasOfActivity(obj2.getAreasOfActivity());
+                company.setState(obj2.getState());
+                company.setCompanyName(obj2.getCompanyName());
+                companyList.add(company);
+            }
+        }
+        return companyList;
+    }
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public List<Company> userGet(Company company) throws Exception{
