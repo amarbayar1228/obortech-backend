@@ -68,7 +68,7 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
     @Transactional(propagation = Propagation.REQUIRED)
     public String saveOrderHistoryNoId(List<OrderHistory> orderHistory) throws Exception {
 
-        String result = "";
+        String result = "amjiltggui";
         try {
             long orderId2 = NumericHelper.generateKey();
             for (int i = 0; i < orderHistory.size(); i++) {

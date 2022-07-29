@@ -34,7 +34,7 @@ public class OrderHistoryController implements Serializable {
 
         return ResponseEntity.ok(orderHistoryInterfaces.saveOrderHistory(orderHistory));
     }
-    @PostMapping("/ ")
+    @PostMapping("/saveOrderHistoryNoId")
     public ResponseEntity<?> saveOrderHistoryNoId(@Valid @RequestBody List<OrderHistory> orderHistory) throws Exception{
 
         return ResponseEntity.ok(orderHistoryInterfaces.saveOrderHistoryNoId(orderHistory));
