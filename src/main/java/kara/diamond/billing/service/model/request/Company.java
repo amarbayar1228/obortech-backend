@@ -22,4 +22,5 @@ public class Company {
 
     private  String adminToken;
     private  String orgId;
+    private  String others;
 }

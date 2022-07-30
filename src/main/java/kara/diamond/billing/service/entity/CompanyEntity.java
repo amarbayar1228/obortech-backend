@@ -43,6 +43,16 @@ public class CompanyEntity extends Operation {
     private  int state;
     @Column(name = "orgId")
     private  String orgId;
+    @Column(name = "others")
+    private  String others;
+
+    public String getOthers() {
+        return others;
+    }
+
+    public void setOthers(String others) {
+        this.others = others;
+    }
 
     public Long getPkId() {
         return pkId;

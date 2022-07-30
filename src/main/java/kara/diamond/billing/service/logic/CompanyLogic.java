@@ -74,6 +74,7 @@ public class CompanyLogic extends BaseDatabaseService implements CompanyInterfac
             com2.setAddress(obj.getAddress());
             com2.setAreasOfActivity(obj.getAreasOfActivity());
             com2.setState(obj.getState());
+            com2.setOthers(obj.getOthers());
             com2.setCompanyName(obj.getCompanyName());
             companiesList.add(com2);
             System.out.println("addresss ================> "+obj.getAddress());
@@ -102,6 +103,7 @@ public class CompanyLogic extends BaseDatabaseService implements CompanyInterfac
                 company.setAddress(obj2.getAddress());
                 company.setAreasOfActivity(obj2.getAreasOfActivity());
                 company.setState(obj2.getState());
+                company.setOthers(obj2.getOthers());
                 company.setCompanyName(obj2.getCompanyName());
                 companyList.add(company);
             }
@@ -126,6 +128,7 @@ public class CompanyLogic extends BaseDatabaseService implements CompanyInterfac
                 company2.setState(obj.getState());
                 company2.setTelephone(obj.getTelephone());
                 company2.setRegister(obj.getRegister());
+                company2.setOthers(obj.getOthers());
                 company2.setUserToken(obj.getUserToken());
                 company2.setAreasOfActivity(obj.getAreasOfActivity());
                 comList.add(company2);
@@ -154,6 +157,7 @@ public class CompanyLogic extends BaseDatabaseService implements CompanyInterfac
             company2.setTelephone(obj.getTelephone());
             company2.setRegister(obj.getRegister());
             company2.setUserToken(obj.getUserToken());
+            company2.setOthers(obj.getOthers());
             company2.setAreasOfActivity(obj.getAreasOfActivity());
             company2.setOrgId(obj.getOrgId());
             comList.add(company2);
@@ -178,6 +182,7 @@ public class CompanyLogic extends BaseDatabaseService implements CompanyInterfac
                 comp.setAddress(obj2.getAddress());
                 comp.setUserToken(obj2.getUserToken());
                 comp.setAreasOfActivity(obj2.getAreasOfActivity());
+                comp.setOthers(obj2.getOthers());
 //                comp.setAdminToken(obj2.getAdminToken());
                 comp.setState(obj2.getState());
                 companyList.add(comp);
@@ -194,6 +199,7 @@ public class CompanyLogic extends BaseDatabaseService implements CompanyInterfac
                 companyEntity.setState(company.getState());
                 companyEntity.setAdminToken(company.getAdminToken());
                 companyEntity.setOrgId(company.getOrgId());
+                companyEntity.setOthers(company.getOthers());
                 update(companyEntity);
             }catch (Exception e){
                 System.out.println("Ex : "+e);
@@ -201,4 +207,27 @@ public class CompanyLogic extends BaseDatabaseService implements CompanyInterfac
             }
         return result;
     }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public String companyUpdateUserEdit(Company company) throws Exception{
+        String result = "amjiltgui";
+        try {
+            CompanyEntity companyEntity = getByPKey(CompanyEntity.class, Long.parseLong(company.getPkId().toString()));
+            companyEntity.setDateCompany(company.getDateCompany());
+            companyEntity.setAddress(company.getAddress());
+            companyEntity.setAreasOfActivity(company.getAreasOfActivity());
+            companyEntity.setRegister(company.getRegister());
+            companyEntity.setTelephone(company.getTelephone());
+            companyEntity.setCompanyName(company.getCompanyName());
+            companyEntity.setState(company.getState());
+            result = "amjilttai";
+            update(companyEntity);
+        }catch (Exception e){
+            System.out.println("Ex : "+e);
+            getDatabaseException(e);
+        }
+        return result;
+    }
+
 }
