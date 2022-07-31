@@ -8,17 +8,18 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GroupBusinessModel {
 
-    private String pkId;
+    private Long pkId;
     private String title;
     private int status;
     private String description;
     private Long itemPkId;
 
 
+
     public GroupBusinessModel() {}
 
 
-    public GroupBusinessModel(String pkId, String title, int status, String description, Long itemPkId) {
+    public GroupBusinessModel(Long pkId, String title, int status, String description, Long itemPkId) {
         this.pkId = pkId;
         this.title = title;
         this.status = status;

@@ -17,6 +17,7 @@ public class GroupItemHeaderEntity {
 
     @Column(name = "status")
     private int status;
+
     @Column(name = "description")
     private String description;
 

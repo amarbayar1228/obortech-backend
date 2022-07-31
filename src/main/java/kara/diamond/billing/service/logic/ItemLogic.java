@@ -2,11 +2,13 @@ package kara.diamond.billing.service.logic;
 
 import kara.diamond.billing.service.base.BaseDatabaseService;
 import kara.diamond.billing.service.base.NumericHelper;
+import kara.diamond.billing.service.entity.GroupItemDetailEntity;
 import kara.diamond.billing.service.entity.GroupItemHeaderEntity;
 import kara.diamond.billing.service.entity.ItemEntity;
 import kara.diamond.billing.service.iinterfaces.ItemInterfaces;
 import kara.diamond.billing.service.model.request.GroupItemDetail;
 import kara.diamond.billing.service.model.request.GroupItemHeader;
+import kara.diamond.billing.service.model.request.GrouptRequest;
 import kara.diamond.billing.service.model.request.Item;
 import kara.diamond.billing.service.model.response.ExampleArray;
 import kara.diamond.billing.service.model.response.GroupBusinessModel;
@@ -44,25 +46,25 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
         }
         return result;
     }
-    @Override
-    @Transactional(propagation = Propagation.REQUIRED)
-    public String saveGroupItem(GroupItemHeader groupItemHeader) throws Exception {
-        String result = "error";
-        try {
-
-
-            GroupItemHeaderEntity groupItem = new GroupItemHeaderEntity();
-            groupItem.setPkId(NumericHelper.generateKey());
-            groupItem.setTitle(groupItemHeader.getTitle());
-            groupItem.setDescription(groupItemHeader.getDescription());
-            insert(groupItem);
-            result = "Амжилттай хадгалалаа.";
-
-        } catch (Exception e) {
-            throw getDatabaseException(e);
-        }
-        return result;
-    }
+//    @Override
+//    @Transactional(propagation = Propagation.REQUIRED)
+//    public String saveGroupItem(GroupItemHeader groupItemHeader) throws Exception {
+//        String result = "error";
+//        try {
+//
+//
+//            GroupItemHeaderEntity groupItem = new GroupItemHeaderEntity();
+//            groupItem.setPkId(NumericHelper.generateKey());
+//            groupItem.setTitle(groupItemHeader.getTitle());
+//            groupItem.setDescription(groupItemHeader.getDescription());
+//            insert(groupItem);
+//            result = "Амжилттай хадгалалаа.";
+//
+//        } catch (Exception e) {
+//            throw getDatabaseException(e);
+//        }
+//        return result;
+//    }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
@@ -149,14 +151,48 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public String saveGroupItems(GrouptRequest groupRequest) throws Exception {
+        String result = "amjiltgui";
+        try {
+            GroupItemHeaderEntity groupItemHeader = new GroupItemHeaderEntity();
+            groupItemHeader.setPkId(NumericHelper.generateKey());
+            groupItemHeader.setTitle(groupRequest.getTitle());
+            groupItemHeader.setDescription(groupRequest.getDescription());
+                insert(groupItemHeader);
+            List<GroupItemDetail> groupItemDtl = groupRequest.getGroupDetail();
+
+            for (int i = 0; i < groupItemDtl.size(); i++){
+                GroupItemDetailEntity groupItemDetail = new GroupItemDetailEntity();
+                groupItemDetail.setPkId(NumericHelper.generateKey());
+                groupItemDetail.setGroupItemHeaderPkId(groupItemHeader.getPkId());
+//                groupItemDetail.setGroupItemHeaderPkId(groupItemHeaderEntities.get(0).getPkId().toString());
+                groupItemDetail.setItemPkId(Long.parseLong(groupItemDtl.get(i).getItemPkId()));
+
+                insert(groupItemDetail);
+                result = "amjilttai";
+            }
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<GroupBusinessModel> getGroupItems() throws Exception {
         List<GroupBusinessModel> result = new ArrayList<>();
         try {
 
             String jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, B.itemPkId)   "
-                    + "FROM GroupItemDetailEntity A  "
-                    +"LEFT JOIN GroupItemHeaderEntity B ON A.pkId = B.groupItemHeaderPkId  ";
-
+                    + "FROM GroupItemHeaderEntity A  "
+                    + "LEFT JOIN GroupItemDetailEntity B ON A.pkId = B.groupItemHeaderPkId  ";
+//
+//            List<GroupItemHeaderEntity> groupItemHeaderEntities = getByQuery(GroupItemHeaderEntity.class, jpql);
+//
+            List<GroupItemHeaderEntity> groupItemHeaderEntities;
             result = getByQuery(GroupBusinessModel.class, jpql.toString(), null);
 
 //                    +"WHERE A.pkId = 123"
@@ -165,10 +201,6 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
         }catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
-
         return result;
     }
 

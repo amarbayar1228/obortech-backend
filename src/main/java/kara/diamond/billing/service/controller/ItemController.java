@@ -5,6 +5,7 @@ import kara.diamond.billing.service.iinterfaces.ItemInterfaces;
 import kara.diamond.billing.service.logic.ItemLogic;
 import kara.diamond.billing.service.model.request.GroupItemDetail;
 import kara.diamond.billing.service.model.request.GroupItemHeader;
+import kara.diamond.billing.service.model.request.GrouptRequest;
 import kara.diamond.billing.service.model.request.Item;
 import kara.diamond.billing.service.model.response.ExampleArray;
 import kara.diamond.billing.service.model.response.GroupBusinessModel;
@@ -35,10 +36,10 @@ public class ItemController implements Serializable {
         return  ResponseEntity.ok(itemInterfaces.saveItem(item));
     }
 
-    @PostMapping("/saveGroupItem")
-    public ResponseEntity<?> saveGroupItem(@Valid @RequestBody GroupItemHeader groupItemHeader) throws  Exception{
-        return  ResponseEntity.ok(itemInterfaces.saveGroupItem(groupItemHeader));
-    }
+//    @PostMapping("/saveGroupItem")
+//    public ResponseEntity<?> saveGroupItem(@Valid @RequestBody GroupItemHeader groupItemHeader) throws  Exception{
+//        return  ResponseEntity.ok(itemInterfaces.saveGroupItem(groupItemHeader));
+//    }
 
 //    @ApiOperation(value = "Энэ бол системийн док save")
 //    @PostMapping("/orderSave")
@@ -80,10 +81,16 @@ public class ItemController implements Serializable {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/getGroupItems")
-    public ResponseEntity<?> getGroupItems() throws  Exception{
-        List<GroupBusinessModel>  result = itemInterfaces.getGroupItems();
+    @PostMapping("/saveGroupItems")
+    public ResponseEntity<?> saveGroupItems(@Valid @RequestBody GrouptRequest groupRequest) throws  Exception{
+        String result = itemInterfaces.saveGroupItems(groupRequest);
         return ResponseEntity.ok(result);
     }
+    @GetMapping("/getGroupItems")
+    public ResponseEntity<?> getGroupItems() throws  Exception{
+        List<GroupBusinessModel> result = itemInterfaces.getGroupItems();
+        return ResponseEntity.ok(result);
+    }
+
 }
 //aaa

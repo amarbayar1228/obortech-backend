@@ -6,6 +6,6 @@ import lombok.Data;
 public class GroupItemDetail {
     private String pkId;
     private String groupItemHeaderPkId;
-    private int itemPkId;
+    private String itemPkId;
 
 }

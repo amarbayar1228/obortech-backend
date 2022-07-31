@@ -31,7 +31,7 @@ public class GroupItemDetailEntity {
     }
 
     public void setGroupItemHeaderPkId(Long groupItemHeaderPkId) {
-        groupItemHeaderPkId = groupItemHeaderPkId;
+        this.groupItemHeaderPkId = groupItemHeaderPkId;
     }
 
     public Long getItemPkId() {
