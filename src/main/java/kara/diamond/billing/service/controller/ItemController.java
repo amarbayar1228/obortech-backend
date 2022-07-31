@@ -7,6 +7,7 @@ import kara.diamond.billing.service.model.request.GroupItemDetail;
 import kara.diamond.billing.service.model.request.GroupItemHeader;
 import kara.diamond.billing.service.model.request.Item;
 import kara.diamond.billing.service.model.response.ExampleArray;
+import kara.diamond.billing.service.model.response.GroupBusinessModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +45,10 @@ public class ItemController implements Serializable {
 //    public ResponseEntity<?> orderItemSave(@Valid @RequestBody Item item) throws  Exception{
 //        return  ResponseEntity.ok(itemInterfaces.orderItemSave(item));
 //    }
+
+
     @GetMapping("get")
-    public ResponseEntity<?> getAllItem() throws Exception{
+    public ResponseEntity<?>  getAllItem() throws Exception{
         logger.info("baraa orloo ====>");
         List<Item> result = itemLogic.getAllItem();
         return ResponseEntity.ok(result);
@@ -74,6 +77,12 @@ public class ItemController implements Serializable {
     public ResponseEntity<?> delete(@Valid @RequestBody Item item) throws Exception{
 
         String result = itemLogic.deleteItem(item.getPkId());
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/getGroupItems")
+    public ResponseEntity<?> getGroupItems() throws  Exception{
+        List<GroupBusinessModel>  result = itemInterfaces.getGroupItems();
         return ResponseEntity.ok(result);
     }
 }

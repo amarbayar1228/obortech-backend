@@ -13,7 +13,7 @@ public class GroupItemDetailEntity {
     private Long pkId;
 
     @Column(name = "groupItemHeaderPkId")
-    private Long GroupItemHeaderPkId;
+    private Long groupItemHeaderPkId;
 
     @Column(name = "itemPkId")
     private  Long itemPkId;
@@ -27,11 +27,11 @@ public class GroupItemDetailEntity {
     }
 
     public Long getGroupItemHeaderPkId() {
-        return GroupItemHeaderPkId;
+        return groupItemHeaderPkId;
     }
 
     public void setGroupItemHeaderPkId(Long groupItemHeaderPkId) {
-        GroupItemHeaderPkId = groupItemHeaderPkId;
+        groupItemHeaderPkId = groupItemHeaderPkId;
     }
 
     public Long getItemPkId() {
