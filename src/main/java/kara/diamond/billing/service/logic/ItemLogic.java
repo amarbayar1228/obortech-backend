@@ -2,8 +2,11 @@ package kara.diamond.billing.service.logic;
 
 import kara.diamond.billing.service.base.BaseDatabaseService;
 import kara.diamond.billing.service.base.NumericHelper;
+import kara.diamond.billing.service.entity.GroupItemHeaderEntity;
 import kara.diamond.billing.service.entity.ItemEntity;
 import kara.diamond.billing.service.iinterfaces.ItemInterfaces;
+import kara.diamond.billing.service.model.request.GroupItemDetail;
+import kara.diamond.billing.service.model.request.GroupItemHeader;
 import kara.diamond.billing.service.model.request.Item;
 import kara.diamond.billing.service.model.response.ExampleArray;
 import kara.diamond.billing.service.model.response.ItemModel;
@@ -33,6 +36,25 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
             item1.setPrice(item.getPrice());
             item1.setQuantity(item.getQuantity());
             insert(item1);
+            result = "Амжилттай хадгалалаа.";
+
+        } catch (Exception e) {
+            throw getDatabaseException(e);
+        }
+        return result;
+    }
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public String saveGroupItem(GroupItemHeader groupItemHeader) throws Exception {
+        String result = "error";
+        try {
+
+
+            GroupItemHeaderEntity groupItem = new GroupItemHeaderEntity();
+            groupItem.setPkId(NumericHelper.generateKey());
+            groupItem.setTitle(groupItemHeader.getTitle());
+            groupItem.setDescription(groupItemHeader.getDescription());
+            insert(groupItem);
             result = "Амжилттай хадгалалаа.";
 
         } catch (Exception e) {

@@ -3,6 +3,8 @@ package kara.diamond.billing.service.controller;
 import io.swagger.annotations.ApiOperation;
 import kara.diamond.billing.service.iinterfaces.ItemInterfaces;
 import kara.diamond.billing.service.logic.ItemLogic;
+import kara.diamond.billing.service.model.request.GroupItemDetail;
+import kara.diamond.billing.service.model.request.GroupItemHeader;
 import kara.diamond.billing.service.model.request.Item;
 import kara.diamond.billing.service.model.response.ExampleArray;
 import org.slf4j.Logger;
@@ -31,6 +33,12 @@ public class ItemController implements Serializable {
     public ResponseEntity<?> saveItem(@Valid @RequestBody Item item) throws  Exception{
         return  ResponseEntity.ok(itemInterfaces.saveItem(item));
     }
+
+    @PostMapping("/saveGroupItem")
+    public ResponseEntity<?> saveGroupItem(@Valid @RequestBody GroupItemHeader groupItemHeader) throws  Exception{
+        return  ResponseEntity.ok(itemInterfaces.saveGroupItem(groupItemHeader));
+    }
+
 //    @ApiOperation(value = "Энэ бол системийн док save")
 //    @PostMapping("/orderSave")
 //    public ResponseEntity<?> orderItemSave(@Valid @RequestBody Item item) throws  Exception{
