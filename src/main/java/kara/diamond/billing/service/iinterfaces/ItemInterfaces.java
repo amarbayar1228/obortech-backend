@@ -5,6 +5,7 @@ import kara.diamond.billing.service.model.request.GroupItemHeader;
 import kara.diamond.billing.service.model.request.GrouptRequest;
 import kara.diamond.billing.service.model.request.Item;
 import kara.diamond.billing.service.model.response.GroupBusinessModel;
+import kara.diamond.billing.service.model.response.GroupPBM;
 
 import java.util.List;
 
@@ -16,6 +17,6 @@ public interface ItemInterfaces {
     public String deleteItem(String pkId) throws Exception;
 
     public String saveGroupItems(GrouptRequest groupRequest) throws  Exception;
-    public List<GroupBusinessModel> getGroupItems() throws  Exception;
+    public List<GroupPBM> getGroupItems() throws  Exception;
 
 }

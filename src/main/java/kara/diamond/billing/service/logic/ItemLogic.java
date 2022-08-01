@@ -12,6 +12,7 @@ import kara.diamond.billing.service.model.request.GrouptRequest;
 import kara.diamond.billing.service.model.request.Item;
 import kara.diamond.billing.service.model.response.ExampleArray;
 import kara.diamond.billing.service.model.response.GroupBusinessModel;
+import kara.diamond.billing.service.model.response.GroupPBM;
 import kara.diamond.billing.service.model.response.ItemModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.json.*;
+import java.util.*;
 
 @Service
 public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
@@ -182,18 +183,53 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<GroupBusinessModel> getGroupItems() throws Exception {
+    public List<GroupPBM> getGroupItems() throws Exception {
         List<GroupBusinessModel> result = new ArrayList<>();
+        List<GroupPBM> rs = new ArrayList<>();
+        List<GroupItemHeader> groupItemHeaderList = new ArrayList<>();
         try {
 
-            String jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, B.itemPkId)   "
+            String jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, B.itemPkId, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
                     + "FROM GroupItemHeaderEntity A  "
-                    + "LEFT JOIN GroupItemDetailEntity B ON A.pkId = B.groupItemHeaderPkId  ";
-//
-//            List<GroupItemHeaderEntity> groupItemHeaderEntities = getByQuery(GroupItemHeaderEntity.class, jpql);
-//
-            List<GroupItemHeaderEntity> groupItemHeaderEntities;
+                    + "LEFT JOIN GroupItemDetailEntity B ON A.pkId = B.groupItemHeaderPkId  "
+                    + "LEFT JOIN ItemEntity C ON C.pkId = B.itemPkId  ";
             result = getByQuery(GroupBusinessModel.class, jpql.toString(), null);
+            List<GroupBusinessModel> groupBusinessModels = new ArrayList<>();
+            GroupPBM temp = new GroupPBM();
+
+            List<String> pkId = new ArrayList<>();
+            for (int i = 0 ; i < result.size(); i++){
+                boolean is_arived = false;
+                for(int j = 0; j < pkId.size(); j++){
+                    //System.out.println("pkid: "+ pkId.get(j)+"\nres: "+result.get(i).getPkId());
+                    if(pkId.get(j).toString().equals(result.get(i).getPkId().toString())) {
+                        System.out.println("arrived");
+                        is_arived = true;
+                    }else{
+                        System.out.println("not arrived");
+                    }
+                }
+
+                if(!is_arived){
+                    if(pkId.size() > 0){
+//                        System.out.println("inserting...");
+                        temp.setGbm(groupBusinessModels);
+                        groupBusinessModels = new ArrayList<>();
+                        rs.add(temp);
+                    }
+                    temp = new GroupPBM();
+                    temp.setPkId(result.get(i).getPkId().toString());
+                    temp.setTitle(result.get(i).getTitle().toString());
+                    temp.setDescription(result.get(i).getDescription().toString());
+                    temp.setStatus(result.get(i).getStatus());
+                    pkId.add(temp.getPkId());
+
+                }
+                groupBusinessModels.add(result.get(i));
+
+            }
+            temp.setGbm(groupBusinessModels);
+            rs.add(temp);
 
 //                    +"WHERE A.pkId = 123"
 
@@ -201,7 +237,7 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
         }catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
+        return rs;
     }
 
 

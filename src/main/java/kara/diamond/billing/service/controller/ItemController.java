@@ -9,6 +9,7 @@ import kara.diamond.billing.service.model.request.GrouptRequest;
 import kara.diamond.billing.service.model.request.Item;
 import kara.diamond.billing.service.model.response.ExampleArray;
 import kara.diamond.billing.service.model.response.GroupBusinessModel;
+import kara.diamond.billing.service.model.response.GroupPBM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +89,7 @@ public class ItemController implements Serializable {
     }
     @GetMapping("/getGroupItems")
     public ResponseEntity<?> getGroupItems() throws  Exception{
-        List<GroupBusinessModel> result = itemInterfaces.getGroupItems();
+        List<GroupPBM> result = itemInterfaces.getGroupItems();
         return ResponseEntity.ok(result);
     }
 
