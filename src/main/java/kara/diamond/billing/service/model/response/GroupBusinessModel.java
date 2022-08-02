@@ -17,21 +17,24 @@ public class GroupBusinessModel {
     private String itemDescription;
     private int itemQuantity;
     private int itemPrice;
+    private  int itemPriceD;
 
 
 
     public GroupBusinessModel() {}
 
 
-    public GroupBusinessModel(Long pkId, String title, int status, String description, Long itemPkId, String itemTitle, int itemQuantity,  String itemDescription, int itemPrice ) {
+    public GroupBusinessModel(Long pkId, String title, int status, String description, Long itemPkId, int itemPriceD, String itemTitle, int itemQuantity,  String itemDescription, int itemPrice ) {
         this.pkId = pkId;
         this.title = title;
         this.status = status;
         this.description = description;
         this.itemPkId = itemPkId;
+        this.itemPriceD = itemPriceD;
         this.itemTitle = itemTitle;
         this.itemQuantity = itemQuantity;
         this.itemDescription = itemDescription;
         this.itemPrice = itemPrice;
+
     }
 }

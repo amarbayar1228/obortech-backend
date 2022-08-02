@@ -156,19 +156,37 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
     public String saveGroupItems(GrouptRequest groupRequest) throws Exception {
         String result = "amjiltgui";
         try {
+
             GroupItemHeaderEntity groupItemHeader = new GroupItemHeaderEntity();
             groupItemHeader.setPkId(NumericHelper.generateKey());
             groupItemHeader.setTitle(groupRequest.getTitle());
             groupItemHeader.setDescription(groupRequest.getDescription());
                 insert(groupItemHeader);
+
             List<GroupItemDetail> groupItemDtl = groupRequest.getGroupDetail();
 
             for (int i = 0; i < groupItemDtl.size(); i++){
                 GroupItemDetailEntity groupItemDetail = new GroupItemDetailEntity();
                 groupItemDetail.setPkId(NumericHelper.generateKey());
                 groupItemDetail.setGroupItemHeaderPkId(groupItemHeader.getPkId());
+//                groupItemDetail.setItemPriceD(groupItemDtl.get(i).getItemPriceD());
+                System.out.println("===========>>>>> price: "+groupItemDetail.getItemPriceD() + groupItemDetail.getItemPkId());
 //                groupItemDetail.setGroupItemHeaderPkId(groupItemHeaderEntities.get(0).getPkId().toString());
                 groupItemDetail.setItemPkId(Long.parseLong(groupItemDtl.get(i).getItemPkId()));
+
+
+                List<ItemEntity> itemEntity;
+                String jpql = "SELECT a FROM ItemEntity a where a.pkId = '"+ groupItemDtl.get(i).getItemPkId() +"'";
+
+                itemEntity = getByQuery(ItemEntity.class, jpql);
+
+                for (ItemEntity obj : itemEntity) {
+                    groupItemDetail.setItemPriceD(obj.getPrice());
+
+
+//                    itemList.add(item);
+                }
+
 
                 insert(groupItemDetail);
                 result = "amjilttai";
@@ -179,6 +197,36 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
         }
         return result;
     }
+
+//    @Override
+//    @Transactional(propagation = Propagation.REQUIRED)
+//    public String saveGroupItems(GrouptRequest groupRequest) throws Exception {
+//        String result = "amjiltgui";
+//        try {
+//            GroupItemHeaderEntity groupItemHeader = new GroupItemHeaderEntity();
+//            groupItemHeader.setPkId(NumericHelper.generateKey());
+//            groupItemHeader.setTitle(groupRequest.getTitle());
+//            groupItemHeader.setDescription(groupRequest.getDescription());
+//            insert(groupItemHeader);
+//            List<GroupItemDetail> groupItemDtl = groupRequest.getGroupDetail();
+//
+//            for (int i = 0; i < groupItemDtl.size(); i++){
+//                GroupItemDetailEntity groupItemDetail = new GroupItemDetailEntity();
+//                groupItemDetail.setPkId(NumericHelper.generateKey());
+//                groupItemDetail.setGroupItemHeaderPkId(groupItemHeader.getPkId());
+//
+////                groupItemDetail.setGroupItemHeaderPkId(groupItemHeaderEntities.get(0).getPkId().toString());
+//                groupItemDetail.setItemPkId(Long.parseLong(groupItemDtl.get(i).getItemPkId()));
+//
+//                insert(groupItemDetail);
+//                result = "amjilttai";
+//            }
+//
+//        }catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return result;
+//    }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
@@ -204,10 +252,15 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
         List<GroupItemHeader> groupItemHeaderList = new ArrayList<>();
         try {
 
-            String jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, B.itemPkId, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
+            String jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, B.itemPkId, B.itemPriceD, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
                     + "FROM GroupItemHeaderEntity A  "
                     + "LEFT JOIN GroupItemDetailEntity B ON A.pkId = B.groupItemHeaderPkId  "
                     + "LEFT JOIN ItemEntity C ON C.pkId = B.itemPkId  ";
+
+//            SELECT A.pkId, A.title, A.status, A.description, B.itemPkId, B.itemPriceD, C.title
+//            FROM GroupItemHeader A
+//            LEFT JOIN GroupItemDetail B ON A.pkId = B.groupItemHeaderPkId
+//            LEFT JOIN item C ON C.pkId = B.itemPkId
             result = getByQuery(GroupBusinessModel.class, jpql.toString(), null);
             List<GroupBusinessModel> groupBusinessModels = new ArrayList<>();
             GroupPBM temp = new GroupPBM();
@@ -218,10 +271,10 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
                 for(int j = 0; j < pkId.size(); j++){
                     //System.out.println("pkid: "+ pkId.get(j)+"\nres: "+result.get(i).getPkId());
                     if(pkId.get(j).toString().equals(result.get(i).getPkId().toString())) {
-                        System.out.println("arrived");
+//                        System.out.println("arrived");
                         is_arived = true;
                     }else{
-                        System.out.println("not arrived");
+
                     }
                 }
 
@@ -234,7 +287,8 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
                     }
                     temp = new GroupPBM();
                     temp.setPkId(result.get(i).getPkId().toString());
-                    temp.setTitle(result.get(i).getTitle().toString());
+                    temp.setItemPriceD(result.get(i).getItemPriceD());
+                    temp.setTitle(result.get(i).getItemTitle().toString());
                     temp.setDescription(result.get(i).getDescription().toString());
                     temp.setStatus(result.get(i).getStatus());
                     pkId.add(temp.getPkId());
@@ -265,7 +319,7 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
         List<GroupItemHeader> groupItemHeaderList = new ArrayList<>();
         try {
 
-            String jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, B.itemPkId, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
+            String jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, B.itemPkId, B.itemPriceD, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
                     + "FROM GroupItemHeaderEntity A  "
                     + "LEFT JOIN GroupItemDetailEntity B ON A.pkId = B.groupItemHeaderPkId  "
                     + "LEFT JOIN ItemEntity C ON C.pkId = B.itemPkId  ";
@@ -299,7 +353,8 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
                         }
                         temp = new GroupPBM();
                         temp.setPkId(result.get(i).getPkId().toString());
-                        temp.setTitle(result.get(i).getTitle().toString());
+                        temp.setItemPriceD(result.get(i).getItemPriceD());
+                        temp.setTitle(result.get(i).getItemTitle().toString());
                         temp.setDescription(result.get(i).getDescription().toString());
                         temp.setStatus(result.get(i).getStatus());
                         pkId.add(temp.getPkId());

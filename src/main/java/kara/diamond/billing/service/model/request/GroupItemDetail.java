@@ -7,5 +7,6 @@ public class GroupItemDetail {
     private String pkId;
     private String groupItemHeaderPkId;
     private String itemPkId;
+    private int itemPriceD;
 
 }
