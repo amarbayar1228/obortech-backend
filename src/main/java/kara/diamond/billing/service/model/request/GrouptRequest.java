@@ -8,6 +8,7 @@ public class GrouptRequest {
     private String pkId;
     private String title;
     private String description;
+    private int status;
 
     private List<GroupItemDetail> groupDetail;
 

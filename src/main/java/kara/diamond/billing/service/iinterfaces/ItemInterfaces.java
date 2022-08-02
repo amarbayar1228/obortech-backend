@@ -17,6 +17,8 @@ public interface ItemInterfaces {
     public String deleteItem(String pkId) throws Exception;
 
     public String saveGroupItems(GrouptRequest groupRequest) throws  Exception;
+    public String uploadStatusGroupItems(GrouptRequest groupRequest) throws  Exception;
     public List<GroupPBM> getGroupItems() throws  Exception;
+    public List<GroupPBM> getGroupItemsS1() throws  Exception;
 
 }

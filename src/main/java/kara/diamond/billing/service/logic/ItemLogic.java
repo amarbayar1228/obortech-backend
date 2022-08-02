@@ -180,7 +180,22 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
         return result;
     }
 
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public String uploadStatusGroupItems(GrouptRequest groupRequest) throws Exception {
+        String result = "error";
+        try {
+            GroupItemHeaderEntity groupItemHeaderEntity =  getByPKey(GroupItemHeaderEntity.class, Long.parseLong(groupRequest.getPkId().toString()));
+                groupItemHeaderEntity.setStatus(groupRequest.getStatus());
+                update(groupItemHeaderEntity);
+                result = "Success";
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
+    /// All group items
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public List<GroupPBM> getGroupItems() throws Exception {
@@ -241,6 +256,75 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
     }
 
 
+    // status 1 group items
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<GroupPBM> getGroupItemsS1() throws Exception {
+        List<GroupBusinessModel> result = new ArrayList<>();
+        List<GroupPBM> rs = new ArrayList<>();
+        List<GroupItemHeader> groupItemHeaderList = new ArrayList<>();
+        try {
+
+            String jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, B.itemPkId, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
+                    + "FROM GroupItemHeaderEntity A  "
+                    + "LEFT JOIN GroupItemDetailEntity B ON A.pkId = B.groupItemHeaderPkId  "
+                    + "LEFT JOIN ItemEntity C ON C.pkId = B.itemPkId  ";
+            result = getByQuery(GroupBusinessModel.class, jpql.toString(), null);
+
+            List<GroupBusinessModel> groupBusinessModels = new ArrayList<>();
+            GroupPBM temp = new GroupPBM();
+
+            List<String> pkId = new ArrayList<>();
+            for (int i = 0 ; i < result.size(); i++){
+                boolean is_arived = false;
+                if(result.get(i).getStatus() == 1){
+                    for(int j = 0; j < pkId.size(); j++){
+
+                        //System.out.println("pkid: "+ pkId.get(j)+"\nres: "+result.get(i).getPkId());
+                        if(pkId.get(j).toString().equals(result.get(i).getPkId().toString())) {
+                            System.out.println("arrived");
+                            is_arived = true;
+                        }else{
+                            System.out.println("not arrived");
+                        }
+
+                    }
+
+                    if(!is_arived){
+                        if(pkId.size() > 0){
+//                        System.out.println("inserting...");
+                            temp.setGbm(groupBusinessModels);
+                            groupBusinessModels = new ArrayList<>();
+                            rs.add(temp);
+                        }
+                        temp = new GroupPBM();
+                        temp.setPkId(result.get(i).getPkId().toString());
+                        temp.setTitle(result.get(i).getTitle().toString());
+                        temp.setDescription(result.get(i).getDescription().toString());
+                        temp.setStatus(result.get(i).getStatus());
+                        pkId.add(temp.getPkId());
+
+                    }
+                    groupBusinessModels.add(result.get(i));
+                }
+                else {
+                    System.out.println("bolohq bn =======> ");
+                }
+
+
+
+            }
+            temp.setGbm(groupBusinessModels);
+            rs.add(temp);
+
+//                    +"WHERE A.pkId = 123"
+
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 }
 
 
