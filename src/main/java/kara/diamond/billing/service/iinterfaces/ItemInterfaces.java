@@ -20,5 +20,6 @@ public interface ItemInterfaces {
     public String uploadStatusGroupItems(GrouptRequest groupRequest) throws  Exception;
     public List<GroupPBM> getGroupItems() throws  Exception;
     public List<GroupPBM> getGroupItemsS1() throws  Exception;
+    public String updateGroupItems(GrouptRequest groupRequest) throws  Exception;
 
 }

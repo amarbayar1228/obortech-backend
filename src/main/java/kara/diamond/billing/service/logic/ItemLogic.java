@@ -198,35 +198,6 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
         return result;
     }
 
-//    @Override
-//    @Transactional(propagation = Propagation.REQUIRED)
-//    public String saveGroupItems(GrouptRequest groupRequest) throws Exception {
-//        String result = "amjiltgui";
-//        try {
-//            GroupItemHeaderEntity groupItemHeader = new GroupItemHeaderEntity();
-//            groupItemHeader.setPkId(NumericHelper.generateKey());
-//            groupItemHeader.setTitle(groupRequest.getTitle());
-//            groupItemHeader.setDescription(groupRequest.getDescription());
-//            insert(groupItemHeader);
-//            List<GroupItemDetail> groupItemDtl = groupRequest.getGroupDetail();
-//
-//            for (int i = 0; i < groupItemDtl.size(); i++){
-//                GroupItemDetailEntity groupItemDetail = new GroupItemDetailEntity();
-//                groupItemDetail.setPkId(NumericHelper.generateKey());
-//                groupItemDetail.setGroupItemHeaderPkId(groupItemHeader.getPkId());
-//
-////                groupItemDetail.setGroupItemHeaderPkId(groupItemHeaderEntities.get(0).getPkId().toString());
-//                groupItemDetail.setItemPkId(Long.parseLong(groupItemDtl.get(i).getItemPkId()));
-//
-//                insert(groupItemDetail);
-//                result = "amjilttai";
-//            }
-//
-//        }catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return result;
-//    }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
@@ -257,10 +228,7 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
                     + "LEFT JOIN GroupItemDetailEntity B ON A.pkId = B.groupItemHeaderPkId  "
                     + "LEFT JOIN ItemEntity C ON C.pkId = B.itemPkId  ";
 
-//            SELECT A.pkId, A.title, A.status, A.description, B.itemPkId, B.itemPriceD, C.title
-//            FROM GroupItemHeader A
-//            LEFT JOIN GroupItemDetail B ON A.pkId = B.groupItemHeaderPkId
-//            LEFT JOIN item C ON C.pkId = B.itemPkId
+
             result = getByQuery(GroupBusinessModel.class, jpql.toString(), null);
             List<GroupBusinessModel> groupBusinessModels = new ArrayList<>();
             GroupPBM temp = new GroupPBM();
@@ -282,13 +250,15 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
                     if(pkId.size() > 0){
 //                        System.out.println("inserting...");
                         temp.setGbm(groupBusinessModels);
+
                         groupBusinessModels = new ArrayList<>();
                         rs.add(temp);
                     }
                     temp = new GroupPBM();
                     temp.setPkId(result.get(i).getPkId().toString());
+
                     temp.setItemPriceD(result.get(i).getItemPriceD());
-                    temp.setTitle(result.get(i).getItemTitle().toString());
+                    temp.setTitle(result.get(i).getTitle().toString());
                     temp.setDescription(result.get(i).getDescription().toString());
                     temp.setStatus(result.get(i).getStatus());
                     pkId.add(temp.getPkId());
@@ -354,7 +324,7 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
                         temp = new GroupPBM();
                         temp.setPkId(result.get(i).getPkId().toString());
                         temp.setItemPriceD(result.get(i).getItemPriceD());
-                        temp.setTitle(result.get(i).getItemTitle().toString());
+                        temp.setTitle(result.get(i).getTitle().toString());
                         temp.setDescription(result.get(i).getDescription().toString());
                         temp.setStatus(result.get(i).getStatus());
                         pkId.add(temp.getPkId());
@@ -379,6 +349,63 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
             e.printStackTrace();
         }
         return rs;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public String updateGroupItems(GrouptRequest groupRequest) throws Exception {
+        String result = "amjiltgui";
+        try {
+            GroupItemHeaderEntity groupItemHeaderEntity =  getByPKey(GroupItemHeaderEntity.class, Long.parseLong(groupRequest.getPkId().toString()));
+
+            groupItemHeaderEntity.setTitle(groupRequest.getTitle());
+            groupItemHeaderEntity.setDescription(groupRequest.getDescription());
+            groupItemHeaderEntity.setStatus(groupRequest.getStatus());
+            update(groupItemHeaderEntity);
+            System.out.println("req title: " + groupRequest.getTitle());
+            System.out.println("req desc: " + groupRequest.getDescription());
+            System.out.println("req status: " + groupRequest.getStatus());
+
+            List<GroupItemDetail> groupItemDtl = groupRequest.getGroupDetail();
+            System.out.println("headerPkd: " + groupRequest.getPkId());
+            for (int i = 0; i < groupItemDtl.size(); i++){
+                System.out.println("headerPkID items: "+groupItemDtl.get(i).getGroupItemHeaderPkId());
+//               System.out.println("REQ: getItemPkId: "+groupItemDtl.get(i).getItemPkId());
+                List<GroupItemDetailEntity> groupItemDetail;
+                String jpql = "SELECT a FROM GroupItemDetailEntity a where a.groupItemHeaderPkId = '"+ groupItemDtl.get(i).getGroupItemHeaderPkId().toString() +"'";
+
+                groupItemDetail = getByQuery(GroupItemDetailEntity.class, jpql);
+
+                System.out.println("itemPkIdEntity: "+groupItemDetail.get(i).getItemPkId());
+                System.out.println("req: "+groupItemDetail.get(i).getItemPkId());
+
+                    if(groupItemDetail.get(i).getItemPkId().toString().equals(groupItemDtl.get(i).getItemPkId().toString())){
+                        groupItemDetail.get(i).setItemPriceD(groupItemDtl.get(i).getItemPriceD());
+                        update(groupItemDetail);
+
+                        System.out.println("tentsvvv");
+                    }else{
+                        System.out.println("Hooson");
+                    }
+
+
+//
+
+//                groupItemDetail.setPkId(NumericHelper.generateKey());
+//                groupItemDetail.setGroupItemHeaderPkId(groupItemHeaderEntity.getPkId());
+
+//                groupItemDetail.setGroupItemHeaderPkId(groupItemHeaderEntities.get(0).getPkId().toString());
+//                groupItemDetail.setItemPkId(Long.parseLong(groupItemDtl.get(i).getItemPkId()));
+
+
+//                update(groupItemDetail);
+                result = "amjilttai";
+            }
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }
 
