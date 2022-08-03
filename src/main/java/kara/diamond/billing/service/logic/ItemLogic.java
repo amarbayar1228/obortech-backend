@@ -367,9 +367,9 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
             System.out.println("req status: " + groupRequest.getStatus());
 
             List<GroupItemDetail> groupItemDtl = groupRequest.getGroupDetail();
-            System.out.println("headerPkd: " + groupRequest.getPkId());
+//            System.out.println("headerPkd: " + groupRequest.getPkId());
             for (int i = 0; i < groupItemDtl.size(); i++){
-                System.out.println("headerPkID items: "+groupItemDtl.get(i).getGroupItemHeaderPkId());
+//                System.out.println("headerPkID items: "+groupItemDtl.get(i).getGroupItemHeaderPkId());
 //               System.out.println("REQ: getItemPkId: "+groupItemDtl.get(i).getItemPkId());
                 List<GroupItemDetailEntity> groupItemDetail;
                 String jpql = "SELECT a FROM GroupItemDetailEntity a where a.groupItemHeaderPkId = '"+ groupItemDtl.get(i).getGroupItemHeaderPkId().toString() +"'";
@@ -377,16 +377,16 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
                 groupItemDetail = getByQuery(GroupItemDetailEntity.class, jpql);
 
                 System.out.println("itemPkIdEntity: "+groupItemDetail.get(i).getItemPkId());
-                System.out.println("req: "+groupItemDetail.get(i).getItemPkId());
+                System.out.println("req: "+ Long.parseLong(groupItemDtl.get(i).getItemPkId()));
 
-                    if(groupItemDetail.get(i).getItemPkId().toString().equals(groupItemDtl.get(i).getItemPkId().toString())){
+//                    if(groupItemDetail.get(i).getItemPkId().toString().equals(groupItemDtl.get(i).getItemPkId().toString())){
                         groupItemDetail.get(i).setItemPriceD(groupItemDtl.get(i).getItemPriceD());
                         update(groupItemDetail);
 
-                        System.out.println("tentsvvv");
-                    }else{
-                        System.out.println("Hooson");
-                    }
+//                        System.out.println("tentsvvv");
+//                    }else{
+//                        System.out.println("Hooson");
+//                    }
 
 
 //
