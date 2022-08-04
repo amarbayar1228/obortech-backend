@@ -131,6 +131,8 @@ public class LoginUserLogic extends BaseDatabaseService implements LoginUserInte
         return result;
     }
 
+
+
     public List<LoginUser> getUser() throws  Exception{
         List<LoginUserEntity> loginUserEntity;
         String jpql = "SELECT a FROM LoginUserEntity a";
@@ -233,6 +235,71 @@ public class LoginUserLogic extends BaseDatabaseService implements LoginUserInte
             loginUserList.add(loginUserD);
         }
         return loginUserList;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<LoginUser> getUserProfile(LoginUser loginUser) throws Exception{
+
+        String jpql = "SELECT a FROM LoginUserEntity a where a.pkId = '"+loginUser.getPkId()+"'";
+        List<LoginUserEntity> loginUserEntities;
+        loginUserEntities= getByQuery(LoginUserEntity.class, jpql);
+        List<LoginUser> loginUserList = new ArrayList<>();
+        for (LoginUserEntity obj : loginUserEntities){
+            LoginUser loginUserD = new LoginUser();
+            loginUserD.setPkId(String.valueOf(obj.getPkId()));
+            loginUserD.setAddress(obj.getAddress());
+            loginUserD.setUsername(obj.getUsername());
+            loginUserD.setEmail(obj.getEmail());
+//            loginUserD.setState(obj.getState());
+            loginUserD.setLastname(obj.getLastname());
+            loginUserD.setFirstname(obj.getFirstname());
+            loginUserD.setPhone(obj.getPhone());
+            loginUserList.add(loginUserD);
+        }
+        return loginUserList;
+    }
+    //    @Override
+//    @Transactional(propagation = Propagation.REQUIRED)
+//    public String updateUserAdmin(LoginUser loginUser) throws Exception{
+//        String result = "amjiltgui";
+//        List<LoginUserEntity> loginUserEntities;
+//        String jpql = "SELECT a FROM  LoginUserEntity a where a.token = '"+loginUser.getUserToken()+"'";
+//        System.out.println("query: "+jpql);
+//        loginUserEntities= getByQuery(LoginUserEntity.class, jpql);
+//        try {
+//            System.out.println("updateUser2");
+//            LoginUserEntity loginUserUpdate123 = getByPKey(LoginUserEntity.class, Long.parseLong(loginUser.getPkId().toString()));
+//
+//            loginUserUpdate123.setUserToken(loginUserEntities.get(0).getPkId().toString());
+//            loginUserUpdate123.setState(loginUser.getState());
+//            update(loginUserUpdate123);
+//            result = "amjilttai";
+//        }catch (Exception e){
+//            System.out.println("Ex : "+e);
+//            getDatabaseException(e);
+//        }
+//        return result;
+//    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public  String  uploadProfile(LoginUser loginUser) throws Exception{
+        String result = "Error";
+
+        try{
+            LoginUserEntity loginUserUpdate123 = getByPKey(LoginUserEntity.class, Long.parseLong(loginUser.getPkId().toString()));
+            loginUserUpdate123.setFirstname(loginUser.getFirstname());
+            loginUserUpdate123.setLastname(loginUser.getLastname());
+            loginUserUpdate123.setEmail(loginUser.getEmail());
+            loginUserUpdate123.setPhone(loginUser.getPhone());
+            loginUserUpdate123.setAddress(loginUser.getAddress());
+
+                update(loginUserUpdate123);
+            result = "Success";
+        } catch (Exception e){
+            getDatabaseException(e);
+        }
+        return result;
     }
 
     @Override

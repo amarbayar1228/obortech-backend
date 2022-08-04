@@ -17,4 +17,5 @@ public interface LoginUserInterfaces {
 
     public  List<LoginUser> userConfirmList(LoginUser loginUser) throws  Exception;
     public  List<LoginUser> confirmUserReqCancel(LoginUser loginUser) throws  Exception;
+    public String uploadProfile(LoginUser loginUser) throws Exception;
 }

@@ -36,6 +36,7 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
             item1.setPkId(NumericHelper.generateKey());
             item1.setTitle(item.getTitle());
             item1.setCnt(item.getCnt());
+            item1.setStatus(0);
             item1.setDescription(item.getDescription());
             item1.setPrice(item.getPrice());
             item1.setQuantity(item.getQuantity());
@@ -47,25 +48,6 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
         }
         return result;
     }
-//    @Override
-//    @Transactional(propagation = Propagation.REQUIRED)
-//    public String saveGroupItem(GroupItemHeader groupItemHeader) throws Exception {
-//        String result = "error";
-//        try {
-//
-//
-//            GroupItemHeaderEntity groupItem = new GroupItemHeaderEntity();
-//            groupItem.setPkId(NumericHelper.generateKey());
-//            groupItem.setTitle(groupItemHeader.getTitle());
-//            groupItem.setDescription(groupItemHeader.getDescription());
-//            insert(groupItem);
-//            result = "Амжилттай хадгалалаа.";
-//
-//        } catch (Exception e) {
-//            throw getDatabaseException(e);
-//        }
-//        return result;
-//    }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
@@ -86,6 +68,45 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
         }
         return result;
     }
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public String updateStateItem(Item item) throws Exception {
+        String result = "Error";
+        try {
+            ItemEntity itemDataUpdate = getByPKey(ItemEntity.class, Long.parseLong(item.getPkId().toString()));
+            itemDataUpdate.setStatus(item.getStatus());
+            update(itemDataUpdate);
+            result = "Success";
+
+        } catch (Exception e) {
+            getDatabaseException(e);
+        }
+        return result;
+    }
+public List<Item> getStatus1Item() throws Exception {
+
+    List<ItemEntity> itemEntity;
+    String jpql = "SELECT a FROM ItemEntity a";
+    List<Item> itemList = new ArrayList<>();
+    itemEntity = getByQuery(ItemEntity.class, jpql);
+
+    for (ItemEntity obj : itemEntity) {
+        if(obj.getStatus() == 1){
+            Item item = new Item();
+            item.setPkId(String.valueOf(obj.getPkId()));
+            item.setTitle(obj.getTitle());
+            item.setCnt(obj.getCnt());
+            item.setStatus(obj.getStatus());
+            item.setDescription(obj.getDescription());
+            item.setPrice(obj.getPrice());
+            item.setQuantity(obj.getQuantity());
+            itemList.add(item);
+        }
+
+    }
+    return itemList;
+}
+
     public List<Item> getAllItem() throws Exception {
 
         List<ItemEntity> itemEntity;
@@ -98,6 +119,7 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
             item.setPkId(String.valueOf(obj.getPkId()));
             item.setTitle(obj.getTitle());
             item.setCnt(obj.getCnt());
+            item.setStatus(obj.getStatus());
             item.setDescription(obj.getDescription());
             item.setPrice(obj.getPrice());
             item.setQuantity(obj.getQuantity());

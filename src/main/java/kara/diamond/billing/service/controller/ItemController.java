@@ -49,10 +49,16 @@ public class ItemController implements Serializable {
 //    }
 
 
-    @GetMapping("get")
-    public ResponseEntity<?>  getAllItem() throws Exception{
-        logger.info("baraa orloo ====>");
-        List<Item> result = itemLogic.getAllItem();
+//    @GetMapping("get")
+//    public ResponseEntity<?>  getAllItem() throws Exception{
+//        logger.info("baraa orloo ====>");
+//        List<Item> result = itemLogic.getAllItem();
+//        return ResponseEntity.ok(result);
+//    }
+    @PostMapping("getStatus1Item")
+    public ResponseEntity<?>  getStatus1Item() throws Exception{
+
+        List<Item> result = itemLogic.getStatus1Item();
         return ResponseEntity.ok(result);
     }
 
@@ -67,6 +73,11 @@ public class ItemController implements Serializable {
     @PostMapping("/updateItem")
     public ResponseEntity<?> update(@Valid @RequestBody Item item) throws Exception{
         return ResponseEntity.ok(itemInterfaces.updateItem(item));
+    }
+
+    @PostMapping("/updateStateItem")
+    public ResponseEntity<?> updateStateItem(@Valid @RequestBody Item item) throws Exception{
+        return ResponseEntity.ok(itemInterfaces.updateStateItem(item));
     }
     @GetMapping("/testExample")
     public ResponseEntity<?> testExample() throws Exception{

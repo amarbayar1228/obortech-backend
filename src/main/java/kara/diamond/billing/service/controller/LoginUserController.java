@@ -82,6 +82,16 @@ public class LoginUserController implements Serializable {
         List<LoginUser> result = loginUserLogic.userConfirmList(loginUser);
         return ResponseEntity.ok(result);
     }
+
+    @PostMapping("/uploadProfile")
+    public ResponseEntity<?> uploadProfile(@Valid @RequestBody LoginUser loginUser) throws  Exception{
+        return  ResponseEntity.ok(loginUserInterfaces.uploadProfile(loginUser));
+    }
+    @PostMapping("/getUserProfile")
+    public ResponseEntity<?> getUserProfile(@Valid @RequestBody LoginUser loginUser) throws Exception{
+        List<LoginUser> result = loginUserLogic.getUserProfile(loginUser);
+        return ResponseEntity.ok(result);
+    }
     @PostMapping("/confirmUserReqCancel")
     public ResponseEntity<?> confirmUserReqCancel(@Valid @RequestBody LoginUser loginUser) throws Exception{
         List<LoginUser> result = loginUserLogic.confirmUserReqCancel(loginUser);

@@ -37,6 +37,17 @@ public class ItemEntity extends Operation {
     @Column(name = "quantity")
     private int quantity;
 
+    @Column(name = "status")
+    private int status;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public int getCnt() {
         return cnt;
     }
