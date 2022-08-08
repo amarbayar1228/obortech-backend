@@ -21,6 +21,8 @@ public class GroupItemDetailEntity {
     @Column(name = "itemPriceD")
     private  int itemPriceD;
 
+
+
     public Long getPkId() {
         return pkId;
     }
@@ -52,4 +54,6 @@ public class GroupItemDetailEntity {
     public void setItemPriceD(int itemPriceD) {
         this.itemPriceD = itemPriceD;
     }
+
+
 }

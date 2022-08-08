@@ -9,6 +9,8 @@ public class GrouptRequest {
     private String title;
     private String description;
     private int status;
+    private  int cnt;
+    private int itemPriceTotal;
 
     private List<GroupItemDetail> groupDetail;
 

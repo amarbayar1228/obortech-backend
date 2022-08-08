@@ -21,6 +21,12 @@ public class GroupItemHeaderEntity {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "cnt")
+    private int cnt;
+    @Column(name = "itemPriceTotal")
+    private int itemPriceTotal;
+
+
     public Long getPkId() {
         return pkId;
     }
@@ -51,5 +57,21 @@ public class GroupItemHeaderEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getCnt() {
+        return cnt;
+    }
+
+    public void setCnt(int cnt) {
+        this.cnt = cnt;
+    }
+
+    public int getItemPriceTotal() {
+        return itemPriceTotal;
+    }
+
+    public void setItemPriceTotal(int itemPriceTotal) {
+        this.itemPriceTotal = itemPriceTotal;
     }
 }
