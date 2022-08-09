@@ -6,5 +6,6 @@ import java.util.List;
 @Data
 public class OrderHistoryToken {
    private String token;
+
    private List<OrderHistory> product;
 }

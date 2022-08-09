@@ -52,6 +52,17 @@ public class OrderHistoryEntity extends Operation {
     @Column(name = "quantity")
     private int quantity;
 
+    @Column(name = "state")
+    private String state;
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
     public String getUserPkid() {
         return userPkid;
     }

@@ -302,7 +302,7 @@ public List<Item> getStatus1Item() throws Exception {
                     temp.setPkId(result.get(i).getPkId().toString());
                     temp.setCnt(result.get(i).getCnt());
                     System.out.println("temp price: "+result.get(i).getItemPriceD());
-                    temp.setItemPriceTotal(sum);
+                    temp.setItemPriceTotal(result.get(i).getItemPriceTotal());
 //                    temp.setItemPriceD(result.get(i).getItemPriceD());
                     temp.setTitle(result.get(i).getTitle().toString());
                     temp.setDescription(result.get(i).getDescription().toString());
@@ -415,7 +415,7 @@ public List<Item> getStatus1Item() throws Exception {
         List<GroupItemHeader> groupItemHeaderList = new ArrayList<>();
         try {
 
-            String jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, B.itemPkId, B.itemPriceD, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
+            String jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, A.itemPriceTotal, B.itemPkId, B.itemPriceD, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
                     + "FROM GroupItemHeaderEntity A  "
                     + "LEFT JOIN GroupItemDetailEntity B ON A.pkId = B.groupItemHeaderPkId  "
                     + "LEFT JOIN ItemEntity C ON C.pkId = B.itemPkId  ";
@@ -451,6 +451,7 @@ public List<Item> getStatus1Item() throws Exception {
                         temp.setPkId(result.get(i).getPkId().toString());
                         temp.setCnt(result.get(i).getCnt());
                         temp.setItemPriceD(result.get(i).getItemPriceD());
+                        temp.setItemPriceTotal(result.get(i).getItemPriceTotal());
                         temp.setTitle(result.get(i).getTitle().toString());
                         temp.setDescription(result.get(i).getDescription().toString());
                         temp.setStatus(result.get(i).getStatus());

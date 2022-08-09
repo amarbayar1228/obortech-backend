@@ -1,6 +1,9 @@
 package kara.diamond.billing.service.model.request;
 
+import kara.diamond.billing.service.model.response.GroupBusinessModel;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class OrderHistory {
@@ -13,4 +16,6 @@ public class OrderHistory {
     private String orderId;
     private  String date;
     private  String userPkid;
+    private String state;
+    private List<GroupBusinessModel> gbm;
 }

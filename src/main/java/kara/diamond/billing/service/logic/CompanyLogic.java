@@ -104,6 +104,7 @@ public class CompanyLogic extends BaseDatabaseService implements CompanyInterfac
                 company.setAreasOfActivity(obj2.getAreasOfActivity());
                 company.setState(obj2.getState());
                 company.setOthers(obj2.getOthers());
+                company.setOrgId(obj2.getOrgId());
                 company.setCompanyName(obj2.getCompanyName());
                 companyList.add(company);
             }
