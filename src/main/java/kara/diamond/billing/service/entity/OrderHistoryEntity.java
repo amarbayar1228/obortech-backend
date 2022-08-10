@@ -54,6 +54,16 @@ public class OrderHistoryEntity extends Operation {
 
     @Column(name = "state")
     private String state;
+    @Column(name = "itemId")
+    private Long itemId;
+
+    public Long getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
+    }
 
     public String getState() {
         return state;

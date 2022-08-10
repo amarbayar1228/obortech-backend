@@ -13,4 +13,6 @@ public class OrderHistoryModel {
     private String date;
     private String orderId;
     private String userPkid;
+    private String itemId;
+
 }

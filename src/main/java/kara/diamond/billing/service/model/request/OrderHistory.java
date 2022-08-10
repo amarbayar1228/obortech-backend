@@ -17,5 +17,6 @@ public class OrderHistory {
     private  String date;
     private  String userPkid;
     private String state;
+    private String itemId;
     private List<GroupBusinessModel> gbm;
 }
