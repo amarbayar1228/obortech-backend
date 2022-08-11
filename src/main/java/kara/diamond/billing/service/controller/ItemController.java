@@ -69,6 +69,11 @@ public class ItemController implements Serializable {
         List<Item> result = itemLogic.getAllItem();
         return ResponseEntity.ok(result);
     }
+    @PostMapping("/getItemState01")
+    public ResponseEntity<?> getItemState01() throws Exception{
+        List<Item> result = itemLogic.getItemState01();
+        return ResponseEntity.ok(result);
+    }
 
     @PostMapping("/updateItem")
     public ResponseEntity<?> update(@Valid @RequestBody Item item) throws Exception{

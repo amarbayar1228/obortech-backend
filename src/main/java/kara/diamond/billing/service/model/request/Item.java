@@ -11,4 +11,5 @@ public class Item {
     private  int quantity;
     private int cnt;
     private int status;
+    private String others;
 }

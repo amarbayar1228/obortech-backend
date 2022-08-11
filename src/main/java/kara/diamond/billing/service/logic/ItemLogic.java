@@ -74,7 +74,9 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
         String result = "Error";
         try {
             ItemEntity itemDataUpdate = getByPKey(ItemEntity.class, Long.parseLong(item.getPkId().toString()));
+
             itemDataUpdate.setStatus(item.getStatus());
+            itemDataUpdate.setOthers(item.getOthers());
             update(itemDataUpdate);
             result = "Success";
 
@@ -123,7 +125,32 @@ public List<Item> getStatus1Item() throws Exception {
             item.setDescription(obj.getDescription());
             item.setPrice(obj.getPrice());
             item.setQuantity(obj.getQuantity());
+            item.setOthers(obj.getOthers());
             itemList.add(item);
+        }
+        return itemList;
+    }
+
+    public List<Item> getItemState01() throws Exception {
+
+        List<ItemEntity> itemEntity;
+        String jpql = "SELECT a FROM ItemEntity a";
+        List<Item> itemList = new ArrayList<>();
+        itemEntity = getByQuery(ItemEntity.class, jpql);
+
+        for (ItemEntity obj : itemEntity) {
+            if(obj.getStatus() == 0 || obj.getStatus() == 1){
+            Item item = new Item();
+            item.setPkId(String.valueOf(obj.getPkId()));
+            item.setTitle(obj.getTitle());
+            item.setCnt(obj.getCnt());
+            item.setStatus(obj.getStatus());
+            item.setDescription(obj.getDescription());
+            item.setPrice(obj.getPrice());
+            item.setQuantity(obj.getQuantity());
+            item.setOthers(obj.getOthers());
+            itemList.add(item);
+            }
         }
         return itemList;
     }

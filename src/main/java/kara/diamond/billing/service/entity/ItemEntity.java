@@ -40,6 +40,17 @@ public class ItemEntity extends Operation {
     @Column(name = "status")
     private int status;
 
+    @Column(name = "others")
+    private String others;
+
+    public String getOthers() {
+        return others;
+    }
+
+    public void setOthers(String others) {
+        this.others = others;
+    }
+
     public int getStatus() {
         return status;
     }
