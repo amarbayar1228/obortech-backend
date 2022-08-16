@@ -141,6 +141,17 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
                         + "LEFT JOIN GroupItemDetailEntity B ON A.pkId = B.groupItemHeaderPkId  "
                         + "LEFT JOIN ItemEntity C ON C.pkId = B.itemPkId where B.groupItemHeaderPkId = '"+obj.getItemId()+"'";
                 List<GroupBusinessModel> result = getByQuery(GroupBusinessModel.class, jpql.toString(), null);
+                int totalPirce2 = 0;
+                for (int i = 0; i < result.size(); i++) {
+
+                    System.out.println("getItemPriceD ===>>>> " + result.get(i).getItemPriceD());
+                    System.out.println("getItemCnt() ===>>>> " + result.get(i).getItemCnt());
+                    totalPirce2 += result.get(i).getItemCnt() * result.get(i).getItemPriceD();
+
+                }
+                System.out.println("totalPirce2" + totalPirce2);
+                order.setPrice(totalPirce2);
+
                 order.setGbm(result);
             }
 
@@ -192,9 +203,9 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
         Map<String, List<OrderHistory>> byOrder = new HashMap<>();
         List<OrderHistory> byOrderId = new ArrayList<>();
 
-        for (OrderHistoryEntity obj : orderHistoryEntity) {
-            System.out.println("orderid: "+obj.getOrderId()+", pkid: "+obj.getPkId()+" itemid: "+obj.getItemId());
-        }
+//        for (OrderHistoryEntity obj : orderHistoryEntity) {
+//            System.out.println("orderid: "+obj.getOrderId()+", pkid: "+obj.getPkId()+" itemid: "+obj.getItemId());
+//        }
 
         for (OrderHistoryEntity obj : orderHistoryEntity) {
             //System.err.println("passs");
@@ -204,6 +215,7 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
             order.setTitle(obj.getTitle());
             order.setDescription(obj.getDescription());
             order.setCnt(obj.getCnt());
+            System.out.println("cnt: =========>  "+obj.getCnt());
             order.setPrice(obj.getPrice());
             order.setQuantity(obj.getQuantity());
             order.setDate(obj.getDate());
@@ -218,9 +230,24 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
                         + "LEFT JOIN GroupItemDetailEntity B ON A.pkId = B.groupItemHeaderPkId  "
                         + "LEFT JOIN ItemEntity C ON C.pkId = B.itemPkId where B.groupItemHeaderPkId = '"+obj.getItemId()+"'";
                 List<GroupBusinessModel> result = getByQuery(GroupBusinessModel.class, jpql.toString(), null);
+                int totalPirce2 = 0;
+                for (int i = 0; i < result.size(); i++) {
+
+                    System.out.println("getItemPriceD ===>>>> " + result.get(i).getItemPriceD());
+                    System.out.println("getItemCnt() ===>>>> " + result.get(i).getItemCnt());
+                    totalPirce2 += result.get(i).getItemCnt() * result.get(i).getItemPriceD();
+
+                }
+                System.out.println("totalPirce2" + totalPirce2);
+                    order.setPrice(totalPirce2);
+//
                 order.setGbm(result);
+
             }
-            System.out.println(obj.getOrderId());
+
+
+//            System.out.println(obj.getOrderId());
+
             if(obj.getOrderId() != null){
                 if(!byOrder.containsKey(obj.getOrderId().toString())){
                     orderList = new ArrayList<>();
@@ -234,10 +261,10 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
             }
 
         }
-        System.err.println("size: "+byOrder.size());
+//        System.err.println("size: "+byOrder.size());
 
         for(Map.Entry<String, List<OrderHistory>> row : byOrder.entrySet()){
-            System.out.println(row.getValue().get(0).toString());
+//            System.out.println(row.getValue().get(0).toString());
             if(row.getValue().get(0).getDate() != null){
                 if(!byDate.containsKey(row.getValue().get(0).getDate())){
                     orderListList = new ArrayList<>();
@@ -250,7 +277,7 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
                 }
             }
         }
-        System.err.println("size: "+byDate.size());
+//        System.err.println("size: "+byDate.size());
 
         return byDate;
     }
