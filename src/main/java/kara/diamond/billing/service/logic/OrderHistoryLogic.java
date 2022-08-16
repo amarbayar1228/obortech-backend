@@ -136,7 +136,7 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
             order.setOrderId(obj.getOrderId().toString());
 
             if(obj.getState() != null && obj.getState().equals("group")){
-                jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, A.itemPriceTotal, B.itemPkId, B.itemPriceD, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
+                jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, A.itemPriceTotal, B.itemPkId, B.itemPriceD, B.itemCnt, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
                         + "FROM GroupItemHeaderEntity A  "
                         + "LEFT JOIN GroupItemDetailEntity B ON A.pkId = B.groupItemHeaderPkId  "
                         + "LEFT JOIN ItemEntity C ON C.pkId = B.itemPkId where B.groupItemHeaderPkId = '"+obj.getItemId()+"'";
@@ -213,7 +213,7 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
 
             if(obj.getState() != null && obj.getState().equals("group")){
                 //System.out.println("pk id: "+obj.getPkId());
-                jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, A.itemPriceTotal, B.itemPkId, B.itemPriceD, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
+                jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, A.itemPriceTotal, B.itemPkId, B.itemPriceD, B.itemCnt, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
                         + "FROM GroupItemHeaderEntity A  "
                         + "LEFT JOIN GroupItemDetailEntity B ON A.pkId = B.groupItemHeaderPkId  "
                         + "LEFT JOIN ItemEntity C ON C.pkId = B.itemPkId where B.groupItemHeaderPkId = '"+obj.getItemId()+"'";

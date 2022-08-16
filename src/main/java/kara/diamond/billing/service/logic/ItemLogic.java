@@ -219,12 +219,12 @@ public List<Item> getStatus1Item() throws Exception {
                 GroupItemDetailEntity groupItemDetail = new GroupItemDetailEntity();
                 groupItemDetail.setPkId(NumericHelper.generateKey());
                 groupItemDetail.setGroupItemHeaderPkId(groupItemHeader.getPkId());
+                groupItemDetail.setItemCnt(groupItemDtl.get(i).getItemCnt());
 //                groupItemDetail.setItemPriceD(groupItemDtl.get(i).getItemPriceD());
                 System.out.println("===========>>>>> price: "+groupItemDetail.getItemPriceD() + groupItemDetail.getItemPkId());
 
 //                groupItemDetail.setGroupItemHeaderPkId(groupItemHeaderEntities.get(0).getPkId().toString());
                 groupItemDetail.setItemPkId(Long.parseLong(groupItemDtl.get(i).getItemPkId()));
-
 
                 List<ItemEntity> itemEntity;
                 String jpql = "SELECT a FROM ItemEntity a where a.pkId = '"+ groupItemDtl.get(i).getItemPkId() +"'";
@@ -283,7 +283,7 @@ public List<Item> getStatus1Item() throws Exception {
         List<GroupItemHeader> groupItemHeaderList = new ArrayList<>();
         try {
 
-            String jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, A.itemPriceTotal, B.itemPkId, B.itemPriceD, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
+            String jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, A.itemPriceTotal, B.itemPkId, B.itemPriceD, B.itemCnt, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
                     + "FROM GroupItemHeaderEntity A  "
                     + "LEFT JOIN GroupItemDetailEntity B ON A.pkId = B.groupItemHeaderPkId  "
                     + "LEFT JOIN ItemEntity C ON C.pkId = B.itemPkId  ";
@@ -330,6 +330,7 @@ public List<Item> getStatus1Item() throws Exception {
                     temp.setCnt(result.get(i).getCnt());
                     System.out.println("temp price: "+result.get(i).getItemPriceD());
                     temp.setItemPriceTotal(result.get(i).getItemPriceTotal());
+//                    temp.setItemPriceTotal(result.get(i).getItemCnt());
 //                    temp.setItemPriceD(result.get(i).getItemPriceD());
                     temp.setTitle(result.get(i).getTitle().toString());
                     temp.setDescription(result.get(i).getDescription().toString());
@@ -442,7 +443,7 @@ public List<Item> getStatus1Item() throws Exception {
         List<GroupItemHeader> groupItemHeaderList = new ArrayList<>();
         try {
 
-            String jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, A.itemPriceTotal, B.itemPkId, B.itemPriceD, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
+            String jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, A.itemPriceTotal, B.itemPkId, B.itemPriceD, B.itemCnt, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
                     + "FROM GroupItemHeaderEntity A  "
                     + "LEFT JOIN GroupItemDetailEntity B ON A.pkId = B.groupItemHeaderPkId  "
                     + "LEFT JOIN ItemEntity C ON C.pkId = B.itemPkId  ";

@@ -8,5 +8,6 @@ public class GroupItemDetail {
     private String groupItemHeaderPkId;
     private String itemPkId;
     private int itemPriceD;
+    private int itemCnt;
 
 }
