@@ -103,6 +103,12 @@ public class ItemController implements Serializable {
         String result = itemInterfaces.saveGroupItems(groupRequest);
         return ResponseEntity.ok(result);
     }
+    @PostMapping("/disbaleGroupItemsInsert")
+    public ResponseEntity<?> disbaleGroupItemsInsert(@Valid @RequestBody GrouptRequest groupRequest) throws  Exception{
+        List<GroupPBM>  result = itemInterfaces.disbaleGroupItemsInsert(groupRequest);
+        return ResponseEntity.ok(result);
+    }
+
     @PostMapping("/uploadStatusGroupItems")
     public ResponseEntity<?> uploadStatusGroupItems(@Valid @RequestBody GrouptRequest groupRequest) throws  Exception{
         String result = itemInterfaces.uploadStatusGroupItems(groupRequest);
