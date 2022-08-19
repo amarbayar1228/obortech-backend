@@ -23,8 +23,11 @@ public class GroupItemHeaderEntity {
 
     @Column(name = "cnt")
     private int cnt;
+    @Column(name = "others")
+    private String others;
     @Column(name = "itemPriceTotal")
     private int itemPriceTotal;
+
 
 
     public Long getPkId() {
@@ -65,6 +68,14 @@ public class GroupItemHeaderEntity {
 
     public void setCnt(int cnt) {
         this.cnt = cnt;
+    }
+
+    public String getOthers() {
+        return others;
+    }
+
+    public void setOthers(String others) {
+        this.others = others;
     }
 
     public int getItemPriceTotal() {

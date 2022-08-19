@@ -9,4 +9,5 @@ public class GroupItemHeader {
     private int status;
     private String description;
     private  int cnt;
+    private String others;
 }
