@@ -32,6 +32,15 @@ public class OrderHistoryEntity extends Operation {
     @Column(name = "userPkid")
     private String userPkid;
 
+
+    @Column(name = "orgId")
+    private String orgId;
+    @Column(name = "insentStatus")
+    private int insentStatus;
+    @Column(name = "paymentMethod")
+    private int paymentMethod;
+
+
     public String getDate() {
         return date;
     }
@@ -56,6 +65,30 @@ public class OrderHistoryEntity extends Operation {
     private String state;
     @Column(name = "itemId")
     private Long itemId;
+
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
+
+    public int getInsentStatus() {
+        return insentStatus;
+    }
+
+    public void setInsentStatus(int insentStatus) {
+        this.insentStatus = insentStatus;
+    }
+
+    public int getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(int paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
 
     public Long getItemId() {
         return itemId;

@@ -4,9 +4,11 @@ import kara.diamond.billing.service.base.BaseDatabaseService;
 import kara.diamond.billing.service.base.NumericHelper;
 import kara.diamond.billing.service.entity.CompanyEntity;
 import kara.diamond.billing.service.entity.LoginUserEntity;
+import kara.diamond.billing.service.entity.OrgUsersEntity;
 import kara.diamond.billing.service.iinterfaces.CompanyInterfaces;
 import kara.diamond.billing.service.model.request.Company;
 import kara.diamond.billing.service.model.request.LoginUser;
+import kara.diamond.billing.service.model.request.OrgUsers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -128,6 +130,7 @@ public class CompanyLogic extends BaseDatabaseService implements CompanyInterfac
                 company2.setDateCompany(obj.getDateCompany());
                 company2.setState(obj.getState());
                 company2.setTelephone(obj.getTelephone());
+                company2.setOrgId(obj.getOrgId());
                 company2.setRegister(obj.getRegister());
                 company2.setOthers(obj.getOthers());
                 company2.setUserToken(obj.getUserToken());
@@ -194,20 +197,61 @@ public class CompanyLogic extends BaseDatabaseService implements CompanyInterfac
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public String companyUpdateReq(Company company) throws Exception{
-        String result = "amjiltgui";
+        String result = "Error";
             try {
                 CompanyEntity companyEntity = getByPKey(CompanyEntity.class, Long.parseLong(company.getPkId().toString()));
                 companyEntity.setState(company.getState());
                 companyEntity.setAdminToken(company.getAdminToken());
                 companyEntity.setOrgId(company.getOrgId());
                 companyEntity.setOthers(company.getOthers());
+//                companyEntity.setUserToken(company.getUserToken());
                 update(companyEntity);
+
+
+
+                result = "Success";
+
             }catch (Exception e){
                 System.out.println("Ex : "+e);
                 getDatabaseException(e);
             }
         return result;
     }
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public String companyUpdateOrgId(Company company) throws Exception{
+        String result = "Error";
+        try {
+
+            System.out.println("hahhahah ");
+            CompanyEntity companyEntity = getByPKey(CompanyEntity.class, Long.parseLong(company.getPkId().toString()));
+            companyEntity.setState(company.getState());
+            companyEntity.setAdminToken(company.getAdminToken());
+            companyEntity.setOrgId(company.getOrgId());
+            companyEntity.setOthers(company.getOthers());
+//            companyEntity.setUserToken(company.getUserToken());
+
+
+            OrgUsersEntity orgUsersEntity = new OrgUsersEntity();
+            orgUsersEntity.setPkId(NumericHelper.generateKey());
+            orgUsersEntity.setUserToken(company.getUserToken());
+            orgUsersEntity.setOrgId(company.getOrgId());
+
+            List<OrgUsers> orgU = company.getOrgUserList();
+            orgUsersEntity.setInsentive(orgU.get(0).getInsentive());
+
+            insert(orgUsersEntity);
+            update(companyEntity);
+            System.out.println("bolsooooonnn ===>> ");
+            result = "Success";
+
+        }catch (Exception e){
+            System.out.println("Ex : "+e);
+            getDatabaseException(e);
+        }
+        return result;
+    }
+
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)

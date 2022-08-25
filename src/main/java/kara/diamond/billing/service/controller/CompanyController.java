@@ -60,6 +60,11 @@ public class CompanyController implements Serializable {
     public ResponseEntity<?> companyUpdateReq(@Valid @RequestBody Company company) throws  Exception{
         return ResponseEntity.ok(companyInterfaces.companyUpdateReq(company));
     }
+
+    @PostMapping("/companyUpdateOrgId")
+    public ResponseEntity<?> companyUpdateOrgId(@Valid @RequestBody Company company) throws  Exception{
+        return ResponseEntity.ok(companyInterfaces.companyUpdateOrgId(company));
+    }
     @PostMapping("/companyUpdateUserEdit")
     public ResponseEntity<?> companyUpdateUserEdit(@Valid @RequestBody Company company) throws  Exception{
         return ResponseEntity.ok(companyInterfaces.companyUpdateUserEdit(company));

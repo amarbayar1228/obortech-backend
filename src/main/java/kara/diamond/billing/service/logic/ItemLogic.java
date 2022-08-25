@@ -525,6 +525,7 @@ public List<Item> getStatus1Item() throws Exception {
                         //System.out.println("pkid: "+ pkId.get(j)+"\nres: "+result.get(i).getPkId());
                         if(pkId.get(j).toString().equals(result.get(i).getPkId().toString())) {
                             System.out.println("arrived");
+
                             is_arived = true;
                         }else{
                             System.out.println("not arrived");

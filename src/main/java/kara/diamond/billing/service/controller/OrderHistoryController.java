@@ -5,6 +5,7 @@ import kara.diamond.billing.service.iinterfaces.OrderHistoryInterfaces;
 import kara.diamond.billing.service.logic.OrderHistoryLogic;
 import kara.diamond.billing.service.model.request.OrderHistory;
 import kara.diamond.billing.service.model.request.OrderHistoryToken;
+import kara.diamond.billing.service.model.request.PayInsentive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,9 @@ public class OrderHistoryController implements Serializable {
         return ResponseEntity.ok(orderHistoryInterfaces.saveOrderHistory(orderHistory));
     }
     @PostMapping("/saveOrderHistoryNoId")
-    public ResponseEntity<?> saveOrderHistoryNoId(@Valid @RequestBody List<OrderHistory> orderHistory) throws Exception{
+    public ResponseEntity<?> saveOrderHistoryNoId(@Valid @RequestBody OrderHistoryToken orderHistoryToken) throws Exception{
 
-        return ResponseEntity.ok(orderHistoryInterfaces.saveOrderHistoryNoId(orderHistory));
+        return ResponseEntity.ok(orderHistoryInterfaces.saveOrderHistoryNoId(orderHistoryToken));
     }
 
 //    @PostMapping("/list")
@@ -46,6 +47,12 @@ public class OrderHistoryController implements Serializable {
 //        Map<String, List<List <OrderHistory>>> result = orderHistoryLogic.getOrderList();
 //        return  ResponseEntity.ok(result);
 //    }
+
+    @PostMapping("/getPayInsentive")
+    public ResponseEntity<?> getPayInsentive(@Valid @RequestBody PayInsentive payInsentive )throws Exception{
+        List<PayInsentive> result = orderHistoryLogic.getPayInsentive(payInsentive);
+        return  ResponseEntity.ok(result);
+    }
     @PostMapping("/getUserTokenOrder")
     public ResponseEntity<?> getUserTokenOrderArray(@Valid @RequestBody OrderHistory orderHistory )throws Exception{
         Map<String, List<List<OrderHistory>>> result = orderHistoryLogic.getUserTokenOrderList(orderHistory);

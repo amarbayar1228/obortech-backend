@@ -16,6 +16,11 @@ public class OrderHistory {
     private String orderId;
     private  String date;
     private  String userPkid;
+
+    private String orgId;
+    private int insentStatus;
+    private int paymentMethod;
+
     private String state;
     private String itemId;
     private List<GroupBusinessModel> gbm;
