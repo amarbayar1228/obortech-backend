@@ -13,6 +13,7 @@ public interface CompanyInterfaces {
     public List<Company> companyConfirmList(Company company) throws Exception;
     public String  companyUpdateReq(Company company) throws Exception;
     public String  companyUpdateOrgId(Company company) throws Exception;
+    public String  incentive(Company company) throws Exception;
     public String  companyUpdateUserEdit(Company company) throws Exception;
 
 }

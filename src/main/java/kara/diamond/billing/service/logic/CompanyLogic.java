@@ -222,8 +222,6 @@ public class CompanyLogic extends BaseDatabaseService implements CompanyInterfac
     public String companyUpdateOrgId(Company company) throws Exception{
         String result = "Error";
         try {
-
-            System.out.println("hahhahah ");
             CompanyEntity companyEntity = getByPKey(CompanyEntity.class, Long.parseLong(company.getPkId().toString()));
             companyEntity.setState(company.getState());
             companyEntity.setAdminToken(company.getAdminToken());
@@ -231,18 +229,17 @@ public class CompanyLogic extends BaseDatabaseService implements CompanyInterfac
             companyEntity.setOthers(company.getOthers());
 //            companyEntity.setUserToken(company.getUserToken());
 
+//
+//            OrgUsersEntity orgUsersEntity = new OrgUsersEntity();
+//            orgUsersEntity.setPkId(NumericHelper.generateKey());
+//            orgUsersEntity.setUserToken(company.getUserToken());
+//            orgUsersEntity.setOrgId(company.getOrgId());
+//
+//            List<OrgUsers> orgU = company.getOrgUserList();
+//            orgUsersEntity.setInsentive(orgU.get(0).getInsentive());
 
-            OrgUsersEntity orgUsersEntity = new OrgUsersEntity();
-            orgUsersEntity.setPkId(NumericHelper.generateKey());
-            orgUsersEntity.setUserToken(company.getUserToken());
-            orgUsersEntity.setOrgId(company.getOrgId());
-
-            List<OrgUsers> orgU = company.getOrgUserList();
-            orgUsersEntity.setInsentive(orgU.get(0).getInsentive());
-
-            insert(orgUsersEntity);
+//            insert(orgUsersEntity);
             update(companyEntity);
-            System.out.println("bolsooooonnn ===>> ");
             result = "Success";
 
         }catch (Exception e){
@@ -252,6 +249,38 @@ public class CompanyLogic extends BaseDatabaseService implements CompanyInterfac
         return result;
     }
 
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public String incentive(Company company) throws Exception{
+        String result = "Error";
+        try {
+            CompanyEntity companyEntity = getByPKey(CompanyEntity.class, Long.parseLong(company.getPkId().toString()));
+//            companyEntity.setState(company.getState());
+//            companyEntity.setAdminToken(company.getAdminToken());
+//            companyEntity.setOrgId(company.getOrgId());
+//            companyEntity.setOthers(company.getOthers());
+//            companyEntity.setUserToken(company.getUserToken());
+
+//
+            OrgUsersEntity orgUsersEntity = new OrgUsersEntity();
+            orgUsersEntity.setPkId(NumericHelper.generateKey());
+            orgUsersEntity.setUserToken(company.getUserToken());
+            orgUsersEntity.setOrgId(company.getOrgId());
+
+            List<OrgUsers> orgU = company.getOrgUserList();
+            orgUsersEntity.setInsentive(orgU.get(0).getInsentive());
+
+//            insert(orgUsersEntity);
+//            update(companyEntity);
+            result = "Success";
+
+        }catch (Exception e){
+            System.out.println("Ex : "+e);
+            getDatabaseException(e);
+        }
+        return result;
+    }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)

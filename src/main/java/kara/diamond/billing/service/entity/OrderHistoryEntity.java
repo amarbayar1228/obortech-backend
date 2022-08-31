@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "orderhistory")
+@Table(name = "orderHistory")
 public class OrderHistoryEntity extends Operation {
     @Id
     @Column(name = "pkId")

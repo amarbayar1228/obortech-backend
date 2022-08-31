@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "groupitemdetail")
+@Table(name = "groupItemDetail")
 public class GroupItemDetailEntity {
     @Id
     @Column(name = "pkId")
