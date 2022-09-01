@@ -12,4 +12,5 @@ public class Item {
     private int cnt;
     private int status;
     private String others;
+    private String img;
 }

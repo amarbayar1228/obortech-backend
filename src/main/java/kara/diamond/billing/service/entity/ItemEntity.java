@@ -43,6 +43,17 @@ public class ItemEntity extends Operation {
     @Column(name = "others")
     private String others;
 
+    @Column(name = "img")
+    private byte[] img;
+
+    public byte[] getImg() {
+        return img;
+    }
+
+    public void setImg(byte[] img) {
+        this.img = img;
+    }
+
     public String getOthers() {
         return others;
     }

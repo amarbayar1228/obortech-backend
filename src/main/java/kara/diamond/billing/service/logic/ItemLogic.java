@@ -31,6 +31,7 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
     @Transactional(propagation = Propagation.REQUIRED)
     public String saveItem(Item item) throws Exception {
         String result = "";
+         byte[] fileByteValue = Base64.getDecoder().decode(item.getImg());
         try {
             ItemEntity item1 = new ItemEntity();
             item1.setPkId(NumericHelper.generateKey());
@@ -40,6 +41,7 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
             item1.setDescription(item.getDescription());
             item1.setPrice(item.getPrice());
             item1.setQuantity(item.getQuantity());
+            item1.setImg(Base64.getDecoder().decode(item.getImg()));
             insert(item1);
             result = "Амжилттай хадгалалаа.";
 
@@ -102,6 +104,7 @@ public List<Item> getStatus1Item() throws Exception {
             item.setDescription(obj.getDescription());
             item.setPrice(obj.getPrice());
             item.setQuantity(obj.getQuantity());
+            item.setImg(Base64.getEncoder().encodeToString(obj.getImg()));
             itemList.add(item);
         }
 
@@ -110,7 +113,6 @@ public List<Item> getStatus1Item() throws Exception {
 }
 
     public List<Item> getAllItem() throws Exception {
-
         List<ItemEntity> itemEntity;
         String jpql = "SELECT a FROM ItemEntity a";
         List<Item> itemList = new ArrayList<>();
@@ -126,6 +128,12 @@ public List<Item> getStatus1Item() throws Exception {
             item.setPrice(obj.getPrice());
             item.setQuantity(obj.getQuantity());
             item.setOthers(obj.getOthers());
+            item.setImg(Base64.getEncoder().encodeToString(obj.getImg()));
+
+//            byte[] fileByteValue = Base64.getDecoder().decode(obj.getImg());
+//            System.out.println("binnary img: " + fileByteValue);
+            System.out.println("getImg: " + Base64.getEncoder().encodeToString(obj.getImg()));
+
             itemList.add(item);
         }
         return itemList;
@@ -146,6 +154,7 @@ public List<Item> getStatus1Item() throws Exception {
             item.setCnt(obj.getCnt());
             item.setStatus(obj.getStatus());
             item.setDescription(obj.getDescription());
+            item.setImg(Base64.getEncoder().encodeToString(obj.getImg()));
             item.setPrice(obj.getPrice());
             item.setQuantity(obj.getQuantity());
             item.setOthers(obj.getOthers());
@@ -242,7 +251,7 @@ public List<Item> getStatus1Item() throws Exception {
 //
 ////                    itemList.add(item);
 //                }
-                System.out.println("sum222 : " +  sum);
+//                System.out.println("sum222 : " +  sum);
 //                groupItemDetail.setItemTotalPrice(sum);
 
                 insert(groupItemDetail);
@@ -285,15 +294,15 @@ public List<Item> getStatus1Item() throws Exception {
             groupItemHeader.setCnt(1);
              insert(groupItemHeader);
             for (int i = 0 ; i < result.size(); i++) {
-                System.out.println("result: " + result);
-
-                System.out.println("setTitle: " + result.get(i).getTitle());
+//                System.out.println("result: " + result);
+//
+//                System.out.println("setTitle: " + result.get(i).getTitle());
                 List<GroupItemDetail> groupItemDtl;
                 GroupItemDetailEntity groupItemDetail = new GroupItemDetailEntity();
                 groupItemDetail.setPkId(NumericHelper.generateKey());
                 groupItemDetail.setGroupItemHeaderPkId(groupItemHeader.getPkId());
                 groupItemDetail.setItemCnt(result.get(i).getItemCnt());
-                System.out.println("itemCnt: " + result.get(i).getItemCnt());
+//                System.out.println("itemCnt: " + result.get(i).getItemCnt());
                 groupItemDetail.setItemPkId(result.get(i).getItemPkId());
                 groupItemDetail.setItemPriceD(result.get(i).getItemPriceD());
                 List<ItemEntity> itemEntity;
@@ -384,8 +393,8 @@ public List<Item> getStatus1Item() throws Exception {
 //                    System.out.println("sum1: "+ sum);
                     temp.setPkId(result.get(i).getPkId().toString());
                     temp.setCnt(result.get(i).getCnt());
-                     System.out.println("temp ItemCnt: " + result.get(i).getItemCnt());
-                     System.out.println("temp itemPriceD: " + result.get(i).getItemPriceD());
+//                     System.out.println("temp ItemCnt: " + result.get(i).getItemCnt());
+//                     System.out.println("temp itemPriceD: " + result.get(i).getItemPriceD());
 
 
                     temp.setItemPriceTotal(gbmPrice);
