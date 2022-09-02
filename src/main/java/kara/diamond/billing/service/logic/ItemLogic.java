@@ -5,6 +5,7 @@ import kara.diamond.billing.service.base.NumericHelper;
 import kara.diamond.billing.service.entity.GroupItemDetailEntity;
 import kara.diamond.billing.service.entity.GroupItemHeaderEntity;
 import kara.diamond.billing.service.entity.ItemEntity;
+import kara.diamond.billing.service.entity.OrderHistoryEntity;
 import kara.diamond.billing.service.iinterfaces.ItemInterfaces;
 import kara.diamond.billing.service.model.request.GroupItemDetail;
 import kara.diamond.billing.service.model.request.GroupItemHeader;
@@ -54,20 +55,40 @@ public class ItemLogic extends BaseDatabaseService implements ItemInterfaces {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public String updateItem(Item item) throws Exception {
-        String result = "amjiltgui";
+        String result = "Error";
+        List<ArrayList> nullList = new ArrayList<>();
+        List<OrderHistoryEntity> orderHistoryEntities2  = new ArrayList<>();
         try {
+
+
+
             ItemEntity itemDataUpdate = getByPKey(ItemEntity.class, Long.parseLong(item.getPkId().toString()));
-            itemDataUpdate.setTitle(item.getTitle());
-            itemDataUpdate.setPrice(item.getPrice());
-            itemDataUpdate.setCnt(item.getCnt());
-            itemDataUpdate.setQuantity(item.getQuantity());
-            itemDataUpdate.setDescription(item.getDescription());
-            update(itemDataUpdate);
-            result = "Amjilttai";
+
+            String jpql = "SELECT a FROM  OrderHistoryEntity a where a.itemId = '"+item.getPkId()+"'";
+            List<OrderHistoryEntity> orderHistoryEntities = getByQuery(OrderHistoryEntity.class, jpql);
+
+            System.out.println("jpql: " +jpql );
+            System.out.println("item: "+  itemDataUpdate.getPkId());
+            if(orderHistoryEntities.size() > 0){
+                System.out.println("baina");
+                result = "Order History ene item bn ";
+            }else{
+                itemDataUpdate.setTitle(item.getTitle());
+                itemDataUpdate.setPrice(item.getPrice());
+                itemDataUpdate.setCnt(item.getCnt());
+                itemDataUpdate.setQuantity(item.getQuantity());
+                itemDataUpdate.setDescription(item.getDescription());
+                itemDataUpdate.setImg(Base64.getDecoder().decode(item.getImg()));
+                update(itemDataUpdate);
+                result = "success";
+            }
 
         } catch (Exception e) {
             getDatabaseException(e);
         }
+
+
+
         return result;
     }
     @Override
@@ -132,7 +153,6 @@ public List<Item> getStatus1Item() throws Exception {
 
 //            byte[] fileByteValue = Base64.getDecoder().decode(obj.getImg());
 //            System.out.println("binnary img: " + fileByteValue);
-            System.out.println("getImg: " + Base64.getEncoder().encodeToString(obj.getImg()));
 
             itemList.add(item);
         }
