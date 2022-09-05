@@ -58,6 +58,7 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
                     //OrgId
                     order1.setOrgId(orderHistoryToken.getOrgId());
                     order1.setPaymentMethod(orderHistoryToken.getPaymentMethod());
+//                    order1.setInsentStatus(orderHistoryToken.getInsentStatus());
 //                  order1.setInsentStatus(orderHistory.get(i).getInsentStatus());
 
                     order1.setUserPkid(loginUserEntities.get(0).getPkId().toString());
@@ -71,7 +72,7 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
 //                        if(orderHistory.get(i).getState() != null && obj.getState().equals("group")){
 
 
-                        jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, A.others, A.itemPriceTotal, B.itemPkId, B.itemPriceD, B.itemCnt, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
+                        jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, A.others, A.itemPriceTotal, B.itemPkId, B.itemPriceD, B.itemCnt, B.img, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
                                 + "FROM GroupItemHeaderEntity A  "
                                 + "LEFT JOIN GroupItemDetailEntity B ON A.pkId = B.groupItemHeaderPkId  "
                                 + "LEFT JOIN ItemEntity C ON C.pkId = B.itemPkId where B.groupItemHeaderPkId = '"+orderHistory.get(i).getPkId()+"'";
@@ -116,6 +117,7 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
                     payIns.setStatus(1);
                     payIns.setPayMethod(orderHistoryToken.getPaymentMethod());
                     insert(payIns);
+
                     }
                 }
 
@@ -127,10 +129,27 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
             }
         return result;
     }
-
-
     @Transactional(propagation = Propagation.REQUIRED)
     public List<PayInsentive> getPayInsentive(PayInsentive payInsentive) throws Exception{
+
+
+            String orderJpql = "SELECT a FROM OrderHistoryEntity as oh, OrgUsersEntity as ou where ou.userToken = '"+payInsentive.getUserPkId()+"' and oh.orgId = ou.orgId and Convert(DATETIME, ou.date) <= Convert(DATETIME, oh.date) and oh.orgId = 'obertech123'";
+        System.out.println("orderJpql: "+ getByQuery(OrderHistoryEntity.class, orderJpql));
+//        List<OrderHistoryEntity> orderHistoryEntities = getByQuery(OrderHistoryEntity.class, orderJpql);
+//
+//        System.out.println("order: " + orderHistoryEntities.get(0).getOrderId());
+//        String jpqlOrgUsers =  "SELECT a FROM OrgUsersEntity a where a.userToken = '"+payInsentive.getUserPkId()+"'";
+//        List<OrgUsersEntity> orgUsersEntities = getByQuery(OrgUsersEntity.class, jpqlOrgUsers);
+//        System.out.println("orgUsersEntities"+ orgUsersEntities.get(0).getDate());
+//
+//        String jpqlOrder = "SELECT a FROM OrderHistoryEntity a";
+//
+//        List<OrderHistoryEntity> orderHistoryEntities = getByQuery(OrderHistoryEntity.class, jpqlOrder);
+//
+//        for(int i=0; i < orderHistoryEntities.size(); i++){
+//            System.out.println("date: "+orderHistoryEntities.get(i).getDate());
+//
+//        }
 
         List<PayInsentiveEntity> payInsentiveEntities;
         String jpql = "SELECT a FROM PayInsentiveEntity a where a.userPkId = '"+payInsentive.getUserPkId()+"'";
@@ -269,7 +288,7 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
             order.setOrderId(obj.getOrderId().toString());
 
             if(obj.getState() != null && obj.getState().equals("group")){
-                jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, A.others, A.itemPriceTotal, B.itemPkId, B.itemPriceD, B.itemCnt, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
+                jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, A.others, A.itemPriceTotal, B.itemPkId, B.itemPriceD, B.itemCnt, B.img, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
                         + "FROM GroupItemHeaderEntity A  "
                         + "LEFT JOIN GroupItemDetailEntity B ON A.pkId = B.groupItemHeaderPkId  "
                         + "LEFT JOIN ItemEntity C ON C.pkId = B.itemPkId where B.groupItemHeaderPkId = '"+obj.getItemId()+"'";
@@ -359,7 +378,7 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
 
             if(obj.getState() != null && obj.getState().equals("group")){
                 //System.out.println("pk id: "+obj.getPkId());
-                jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, A.others, A.itemPriceTotal, B.itemPkId, B.itemPriceD, B.itemCnt, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
+                jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, A.others, A.itemPriceTotal, B.itemPkId, B.itemPriceD, B.itemCnt, B.img, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
                         + "FROM GroupItemHeaderEntity A  "
                         + "LEFT JOIN GroupItemDetailEntity B ON A.pkId = B.groupItemHeaderPkId  "
                         + "LEFT JOIN ItemEntity C ON C.pkId = B.itemPkId where B.groupItemHeaderPkId = '"+obj.getItemId()+"'";
@@ -416,70 +435,4 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
         return byDate;
     }
 
-//    public Map<String, List<List<OrderHistory>>> getOrderList() throws Exception {
-//
-//        List<OrderHistoryEntity> orderHistoryEntity;
-//        String jpql = "SELECT a FROM OrderHistoryEntity a";
-//        List<OrderHistory> orderList = new ArrayList<>();
-//        List<List<OrderHistory>> orderListList = new ArrayList<>();
-//        orderHistoryEntity = getByQuery(OrderHistoryEntity.class, jpql);
-//        Map<String, List<List<OrderHistory>>> byDate = new HashMap<>();
-//        Map<String, List<OrderHistory>> byOrder = new HashMap<>();
-//        List<OrderHistory> byOrderId = new ArrayList<>();
-//
-//        for (OrderHistoryEntity obj : orderHistoryEntity) {
-//            System.err.println("passs");
-//            OrderHistory order = new OrderHistory();
-//
-//
-//            order.setPkId(String.valueOf(obj.getPkId()));
-//            order.setTitle(obj.getTitle());
-//            order.setDescription(obj.getDescription());
-//            order.setCnt(obj.getCnt());
-//            order.setPrice(obj.getPrice());
-//            order.setQuantity(obj.getQuantity());
-//            order.setDate(obj.getDate());
-//            order.setOrderId(obj.getOrderId().toString());
-//            System.err.println("sizeoid: "+obj.getOrderId());
-//            if(obj.getOrderId() != null){
-//                if(!byOrder.containsKey(obj.getOrderId().toString())){
-//                    orderList = new ArrayList<>();
-//                    orderList.add(order);
-//                    byOrder.put(obj.getOrderId().toString(), orderList);
-//                }else{
-//                    orderList = byOrder.get(obj.getOrderId().toString());
-//                    orderList.add(order);
-//                    byOrder.put(obj.getOrderId().toString(), orderList);
-//                }
-//            }
-//
-//        }
-//        System.err.println("size: "+byOrder.size());
-//        for(Map.Entry<String, List<OrderHistory>> row : byOrder.entrySet()){
-//            System.out.println(row.getValue().get(0).toString());
-//            if(row.getValue().get(0).getDate() != null){
-//                if(!byDate.containsKey(row.getValue().get(0).getDate())){
-//                    orderListList = new ArrayList<>();
-//                    orderListList.add(row.getValue());
-//                    byDate.put(row.getValue().get(0).getDate(), orderListList);
-//                }else{
-//                    orderListList = byDate.get(row.getValue().get(0).getDate());
-//                    orderListList.add(row.getValue());
-//                    byDate.put(row.getValue().get(0).getDate(), orderListList);
-//                }
-//            }
-//        }
-//        System.err.println("size: "+byDate.size());
-//
-//        return byDate;
-//    }
-
-//    public List<OrderArray> getOrderArray() throws Exception {
-//        List<OrderArray> orderArrays = new ArrayList<>();
-//        List<OrderHistoryModel> orderItemList = new ArrayList<>();
-//        String jpql = "SELECT a FROM OrderHistoryEntity a";
-//        List<OrderHistoryEntity> itemOrderList = getByQuery(OrderHistoryEntity.class, jpql);
-//
-//        return orderArrays;
-//    }
 }

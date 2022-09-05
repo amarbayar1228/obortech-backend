@@ -2,13 +2,9 @@ package kara.diamond.billing.service.logic;
 
 import kara.diamond.billing.service.base.BaseDatabaseService;
 import kara.diamond.billing.service.base.NumericHelper;
-import kara.diamond.billing.service.entity.CompanyEntity;
-import kara.diamond.billing.service.entity.LoginUserEntity;
-import kara.diamond.billing.service.entity.OrgUsersEntity;
+import kara.diamond.billing.service.entity.*;
 import kara.diamond.billing.service.iinterfaces.CompanyInterfaces;
-import kara.diamond.billing.service.model.request.Company;
-import kara.diamond.billing.service.model.request.LoginUser;
-import kara.diamond.billing.service.model.request.OrgUsers;
+import kara.diamond.billing.service.model.request.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -206,15 +202,97 @@ public class CompanyLogic extends BaseDatabaseService implements CompanyInterfac
                 companyEntity.setOthers(company.getOthers());
 //                companyEntity.setUserToken(company.getUserToken());
                 update(companyEntity);
-
-
-
                 result = "Success";
 
             }catch (Exception e){
                 System.out.println("Ex : "+e);
                 getDatabaseException(e);
             }
+        return result;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public String companySentIncentive(OrgUsers orgUsers) throws Exception{
+        String result = "Error";
+        try {
+            OrgUsersEntity orgUsersEntity = new OrgUsersEntity();
+            orgUsersEntity.setPkId(NumericHelper.generateKey());
+            orgUsersEntity.setOrgId(orgUsers.getOrgId());
+            orgUsersEntity.setUserToken(orgUsers.getUserToken());
+            orgUsersEntity.setInsentive(orgUsers.getInsentive());
+            orgUsersEntity.setDate(orgUsers.getDate());
+            update(orgUsersEntity);
+            result = "Success";
+
+        }catch (Exception e){
+            System.out.println("Ex : "+e);
+            getDatabaseException(e);
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public String IncentivePercentSent(IncentivePercent incentivePercent) throws Exception{
+        String result = "Error";
+        try {
+            IncentivePercentEntity incentivePercentEntity = new IncentivePercentEntity();
+            incentivePercentEntity.setPkId(NumericHelper.generateKey());
+            incentivePercentEntity.setIncentPercent(incentivePercent.getIncentPercent());
+            insert(incentivePercentEntity);
+            result = "Success";
+
+        }catch (Exception e){
+            System.out.println("Ex : "+e);
+            getDatabaseException(e);
+        }
+        return result;
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<IncentivePercent> getIncentivePercent() throws Exception{
+
+        String jpql = "SELECT a FROM IncentivePercentEntity a";
+        List<IncentivePercentEntity> incentivePercentEntities = getByQuery(IncentivePercentEntity.class, jpql);
+
+        List<IncentivePercent> list = new ArrayList<>();
+        try {
+//            IncentivePercentEntity incentivePercentEntity = getByPKey(IncentivePercentEntity.class, Long.parseLong(incentivePercent.getPkId().toString()));
+//            incentivePercentEntity.setIncentPercent(incentivePercent.getInsentPercent());
+//            update(incentivePercentEntity);
+        for(IncentivePercentEntity obj: incentivePercentEntities){
+            IncentivePercent incentivePercent = new IncentivePercent();
+            incentivePercent.setPkId(String.valueOf(obj.getPkId()));
+            incentivePercent.setIncentPercent(obj.getIncentPercent());
+            list.add(incentivePercent);
+        }
+
+
+        }catch (Exception e){
+            System.out.println("Ex : "+e);
+            getDatabaseException(e);
+        }
+        return list;
+    }
+
+
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public String updateIncentivePercent(IncentivePercent incentivePercent) throws Exception {
+        String result = "Error";
+        try {
+            IncentivePercentEntity incentivePercentEntity = getByPKey(IncentivePercentEntity.class, Long.parseLong(incentivePercent.getPkId().toString()));
+
+            incentivePercentEntity.setIncentPercent(incentivePercent.getIncentPercent());
+            update(incentivePercentEntity);
+            result = "Success";
+
+        } catch (Exception e) {
+            getDatabaseException(e);
+        }
         return result;
     }
     @Override
@@ -227,6 +305,7 @@ public class CompanyLogic extends BaseDatabaseService implements CompanyInterfac
             companyEntity.setAdminToken(company.getAdminToken());
             companyEntity.setOrgId(company.getOrgId());
             companyEntity.setOthers(company.getOthers());
+
 //            companyEntity.setUserToken(company.getUserToken());
 
 //

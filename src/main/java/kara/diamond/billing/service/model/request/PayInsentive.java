@@ -2,6 +2,8 @@ package kara.diamond.billing.service.model.request;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class PayInsentive {
     private String pkId;
@@ -11,4 +13,6 @@ public class PayInsentive {
     private float fee;
     private  int payMethod;
     private String orgId;
+
+//    List<OrderHistoryToken> orderHistoryTokens;
 }

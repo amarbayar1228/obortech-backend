@@ -249,6 +249,7 @@ public List<Item> getStatus1Item() throws Exception {
                 groupItemDetail.setPkId(NumericHelper.generateKey());
                 groupItemDetail.setGroupItemHeaderPkId(groupItemHeader.getPkId());
                 groupItemDetail.setItemCnt(groupItemDtl.get(i).getItemCnt());
+                groupItemDetail.setImg(Base64.getDecoder().decode(groupItemDtl.get(i).getImg()));
 
 //                groupItemDetail.setItemPriceD(groupItemDtl.get(i).getItemPriceD());
                 System.out.println("===========>>>>> price: "+groupItemDetail.getItemPriceD() + groupItemDetail.getItemPkId());
@@ -299,7 +300,7 @@ public List<Item> getStatus1Item() throws Exception {
         try {
             System.out.println("groupRequest: " + groupRequest.getPkId());
 
-            String jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, A.itemPriceTotal, B.itemPkId, B.itemPriceD, B.itemCnt, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
+            String jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, A.itemPriceTotal, B.itemPkId, B.itemPriceD, B.itemCnt, B.img, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
                     + "FROM GroupItemHeaderEntity A  "
                     + "LEFT JOIN GroupItemDetailEntity B ON A.pkId = B.groupItemHeaderPkId  "
                     + "LEFT JOIN ItemEntity C ON C.pkId = B.itemPkId  where B.groupItemHeaderPkId = '"+groupRequest.getPkId().toString()+"'";;
@@ -363,7 +364,7 @@ public List<Item> getStatus1Item() throws Exception {
         List<GroupItemHeader> groupItemHeaderList = new ArrayList<>();
         try {
 
-            String jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, A.others, A.itemPriceTotal, B.itemPkId, B.itemPriceD, B.itemCnt, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
+            String jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, A.others, A.itemPriceTotal, B.itemPkId, B.itemPriceD, B.itemCnt, B.img, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
                     + "FROM GroupItemHeaderEntity A  "
                     + "LEFT JOIN GroupItemDetailEntity B ON A.pkId = B.groupItemHeaderPkId  "
                     + "LEFT JOIN ItemEntity C ON C.pkId = B.itemPkId  ";
@@ -421,6 +422,7 @@ public List<Item> getStatus1Item() throws Exception {
 //                    temp.setItemPriceTotal(result.get(i).getItemCnt());
 //                    temp.setItemPriceD(result.get(i).getItemPriceD());
                     temp.setTitle(result.get(i).getTitle().toString());
+
                     temp.setDescription(result.get(i).getDescription().toString());
                     temp.setStatus(result.get(i).getStatus());
                     temp.setOthers(result.get(i).getOthers());
@@ -533,7 +535,7 @@ public List<Item> getStatus1Item() throws Exception {
         List<GroupItemHeader> groupItemHeaderList = new ArrayList<>();
         try {
 
-            String jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, A.others, A.itemPriceTotal, B.itemPkId, B.itemPriceD, B.itemCnt, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
+            String jpql = "SELECT new kara.diamond.billing.service.model.response.GroupBusinessModel(A.pkId, A.title, A.status, A.description, A.cnt, A.others, A.itemPriceTotal, B.itemPkId, B.itemPriceD, B.itemCnt, B.img, C.title as itemTitle, C.quantity as itemQuantity, C.description as itemDescription, C.price as itemPrice)   "
                     + "FROM GroupItemHeaderEntity A  "
                     + "LEFT JOIN GroupItemDetailEntity B ON A.pkId = B.groupItemHeaderPkId  "
                     + "LEFT JOIN ItemEntity C ON C.pkId = B.itemPkId  ";
@@ -611,49 +613,41 @@ public List<Item> getStatus1Item() throws Exception {
         String result = "amjiltgui";
         try {
             GroupItemHeaderEntity groupItemHeaderEntity =  getByPKey(GroupItemHeaderEntity.class, Long.parseLong(groupRequest.getPkId().toString()));
+            String jpqlOrder = "SELECT a FROM  OrderHistoryEntity a where a.itemId = '"+groupRequest.getPkId()+"'";
+            List<OrderHistoryEntity> orderHistoryEntities = getByQuery(OrderHistoryEntity.class, jpqlOrder);
 
-            groupItemHeaderEntity.setTitle(groupRequest.getTitle());
-            groupItemHeaderEntity.setDescription(groupRequest.getDescription());
-            groupItemHeaderEntity.setStatus(groupRequest.getStatus());
-            update(groupItemHeaderEntity);
-            System.out.println("req title: " + groupRequest.getTitle());
-            System.out.println("req desc: " + groupRequest.getDescription());
-            System.out.println("req status: " + groupRequest.getStatus());
+            if(orderHistoryEntities.size() > 0) {
+                System.out.println("zahialagdsan baraa bn: " );
+                result = "There is an ordered item";
+            }else{
+                groupItemHeaderEntity.setTitle(groupRequest.getTitle());
+                groupItemHeaderEntity.setDescription(groupRequest.getDescription());
+                groupItemHeaderEntity.setStatus(groupRequest.getStatus());
+                update(groupItemHeaderEntity);
 
-            List<GroupItemDetail> groupItemDtl = groupRequest.getGroupDetail();
+//            System.out.println("req title: " + groupRequest.getTitle());
+//            System.out.println("req desc: " + groupRequest.getDescription());
+//            System.out.println("req status: " + groupRequest.getStatus());
+
+                List<GroupItemDetail> groupItemDtl = groupRequest.getGroupDetail();
 //            System.out.println("headerPkd: " + groupRequest.getPkId());
-            for (int i = 0; i < groupItemDtl.size(); i++){
+                for (int i = 0; i < groupItemDtl.size(); i++){
 //                System.out.println("headerPkID items: "+groupItemDtl.get(i).getGroupItemHeaderPkId());
 //               System.out.println("REQ: getItemPkId: "+groupItemDtl.get(i).getItemPkId());
-                List<GroupItemDetailEntity> groupItemDetail;
-                String jpql = "SELECT a FROM GroupItemDetailEntity a where a.groupItemHeaderPkId = '"+ groupItemDtl.get(i).getGroupItemHeaderPkId().toString() +"'";
+                    List<GroupItemDetailEntity> groupItemDetail;
+                    String jpql = "SELECT a FROM GroupItemDetailEntity a where a.groupItemHeaderPkId = '"+ groupItemDtl.get(i).getGroupItemHeaderPkId().toString() +"'";
 
-                groupItemDetail = getByQuery(GroupItemDetailEntity.class, jpql);
+                    groupItemDetail = getByQuery(GroupItemDetailEntity.class, jpql);
 
-                System.out.println("itemPkIdEntity: "+groupItemDetail.get(i).getItemPkId());
-                System.out.println("req: "+ Long.parseLong(groupItemDtl.get(i).getItemPkId()));
+                    System.out.println("itemPkIdEntity: "+groupItemDetail.get(i).getItemPkId());
+                    System.out.println("req: "+ Long.parseLong(groupItemDtl.get(i).getItemPkId()));
 
 //                    if(groupItemDetail.get(i).getItemPkId().toString().equals(groupItemDtl.get(i).getItemPkId().toString())){
-                        groupItemDetail.get(i).setItemPriceD(groupItemDtl.get(i).getItemPriceD());
-                        update(groupItemDetail);
+                    groupItemDetail.get(i).setItemPriceD(groupItemDtl.get(i).getItemPriceD());
+                    update(groupItemDetail);
+                    result = "Success";
+                }
 
-//                        System.out.println("tentsvvv");
-//                    }else{
-//                        System.out.println("Hooson");
-//                    }
-
-
-//
-
-//                groupItemDetail.setPkId(NumericHelper.generateKey());
-//                groupItemDetail.setGroupItemHeaderPkId(groupItemHeaderEntity.getPkId());
-
-//                groupItemDetail.setGroupItemHeaderPkId(groupItemHeaderEntities.get(0).getPkId().toString());
-//                groupItemDetail.setItemPkId(Long.parseLong(groupItemDtl.get(i).getItemPkId()));
-
-
-//                update(groupItemDetail);
-                result = "amjilttai";
             }
 
         }catch (Exception e) {

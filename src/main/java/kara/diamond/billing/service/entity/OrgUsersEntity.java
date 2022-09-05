@@ -21,6 +21,9 @@ public class OrgUsersEntity {
     @Column(name = "insentive")
     private float insentive;
 
+    @Column(name = "date")
+    private String date ;
+
 
     public Long getPkId() {
         return pkId;
@@ -54,5 +57,13 @@ public class OrgUsersEntity {
 
     public void setUserToken(String userToken) {
         this.userToken = userToken;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

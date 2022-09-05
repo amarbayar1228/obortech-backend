@@ -9,5 +9,6 @@ public class GroupItemDetail {
     private String itemPkId;
     private int itemPriceD;
     private int itemCnt;
+    private String img;
 
 }

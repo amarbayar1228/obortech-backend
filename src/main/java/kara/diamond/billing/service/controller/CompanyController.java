@@ -3,8 +3,7 @@ package kara.diamond.billing.service.controller;
 import kara.diamond.billing.service.entity.CompanyEntity;
 import kara.diamond.billing.service.iinterfaces.CompanyInterfaces;
 import kara.diamond.billing.service.logic.CompanyLogic;
-import kara.diamond.billing.service.model.request.Company;
-import kara.diamond.billing.service.model.request.LoginUser;
+import kara.diamond.billing.service.model.request.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +30,28 @@ public class CompanyController implements Serializable {
         return ResponseEntity.ok(companyInterfaces.sendCompany(company));
     }
 
+    @PostMapping("companySentIncentive")
+    public ResponseEntity<?> companyUpdateIncentive(@Valid @RequestBody OrgUsers orgUsers) throws Exception{
+        return ResponseEntity.ok(companyInterfaces.companySentIncentive(orgUsers));
+    }
+//    @PostMapping("getIncentivePercent")
+//    public ResponseEntity<?> getIncentivePercent(@Valid @RequestBody IncentivePercent incentivePercent) throws Exception{
+//        return ResponseEntity.ok(companyInterfaces.getIncentivePercent(incentivePercent));
+//    }
+    @PostMapping("getIncentivePercent")
+    public ResponseEntity<?>  getIncentivePercent() throws Exception{
+
+        List<IncentivePercent> result = companyLogic.getIncentivePercent();
+        return ResponseEntity.ok(result);
+    }
+    @PostMapping("/updateIncentivePercent")
+    public ResponseEntity<?> updateIncentivePercent(@Valid @RequestBody IncentivePercent incentivePercent) throws Exception{
+        return ResponseEntity.ok(companyInterfaces.updateIncentivePercent(incentivePercent));
+    }
+    @PostMapping("IncentivePercentSent")
+    public ResponseEntity<?> IncentivePercentSent(@Valid @RequestBody IncentivePercent incentivePercent) throws Exception{
+        return ResponseEntity.ok(companyInterfaces.IncentivePercentSent(incentivePercent));
+    }
     @PostMapping("get")
     public ResponseEntity<?> getCompany(@Valid @RequestBody Company company) throws Exception{
         List<Company> result = companyLogic.getCompany(company);

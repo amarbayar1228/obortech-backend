@@ -8,4 +8,5 @@ public class OrgUsers {
     private String orgId;
     private String userToken;
     private float insentive;
+    private String date;
 }

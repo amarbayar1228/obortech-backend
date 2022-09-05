@@ -24,6 +24,16 @@ public class GroupItemDetailEntity {
     @Column(name = "itemCnt")
     private  int itemCnt;
 
+    @Column(name = "img")
+    private byte[] img;
+
+    public byte[] getImg() {
+        return img;
+    }
+
+    public void setImg(byte[] img) {
+        this.img = img;
+    }
 
     public Long getPkId() {
         return pkId;
