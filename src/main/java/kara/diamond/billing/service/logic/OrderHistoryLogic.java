@@ -1,5 +1,6 @@
 package kara.diamond.billing.service.logic;
 
+import com.mysql.cj.xdevapi.JsonArray;
 import kara.diamond.billing.service.base.BaseDatabaseService;
 import kara.diamond.billing.service.base.NumericHelper;
 import kara.diamond.billing.service.entity.LoginUserEntity;
@@ -129,19 +130,25 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
             }
         return result;
     }
+
     @Transactional(propagation = Propagation.REQUIRED)
     public List<PayInsentive> getPayInsentive(PayInsentive payInsentive) throws Exception{
 
+        String orgUserjpql = "SELECT a FROM OrgUsersEntity a where a.userToken = '"+ payInsentive.getUserPkId()+"'";
 
+        List<OrgUsersEntity> orgUsersEntities = getByQuery(OrgUsersEntity.class, orgUserjpql);
+            for (int i=0; i < orgUsersEntities.size(); i++ ){
+                System.out.println("orgUsersEntities.get(i).getOrgId();"+ orgUsersEntities.get(i).getOrgId());
+            }
             String orderJpql = "SELECT a FROM OrderHistoryEntity as oh, OrgUsersEntity as ou where ou.userToken = '"+payInsentive.getUserPkId()+"' and oh.orgId = ou.orgId and Convert(DATETIME, ou.date) <= Convert(DATETIME, oh.date) and oh.orgId = 'obertech123'";
-        System.out.println("orderJpql: "+ getByQuery(OrderHistoryEntity.class, orderJpql));
-//        List<OrderHistoryEntity> orderHistoryEntities = getByQuery(OrderHistoryEntity.class, orderJpql);
-//
+
+            List<OrderHistoryEntity> orderHistoryEntities = getByQuery(OrderHistoryEntity.class, orderJpql);
+            System.out.println("orderJpql: "+ orderHistoryEntities);
 //        System.out.println("order: " + orderHistoryEntities.get(0).getOrderId());
 //        String jpqlOrgUsers =  "SELECT a FROM OrgUsersEntity a where a.userToken = '"+payInsentive.getUserPkId()+"'";
 //        List<OrgUsersEntity> orgUsersEntities = getByQuery(OrgUsersEntity.class, jpqlOrgUsers);
 //        System.out.println("orgUsersEntities"+ orgUsersEntities.get(0).getDate());
-//
+
 //        String jpqlOrder = "SELECT a FROM OrderHistoryEntity a";
 //
 //        List<OrderHistoryEntity> orderHistoryEntities = getByQuery(OrderHistoryEntity.class, jpqlOrder);
@@ -151,24 +158,24 @@ public class OrderHistoryLogic  extends BaseDatabaseService implements OrderHist
 //
 //        }
 
-        List<PayInsentiveEntity> payInsentiveEntities;
-        String jpql = "SELECT a FROM PayInsentiveEntity a where a.userPkId = '"+payInsentive.getUserPkId()+"'";
-
-        List<PayInsentiveEntity> payInsentiveEntities1 = getByQuery(PayInsentiveEntity.class, jpql);
+//        List<PayInsentiveEntity> payInsentiveEntities;
+//        String jpql = "SELECT a FROM PayInsentiveEntity a where a.userPkId = '"+payInsentive.getUserPkId()+"'";
+//
+//        List<PayInsentiveEntity> payInsentiveEntities1 = getByQuery(PayInsentiveEntity.class, jpql);
 
         List<PayInsentive> payList = new ArrayList<>();
-        for (PayInsentiveEntity obj: payInsentiveEntities1){
-            PayInsentive payInsentive1 = new PayInsentive();
-
-            payInsentive1.setPayMethod(obj.getPayMethod());
-            payInsentive1.setDate(obj.getDate());
-            payInsentive1.setFee(obj.getFee());
-            payInsentive1.setOrgId(obj.getOrgId());
-            payInsentive1.setStatus(obj.getStatus());
-            payInsentive1.setPkId(String.valueOf(obj.getPkId()));
-
-            payList.add(payInsentive1);
-        }
+//        for (PayInsentiveEntity obj: payInsentiveEntities1){
+//            PayInsentive payInsentive1 = new PayInsentive();
+//
+//            payInsentive1.setPayMethod(obj.getPayMethod());
+//            payInsentive1.setDate(obj.getDate());
+//            payInsentive1.setFee(obj.getFee());
+//            payInsentive1.setOrgId(obj.getOrgId());
+//            payInsentive1.setStatus(obj.getStatus());
+//            payInsentive1.setPkId(String.valueOf(obj.getPkId()));
+//
+//            payList.add(payInsentive1);
+//        }
 
 
         return  payList;
